@@ -5,6 +5,7 @@ import { EventUser } from '../events/event';
     templateUrl: './useraval.component.html',
     styleUrls: ['./useraval.component.css']
 })
+
 export class UserAvalComponent{
     eventData: EventUser = {
         eventName: 'Test Event', 
