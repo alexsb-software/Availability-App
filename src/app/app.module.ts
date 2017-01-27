@@ -6,25 +6,16 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NewEventFormComponent } from './new-event-form/new-event-form.component';
-<<<<<<< HEAD
-import { ValidationMessagesComponent } from './custom-forms/validation-messages/validation-messages.component';
-import { FormTextComponent } from './custom-forms/form-text/form-text.component';
-import { FormContainerComponent } from './custom-forms/form-container/form-container.component';
-=======
+
 import { UserAvalComponent } from './user_reg/useraval.component';
->>>>>>> beb0b9af58d8bec23687bb4a9488867da1fa5567
+import { TimePickerComponent } from './time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewEventFormComponent,
-<<<<<<< HEAD
-    ValidationMessagesComponent,
-    FormTextComponent,
-    FormContainerComponent,
-=======
-    UserAvalComponent
->>>>>>> beb0b9af58d8bec23687bb4a9488867da1fa5567
+    UserAvalComponent,
+    TimePickerComponent
   ],
   imports: [
     BrowserModule,

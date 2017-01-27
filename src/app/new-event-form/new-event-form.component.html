@@ -1,50 +1,30 @@
-<div class="container-fluid">
-    <h1>Shifts</h1>
-    <form>
-        <div class="form-group">
-            <label for="shift-start">Hour</label>
-            <input type="number" min="1" max="12" class="form-control" name="shift-start" [(ngModel)]="model.start.hours" required>
-            <input type="number" min="0" max="60" class="form-control" name="shift-end" [(ngModel)]="model.start.minutes" required>
-        </div>
-        <div class="form-group">
-            <label class="radio-inline"><input type="radio" name="optradio">Option 1</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Option 2</label>
-        </div>
-        <div class="form-group">
-            <label for="shift-end">Minute</label>
+<div
+  class="container-fluid">
+  <h1>Shifts</h1>
+  <form>
 
-        </div>
+    <label>Event Shifts</label>
 
-        <div class="form-group">
-            <label for="shift-end"></label>
-            <input type="number" min="0" max="60" class="form-control" name="shift-end" [(ngModel)]="model.start.minutes" required>
-        </div>
+    <div
+      class="form-inline">
+      <app-time-picker
+        class="row"
+        (onSetTime)='timeChanged($event,"StartTime")'></app-time-picker>
 
-        <button (click)="addShift" class="btn btn-default">Add</button>
-        <div class="form-group">
-            <hr>
-
-            <label for="shift-table">Event Shifts</label>
+      <app-time-picker
+        class="row"
+        (onSetTime)='timeChanged($event,"EndTime")'></app-time-picker>
+    </div>
 
 
-            <!--<table id="shift-table" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Start</th>
-                        <th>End</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let shift of shifts">
-                        <td>{{shift.start}}</td>
-                        <td>{{shift.end}}</td>
-                    </tr>
-                </tbody>
-            </table>-->
+    <button
+      (click)="addShift"
+      class="btn btn-default">Add Shift</button>
 
 
-            <button type="submit" class="btn btn-success">Save</button>
-        </div>
-
-    </form>
+    <button
+      type="submit"
+      class="btn btn-success">Save</button>
+      
+  </form>
 </div>
