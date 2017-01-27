@@ -6,16 +6,34 @@
                 <span class="glyphicon glyphicon-bullhorn"></span> Event:
             </label>
             <select class="form-control" id="event">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
+                <option selected='true'>Event test</option>
             </select>
         </div>
 
-        <div class="form-group">
-            
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-default" *ngFor='let day of eventData.avalHash; let i = index'>
+                    <div class="panel-heading">
+                        <div class="panel-title">Day {{i+1}}</div>    
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="checkbox" *ngFor='let shift of day; let j = index'>
+                                <label><input type="checkbox" (CheckboxStateChange)='onChanged(i, j)'
+                                [checked]="eventData.avalHash[i][j]" value="{{j}}">Shift {{j + 1}}</label>
+                            </div>    
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-success"
+                    (click)='onSaveClicked()'>Save</button>
+                </div>
+            </div>
         </div>
+        
 
     </form>
 

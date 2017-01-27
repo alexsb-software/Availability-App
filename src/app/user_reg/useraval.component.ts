@@ -11,9 +11,17 @@ export class UserAvalComponent{
         eventName: 'Test Event', 
         numOfDays: 3,
         numOfShifts: 3,
-        avalHash: [ [false, false, false], 
+        avalHash: [ [true, false, false], 
             [false, false, false],
             [false, false, false] ]
     };
+
+    onSaveClicked(): void {
+        console.log(this.eventData);
+    }
     
+    onChanged(i: number, j: number): void {
+        this.eventData.avalHash[i][j] = !this.eventData.avalHash[i][j];
+        console.log("sup");
+    }
 }
