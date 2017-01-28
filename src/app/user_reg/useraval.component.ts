@@ -22,6 +22,5 @@ export class UserAvalComponent{
     
     onChanged(i: number, j: number): void {
         this.eventData.avalHash[i][j] = !this.eventData.avalHash[i][j];
-        console.log("sup");
     }
 }
