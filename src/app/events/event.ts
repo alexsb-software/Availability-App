@@ -5,7 +5,8 @@
 */
 
 export interface EventUser{
-    eventName: string;
+    id: number;
+    title: string;
     numOfDays: number;
     numOfShifts: number;
     avalHash: Array<Array<Boolean>>;

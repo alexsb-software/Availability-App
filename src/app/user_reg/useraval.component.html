@@ -5,12 +5,17 @@
             <label for="event">
                 <span class="glyphicon glyphicon-bullhorn"></span> Event:
             </label>
-            <select class="form-control" id="event">
-                <option selected='true'>Event test</option>
+            <select class="form-control" id="eventId" (change)='onEventSelected($event.target.value)'>
+                <option value='0' selected > -- select an option -- </option>
+                <option *ngFor='let event of eventsList' value="{{event.id}}">{{event.title}}</option>
             </select>
         </div>
 
         <div class="container">
+            <div class="row">
+                    <h2 class="text-center"> {{eventData ? eventData.title : 'Please Select an Event'}} </h2>
+            </div>
+            <div class="container" *ngIf='eventData'>
             <div class="row">
                 <div class="panel panel-default" *ngFor='let day of eventData.avalHash; let i = index'>
                     <div class="panel-heading">
@@ -29,8 +34,9 @@
             <div class="row">
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" class="btn btn-success"
-                    (click)='onSaveClicked()'>Save</button>
+                    (click)='onSaveClicked()'>Submit</button>
                 </div>
+            </div>
             </div>
         </div>
         
