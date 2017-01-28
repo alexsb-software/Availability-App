@@ -16,7 +16,10 @@ export class UserAvalComponent implements OnInit{
     choosedEventId: number = 0;
 
     ngOnInit(): void {
-        this.eventsList = this._eventdata.getEventsList();
+        this._eventdata.getEventsList().subscribe(
+            eventslist => this.eventsList = eventslist,
+            error => console.log(error)
+        );
     }
     
     onSaveClicked(): void {
