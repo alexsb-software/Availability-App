@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EventUser } from './event';
+import { UserAvalability } from '../user_reg/user';
+
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -34,6 +36,11 @@ export class EventDataService{
         })
 
         return eventslist;
+    }
+
+    postUserAval(userAval: UserAvalability) : Observable<number>{
+        return this._http.post(this._apiurl, JSON.stringify(userAval))
+        .map((response: Response) => <number> response.status)
     }
 
 }

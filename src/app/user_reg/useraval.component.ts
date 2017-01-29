@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventUser } from '../events/event';
 import { EventDataService } from '../events/eventdata.service';  
+import { UserAvalability } from '../user_reg/user';
 
 @Component({
     templateUrl: './useraval.component.html',
@@ -23,21 +24,32 @@ export class UserAvalComponent implements OnInit{
     }
     
     onSaveClicked(): void {
-        console.log(this.eventData);
+        let useraval: UserAvalability = {
+            eventId: this.choosedEventId,
+            userId: 0, // TODO
+            avalHash: this.eventData.avalHash
+        }
+        this._eventdata.postUserAval(useraval).subscribe(
+            status => {
+                if (status = 200) {
+                    console.log("Success");
+                } else {
+                    console.log("Fail");
+                }
+            }, 
+            error => {
+                console.log("Something went wrong");
+            }
+        );
     }
 
     onChanged(i: number, j: number): void {
-        console.log("Called with: ", i, j);
-        let day: Boolean[] = this.eventData.avalHash[i];
-        day[j] = !day[j];
-        console.log(this.eventData.avalHash);
+        this.eventData.avalHash[i][j] = !this.eventData.avalHash[i][j];
     }
 
     onEventSelected(id: number): void {
-        console.log(id);
         if (id == 0)    this.eventData = null;
         this.eventData = this.eventsList[this.getEventIndex(id)];
-        console.log(this.getEventIndex(id));
     }
 
     getEventIndex(id: number): number {
