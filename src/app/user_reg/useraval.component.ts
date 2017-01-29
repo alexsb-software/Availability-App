@@ -27,7 +27,9 @@ export class UserAvalComponent implements OnInit{
     }
 
     onChanged(i: number, j: number): void {
+        console.log("Called with: ", i, j);
         this.eventData.avalHash[i][j] = !this.eventData.avalHash[i][j];
+        console.log(this.eventData.avalHash[i]);
     }
 
     onEventSelected(id: number): void {

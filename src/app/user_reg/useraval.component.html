@@ -10,6 +10,18 @@
                 <option *ngFor='let event of eventsList' value="{{event.id}}">{{event.title}}</option>
             </select>
         </div>
+        
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+                <input type="checkbox" autocomplete="off" checked> Checkbox 1 (pre-checked)
+            </label>
+            <label class="btn btn-primary active">
+                <input type="checkbox" autocomplete="off"> Checkbox 2
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox" autocomplete="off"> Checkbox 3
+            </label>
+        </div>
 
         <div class="container">
             <div class="row">
@@ -23,9 +35,16 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="checkbox" *ngFor='let shift of day; let j = index'>
+                            <!-- <div class="checkbox" *ngFor='let shift of day; let j = index'>
                                 <label><input type="checkbox" (CheckboxStateChange)='onChanged(i, j)'
                                 [checked]="eventData.avalHash[i][j]" value="{{j}}">Shift {{j + 1}}</label>
+                            </div> -->
+                            <div class="btn-group" data-toggle="buttons">
+                                <label *ngFor='let shify of day; let j = index'
+                                class="btn btn-primary {{eventData.avalHash[i][j] ? 'active' : ''}}"
+                                for='check{{i}}{{j}}'>
+                                    <input (click)='onChanged(i, j)' type="checkbox" id='check{{i}}{{j}}' autocomplete="off"> Shift {{i}} {{j}}
+                                </label>
                             </div>    
                         </div>    
                     </div>
