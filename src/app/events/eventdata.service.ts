@@ -19,6 +19,7 @@ export class EventDataService{
     addAvalArray(eventslist: EventUser[]): EventUser[]{
         let avalArray: Array<Array<Boolean>>;
         let insideArray: Array<Boolean>;
+        let insideForEach: Array<Boolean>;
         eventslist.forEach((event: EventUser, index: number) => {
             avalArray = [];
             insideArray = [];
@@ -26,7 +27,8 @@ export class EventDataService{
                 insideArray.push(false);
             }
             for (let i = 0; i < event.numOfDays; i++) {  
-                avalArray.push(insideArray);
+                insideForEach = insideArray.slice()
+                avalArray.push(insideForEach);
             }
             event['avalHash'] = avalArray;
         })
