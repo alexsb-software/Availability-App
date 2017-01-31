@@ -1,0 +1,18 @@
+[{
+    "id": "1",
+    "title": "First Event",
+    "numOfDays": "3",
+    "numOfShifts": "5"
+},
+{
+    "id": "2",
+    "title": "Second Event",
+    "numOfDays": "5",
+    "numOfShifts": "3"
+},
+{
+    "id": "3",
+    "title": "Third Event",
+    "numOfDays": "4",
+    "numOfShifts": "2"
+}]
