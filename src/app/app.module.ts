@@ -9,13 +9,17 @@ import { NewEventFormComponent } from './new-event-form/new-event-form.component
 
 import { UserAvalComponent } from './user_reg/useraval.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
+import { ShiftViewerComponent } from './shift-viewer/shift-viewer.component';
+import { ShiftStringPipe } from './events/shift-string.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewEventFormComponent,
     UserAvalComponent,
-    TimePickerComponent
+    TimePickerComponent,
+    ShiftViewerComponent,
+    ShiftStringPipe
   ],
   imports: [
     BrowserModule,
