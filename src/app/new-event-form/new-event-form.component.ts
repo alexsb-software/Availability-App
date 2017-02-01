@@ -20,16 +20,32 @@ export class NewEventFormComponent {
     else if (whichTime == "EndTime") {
       this.model.end = time;
     }
-
-
   }
+
+  things: EventShift[] = [
+    {
+      start: { hours: 2, minutes: 15, isPm: false },
+      end: { hours: 2, minutes: 15, isPm: true }
+    },
+    {
+      start: { hours: 3, minutes: 15, isPm: false },
+      end: { hours: 4, minutes: 15, isPm: true }
+    }
+  ];
 
   // ngOnInit() {
   //   // Fetch any stored event information ?
   // }
 
   addShift(): void {
-
+    // Validate model
+    if (EventShift.isValidShift(this.model)) {
+      this.things.push(this.model);
+      this.model = new EventShift();
+    }
+    else {
+      // TODO show error
+    }
   }
 
-}
+} // NewEventFormComponent

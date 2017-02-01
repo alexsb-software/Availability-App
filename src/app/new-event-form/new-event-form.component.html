@@ -1,6 +1,6 @@
 <div
   class="container-fluid">
-  <label>Event Shifts</label>
+  <h2>Shift Editor</h2>
   <form>
     <div
       class="form-inline">
@@ -22,13 +22,15 @@
     </div>
 
     <button
-      (click)="addShift"
+      (click)="addShift()"
       class="btn btn-default">Add Shift</button>
     <button
       type="submit"
       class="btn btn-success">Save</button>
   </form>
+  
+  <h3>Current Shifts</h3>
+  <app-shift-viewer [shifts]="things"></app-shift-viewer>
 
-  <app-shift-viewer></app-shift-viewer>
 
 </div>

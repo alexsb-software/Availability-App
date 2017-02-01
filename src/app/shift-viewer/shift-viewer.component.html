@@ -14,25 +14,13 @@
       *ngFor="let shift of shifts;let i= index">
       <th
         scope="row">{{i+1}}</th>
-      <td>{{shift.start| shiftString}}</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th
-        scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th
-        scope="row">3</th>
-      <td>Larry</td>
-      <td>the
-        Bird
+      <td>{{shift.start|shiftString}}</td>
+      <td>{{shift.end|shiftString}}</td>
+      <td>
+        <button
+        class="btn btn-default"
+          (click)="removeShift(shift)">Remove</button>
       </td>
-      <td>@twitter</td>
     </tr>
   </tbody>
 </table>

@@ -6,11 +6,22 @@ import { EventShift } from '../events/event-shift';
   styleUrls: ['./shift-viewer.component.css']
 })
 export class ShiftViewerComponent {
-  @Input() shifts: EventShift[] = [
-    {
-      start: { hours: 2, minutes: 15, timeOfDay: 0 },
-      end: { hours: 2, minutes: 15, timeOfDay: 1 }
-    }
-  ];
+  // Shifts will be set by a container
+  @Input() shifts: EventShift[];
+
   counter: number = 0;
+
+  removeShift(shift: EventShift): void {
+    let index: number = this.shifts.indexOf(shift);
+    if (index !== -1) {
+      this.shifts.splice(index, 1);
+      console.log("Deleted");
+    } else {
+      console.log("Failed to delete");
+    }
+  }
+
+  // TODO add an edit button for shift ?
+    
+
 }
