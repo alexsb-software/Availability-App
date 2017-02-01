@@ -5,10 +5,23 @@ export class EventShift {
     end: ShortTimeDate = new ShortTimeDate();
     constructor() { }
 
-    static validate(obj: EventShift): boolean {
-        if (obj.start && obj.end)
-            return true;
+    static validate(shift: EventShift): boolean {
+        let checkExistence: boolean = false;
+
+        if (shift.start && shift.end) {
+            checkExistence = true;
+        }
+
+        if (checkExistence) {
+            return EventShift.isValidShift(shift);
+        }
+        console.log("Missing shift data");
         return false;
+    }
+
+    // Validates that start time is less than end time
+    private static isValidShift(shift: EventShift): boolean {
+        return ShortTimeDate.isLess(shift.start, shift.end);
     }
 
     // Tells whether one shift starts before the other
@@ -21,10 +34,7 @@ export class EventShift {
         return ShortTimeDate.isBigger(shift.end, other.end);
     }
 
-    static isValidShift(shift: EventShift): boolean {
-        return ShortTimeDate.isBigger(shift.start, shift.end);
-    }
-
+    // This might be used in searching
     static isEqual(shift: EventShift, other: EventShift) {
         return ShortTimeDate.isEqual(shift.start, other.start) &&
             ShortTimeDate.isEqual(shift.end, other.end);

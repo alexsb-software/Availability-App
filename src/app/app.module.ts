@@ -5,28 +5,30 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NewEventFormComponent } from './new-event-form/new-event-form.component';
+import { ShiftEditor } from './shift-editor-form/shift-editor-form.component';
 
 import { UserAvalComponent } from './user_reg/useraval.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { ShiftViewerComponent } from './shift-viewer/shift-viewer.component';
 import { ShiftStringPipe } from './events/shift-string.pipe';
+import { NewEventComponent } from './new-event/new-event.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewEventFormComponent,
+    ShiftEditor,
     UserAvalComponent,
     TimePickerComponent,
     ShiftViewerComponent,
-    ShiftStringPipe
+    ShiftStringPipe,
+    NewEventComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
-      {path: 'event/new', component: NewEventFormComponent },
+      {path: 'event/new', component: NewEventComponent },
       {path: 'aval', component: UserAvalComponent},
       {path: '', component: AppComponent},
       {path: '**', component: AppComponent}

@@ -8,7 +8,6 @@ import { EventShift } from '../events/event-shift';
 export class ShiftViewerComponent {
   // Shifts will be set by a container
   @Input() shifts: EventShift[];
-
   counter: number = 0;
 
   removeShift(shift: EventShift): void {
@@ -20,8 +19,4 @@ export class ShiftViewerComponent {
       console.log("Failed to delete");
     }
   }
-
-  // TODO add an edit button for shift ?
-    
-
 }

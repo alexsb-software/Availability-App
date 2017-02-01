@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { NewEventFormComponent } from './new-event-form.component';
+import { ShiftEditor } from './shift-editor-form.component';
 
-describe('NewEventFormComponent', () => {
-  let component: NewEventFormComponent;
-  let fixture: ComponentFixture<NewEventFormComponent>;
+describe('ShiftEditor', () => {
+  let component: ShiftEditor;
+  let fixture: ComponentFixture<ShiftEditor>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewEventFormComponent ]
+      declarations: [ ShiftEditor ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewEventFormComponent);
+    fixture = TestBed.createComponent(ShiftEditor);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

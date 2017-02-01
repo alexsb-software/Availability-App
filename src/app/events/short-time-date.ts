@@ -1,16 +1,20 @@
 import { TimeOfDay } from './time-of-day.enum';
 export class ShortTimeDate {
-    
+
     // Those values are used in display of "input" elements
-    hours: number = 12;
+    hours: number = 1;
     minutes: number = 0;
     isPm: boolean = false;
 
     public static toString(val: ShortTimeDate): string {
         let result = String(val.hours) +
-            ":" + String(val.minutes) + " "
+            ":" + ShortTimeDate.stringifyNumber(val.minutes) + " "
             + (val.isPm ? "AM" : "PM");
         return result;
+    }
+
+    private static stringifyNumber(val: number): string {
+        return val < 10 ? String("0" + val) : String(val);
     }
 
     // Comparison functions
@@ -47,6 +51,7 @@ export class ShortTimeDate {
             (val.hours * toMinutes);
 
         if (val.isPm) v1Value += 12 * toMinutes;
+        
         return v1Value;
     }
 }

@@ -1,0 +1,46 @@
+<h2>
+  Shift
+  Editor
+</h2>
+<form>
+  <div
+    class="form-inline">
+    <label
+      for="startTime">Start time</label>
+    <app-time-picker
+      [time]="shift.start"
+      class="row"
+      name="startTime"
+      (onSetTime)='timeChanged($event,"StartTime")'></app-time-picker>
+  </div>
+  <div
+    class="form-inline">
+    <label
+      for="endTime">End time</label>
+    <app-time-picker
+      [time]="shift.end"
+      class="row"
+      name="endTime"
+      (onSetTime)='timeChanged($event,"EndTime")'></app-time-picker>
+  </div>
+
+  <div
+    *ngIf="hasError"
+    class="alert alert-danger">
+    <strong>Please note!</strong>
+    <p>Shift
+      end
+      time
+      is
+      less
+      than
+      its
+      start
+      time
+      <p>
+  </div>
+
+  <button
+    (click)="addShift()"
+    class="btn btn-default">Add Shift</button>
+</form>

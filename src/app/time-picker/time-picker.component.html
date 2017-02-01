@@ -22,9 +22,9 @@
     (focusout)="setTimeOfDay()"
     class="form-control "
     name="time.isPm"
-    [(ngModel)]="dayTimeIdx"
+    [(ngModel)]="time.isPm"
     id="inlineFormCustomSelect">
-    <option selected value="false">AM</option>
-    <option value="true">PM</option>
+    <option selected [value]="false">AM</option>
+    <option [value]="true">PM</option>
     </select>
 </div>
