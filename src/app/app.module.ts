@@ -12,6 +12,7 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
 import { ShiftViewerComponent } from './shift-viewer/shift-viewer.component';
 import { ShiftStringPipe } from './events/shift-string.pipe';
 import { NewEventComponent } from './new-event/new-event.component';
+import { DayEditorFormComponent } from './day-editor-form/day-editor-form.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NewEventComponent } from './new-event/new-event.component';
     TimePickerComponent,
     ShiftViewerComponent,
     ShiftStringPipe,
-    NewEventComponent
+    NewEventComponent,
+    DayEditorFormComponent
   ],
   imports: [
     BrowserModule,
