@@ -1,13 +1,13 @@
-<h2>
-  Shift
-  Editor
-</h2>
+<div class="form-group">
+<h3>
+  Edit shifts
+</h3>
+
 <form>
-  
   <div
     class="form-inline">
     <label
-      for="startTime">Start time</label>
+      for="startTime">From</label>
   
     <app-time-picker
       [time]="shift.start"
@@ -21,7 +21,7 @@
   <div
     class="form-inline">
     <label
-      for="endTime">End time</label>
+      for="endTime">To</label>
     <app-time-picker
       [time]="shift.end"
       class="row"
@@ -39,9 +39,8 @@
       </p>
   </div>
 
-  
-  <button
+<button
     (click)="addShift()"
     class="btn btn-default">Add Shift</button>
-    
 </form>
+</div>

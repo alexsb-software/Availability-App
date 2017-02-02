@@ -9,8 +9,9 @@ export class ShiftViewerComponent {
   // Shifts will be set by a container
   @Input() shifts: EventShift[];
   counter: number = 0;
-
+  visible: boolean = false;
   removeShift(shift: EventShift): void {
+
     let index: number = this.shifts.indexOf(shift);
     if (index !== -1) {
       this.shifts.splice(index, 1);

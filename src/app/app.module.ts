@@ -13,6 +13,9 @@ import { ShiftViewerComponent } from './shift-viewer/shift-viewer.component';
 import { ShiftStringPipe } from './events/shift-string.pipe';
 import { NewEventComponent } from './new-event/new-event.component';
 import { DayEditorFormComponent } from './day-editor-form/day-editor-form.component';
+import { DatePickerComponent } from './date-picker/date-picker.component';
+
+import { MyDatePickerModule } from 'mydatepicker';
 
 @NgModule({
   declarations: [
@@ -23,12 +26,14 @@ import { DayEditorFormComponent } from './day-editor-form/day-editor-form.compon
     ShiftViewerComponent,
     ShiftStringPipe,
     NewEventComponent,
-    DayEditorFormComponent
+    DayEditorFormComponent,
+    DatePickerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    MyDatePickerModule,
     RouterModule.forRoot([
       {path: 'event/new', component: NewEventComponent },
       {path: 'aval', component: UserAvalComponent},

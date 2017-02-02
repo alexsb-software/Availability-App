@@ -1,11 +1,6 @@
-<app-day-editor-form></app-day-editor-form>
+<app-day-editor-form
+  name="date-picker"
+  (dateChanged)="onDayChange($event)"></app-day-editor-form>
 
-<app-shift-editor-form
-  [shift]="model"
-  (shiftAdded)="onShiftSubmit()"></app-shift-editor-form>
 
-<h3>Current
-  Shifts
-</h3>
-<app-shift-viewer
-  [shifts]="shifts"></app-shift-viewer>
+

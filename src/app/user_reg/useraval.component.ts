@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventUser } from '../events/event';
+import { EventUser } from '../events/event-user';
 import { EventDataService } from '../events/eventdata.service';  
 import { UserAvalability } from '../user_reg/user';
 

@@ -1,3 +1,40 @@
-<p>
-  day-editor-form works!
-</p>
+<div
+  class="panel panel-default">
+
+  <div
+    class="panel-heading clearfix">
+    <label
+      class="panel-title pull-left">Day 0 {{eventDay.dayDate?.toDateString()}}</label>
+    <button
+      class="btn btn-default pull-right"
+      data-toggle="collapse"
+      (click)="visible=!visible"
+      data-target="#day-spoiler">{{visible?"Hide":"Show"}} Day</button>
+  </div>
+
+  <div
+    class="collapse"
+    id="day-spoiler">
+
+    <div
+      class="panel-body">
+
+
+      <app-date-picker
+        (dateChanged)="onDateChanged($event)"></app-date-picker>
+
+
+      <app-shift-editor-form
+        (shiftAdded)="onShiftSubmit($event)"></app-shift-editor-form>
+
+
+      <app-shift-viewer
+        [shifts]="shifts"></app-shift-viewer>
+
+    <button type="button" (click)="saveDay()" class="btn btn-success pull-right">button</button>
+
+    </div>
+    
+    
+  </div>
+</div>

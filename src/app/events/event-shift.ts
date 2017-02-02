@@ -15,7 +15,6 @@ export class EventShift {
         if (checkExistence) {
             return EventShift.isValidShift(shift);
         }
-        console.log("Missing shift data");
         return false;
     }
 

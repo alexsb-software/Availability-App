@@ -8,10 +8,9 @@ import { ShortTimeDate } from '../events/short-time-date';
   styleUrls: ['./shift-editor-form.component.css']
 })
 export class ShiftEditor {
+  @Output() shiftAdded: EventEmitter<EventShift> = new EventEmitter<EventShift>();
 
-  @Input() shift: EventShift;
-  @Output() shiftAdded: EventEmitter<void> = new EventEmitter<void>();
-  
+  shift: EventShift=new EventShift();
   hasError: boolean = false;
 
   timeChanged(time: ShortTimeDate, whichTime: string): void {
@@ -27,7 +26,11 @@ export class ShiftEditor {
     // Validate model
     if (EventShift.validate(this.shift)) {
       this.hasError = false;
-      this.shiftAdded.emit();
+      this.shiftAdded.emit(this.shift);
+      
+      let lastEndTime = this.shift.end;
+      this.shift = new EventShift();
+      this.shift.start = lastEndTime;
     }
     else {
       this.hasError = true;
