@@ -9,24 +9,25 @@ import { ShortTimeDate } from '../events/short-time-date';
   styleUrls: ['./day-editor-form.component.css']
 })
 export class DayEditorFormComponent {
-  @Output() daySaved: EventEmitter<void> = new EventEmitter<void>();
-
+  @Output() daySaved: EventEmitter<EventDay> = new EventEmitter<EventDay>();
 
   eventDay: EventDay = new EventDay();
-  model: EventShift = new EventShift();
-  visible:boolean=false;
+  visible: boolean = false;
 
-  shifts: EventShift[] = [
-    {
-      start: { hours: 2, minutes: 15, isPm: false },
-      end: { hours: 2, minutes: 15, isPm: true }
-    },
-    {
-      start: { hours: 3, minutes: 15, isPm: false },
-      end: { hours: 4, minutes: 15, isPm: true }
-    }
-  ];
+  constructor() {
 
+    this.eventDay.shifts = [
+      {
+        start: { hours: 2, minutes: 15, isPm: false },
+        end: { hours: 2, minutes: 15, isPm: true }
+      },
+      {
+        start: { hours: 3, minutes: 15, isPm: false },
+        end: { hours: 4, minutes: 15, isPm: true }
+      }
+    ];
+
+  }
 
   onDateChanged(newDate: Date): void {
     this.eventDay.dayDate = newDate;
@@ -36,7 +37,7 @@ export class DayEditorFormComponent {
 
   onShiftSubmit(shift: EventShift) {
     console.debug("Add shift");
-    this.shifts.push(shift);
+    this.eventDay.shifts.push(shift);
 
     let lastEndTime: ShortTimeDate = shift.end;
 
@@ -46,5 +47,6 @@ export class DayEditorFormComponent {
 
   saveDay(): void {
     // Called when success button is clicked
+    this.daySaved.emit(this.eventDay);
   }
 }
