@@ -5,15 +5,15 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { ShiftEditor } from './shift-editor-form/shift-editor-form.component';
+import { ShiftEditor } from './new-event-form-src/shift-editor-form/shift-editor-form.component';
 
 import { UserAvalComponent } from './user_reg/useraval.component';
-import { TimePickerComponent } from './time-picker/time-picker.component';
-import { ShiftViewerComponent } from './shift-viewer/shift-viewer.component';
-import { ShiftStringPipe } from './events/shift-string.pipe';
-import { NewEventComponent } from './new-event/new-event.component';
-import { DayEditorFormComponent } from './day-editor-form/day-editor-form.component';
-import { DatePickerComponent } from './date-picker/date-picker.component';
+import { TimePickerComponent } from './new-event-form-src/time-picker/time-picker.component';
+import { ShiftViewerComponent } from './new-event-form-src/shift-viewer/shift-viewer.component';
+import { ShiftStringPipe } from './new-event-form-src/event-classes/shift-string.pipe';
+import { NewEventComponent } from './new-event-form-src/new-event/new-event.component';
+import { DayEditorFormComponent } from './new-event-form-src/day-editor-form/day-editor-form.component';
+import { DatePickerComponent } from './new-event-form-src/date-picker/date-picker.component';
 
 import { MyDatePickerModule } from 'mydatepicker';
 
