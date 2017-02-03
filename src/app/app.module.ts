@@ -16,7 +16,9 @@ import { DayEditorFormComponent } from './new-event-form-src/day-editor-form/day
 import { DatePickerComponent } from './new-event-form-src/date-picker/date-picker.component';
 
 import { MyDatePickerModule } from 'mydatepicker';
-import { ShiftSessionComponent } from './availability-grid-src/shift-session/shift-session.component';
+import { SessionComponent } from './availability-grid-src/session/session.component';
+
+import { TimepickerModule } from 'ng2-bootstrap';
 
 @NgModule({
   declarations: [
@@ -29,18 +31,20 @@ import { ShiftSessionComponent } from './availability-grid-src/shift-session/shi
     NewEventComponent,
     DayEditorFormComponent,
     DatePickerComponent,
-    ShiftSessionComponent
+    SessionComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     MyDatePickerModule,
+    TimepickerModule.forRoot(),
     RouterModule.forRoot([
-      {path: 'event/new', component: NewEventComponent },
-      {path: 'aval', component: UserAvalComponent},
-      {path: '', component: AppComponent},
-      {path: '**', component: AppComponent}
+      { path: 'event/new', component: NewEventComponent },
+      { path: 'availability', component: SessionComponent },
+      { path: 'aval', component: UserAvalComponent },
+      { path: '', component: AppComponent },
+      { path: '**', component: AppComponent }
     ])
   ],
   providers: [],
