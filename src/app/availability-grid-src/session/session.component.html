@@ -32,3 +32,13 @@
       [label]="'R&P'"
       [content]="'Name'"></info-text>
   </div>
+
+<dynamic-table
+[properties]='[]'
+[enableClickCallback]="true"
+[canRemove]="true"
+[items]="things"
+
+[pipeArgs]="argh"
+(clicked)="report()"
+></dynamic-table>

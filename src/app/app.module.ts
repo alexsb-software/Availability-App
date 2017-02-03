@@ -24,6 +24,8 @@ import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
 import { TabsModule } from 'ng2-bootstrap/tabs';
 import { InfoTextComponent } from './applogic-general/info-text/info-text.component';
 import { CommitteeMembersComponent } from './availability-grid-src/committee-members/committee-members.component';
+import { SessionEditorComponent } from './new-event-form-src/session-editor/session-editor.component';
+import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-table.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +37,9 @@ import { CommitteeMembersComponent } from './availability-grid-src/committee-mem
     DatePickerComponent,
     SessionComponent,
     InfoTextComponent,
-    CommitteeMembersComponent
+    CommitteeMembersComponent,
+    SessionEditorComponent,
+    DynamicTableComponent
   ],
   imports: [
     BrowserModule,

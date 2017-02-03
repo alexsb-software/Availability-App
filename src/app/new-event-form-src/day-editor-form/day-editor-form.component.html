@@ -32,8 +32,12 @@
 
         <div
           class="form-group">
-          <app-shift-viewer
-            [shifts]="eventDay.shifts"></app-shift-viewer>
+          <dynamic-table
+            [properties]="['startDate','endDate']"
+            [pipe]="pipe"
+            [pipeArgs]="[pipeFormat]"
+            (itemRemoved)="onItemRemoved($event)"
+            [items]="eventDay.shifts"></dynamic-table>
         </div>
 
         <div
