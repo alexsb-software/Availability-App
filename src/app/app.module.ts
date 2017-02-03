@@ -20,10 +20,10 @@ import { SessionComponent } from './availability-grid-src/session/session.compon
 
 import { TimepickerModule } from 'ng2-bootstrap/timepicker';
 import { AccordionModule } from 'ng2-bootstrap/accordion';
+import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
+import { TabsModule } from 'ng2-bootstrap/tabs';
 import { InfoTextComponent } from './applogic-general/info-text/info-text.component';
 import { CommitteeMembersComponent } from './availability-grid-src/committee-members/committee-members.component';
-import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,9 +45,10 @@ import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
     TimepickerModule.forRoot(),
     AccordionModule.forRoot(),
     TypeaheadModule.forRoot(),
+    TabsModule.forRoot(),
     RouterModule.forRoot([
       { path: 'event/new', component: NewEventComponent },
-      { path: 'availability', component: SessionComponent },
+      { path: 'session', component: SessionComponent },
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
       { path: '', component: AppComponent },

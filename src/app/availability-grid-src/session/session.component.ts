@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { SessionInfo } from '../applogic-availability/session-info';
 
 @Component({
@@ -9,11 +9,11 @@ import { SessionInfo } from '../applogic-availability/session-info';
 export class SessionComponent {
 
   // Move this to event creation
-
-  startDate: Date = void 0;
-  endDate: Date = void 0;
+  startDate: Date = new Date("0");
+  endDate: Date = new Date("0");
+  reportings
   session: SessionInfo = new SessionInfo();
-  constructor(){
-    
+  constructor() {
+
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { EventShift } from '../applogic-event-form/event-shift';
 import { EventDay } from '../applogic-event-form/event-day';
@@ -10,7 +10,7 @@ import { EventDay } from '../applogic-event-form/event-day';
 })
 export class DayEditorFormComponent {
   @Output() daySaved: EventEmitter<EventDay> = new EventEmitter<EventDay>();
-
+  @Input() dayNumber: number;
   eventDay: EventDay = new EventDay();
   visible: boolean = false;
 

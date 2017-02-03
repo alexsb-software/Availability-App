@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { TypeaheadMatch } from 'ng2-bootstrap';
 
-import { Member, Committee } from '../../applogic-general/member';
+import { Member } from '../../applogic-general/member';
 
 @Component({
   selector: 'app-committee-members',
@@ -15,10 +15,13 @@ import { Member, Committee } from '../../applogic-general/member';
 export class CommitteeMembersComponent {
   public selected: string;
 
+  // TODO this class will have the members injected
+  // according to their committees from an above 
+  // component
+
   constructor() {
     for (let i: number = 0; i < 5; i++) {
       let m: Member = new Member();
-      m.committee = Committee.Activities;
       m.name = "Aido" + i;
       this.members.push(m);
     }
@@ -43,11 +46,11 @@ export class CommitteeMembersComponent {
       console.error("Couldn't find selected");
       return;
     }
-  
+
     // Move the element to the selected array
     this.members.splice(index, 1);
     this.selectedMembers.push(selected);
-  
+
     this.selected = "";
   }
 

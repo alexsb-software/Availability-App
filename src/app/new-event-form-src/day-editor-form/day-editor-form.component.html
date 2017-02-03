@@ -3,25 +3,48 @@
     #group>
     <div
       accordion-heading>
-      <strong>Day 0 {{eventDay.dayDate?.toDateString()}}</strong>
+      <strong>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Day {{dayNumber+1}} {{eventDay.dayDate?.toDateString()}}</strong>
       <i class="pull-right float-xs-right glyphicon"
         [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
     </div>
 
-<label for="date-pick">Date </label>
+    <label
+      for="date-pick">Date </label>
     <app-date-picker
-    name="date-pick"
+      name="date-pick"
       (dateChanged)="onDateChanged($event)"></app-date-picker>
 
+    <tabset>
+      <tab>
+        <template
+          tabHeading>
+      <i style="color: #3366BB" class="glyphicon glyphicon-calendar"></i> Shifts
+    </template>
 
-    <app-shift-editor-form
-      (shiftAdded)="onShiftSubmit($event)"></app-shift-editor-form>
+        <app-shift-editor-form
+          (shiftAdded)="onShiftSubmit($event)"></app-shift-editor-form>
 
-    <div
-      class="form-group">
-      <app-shift-viewer
-        [shifts]="eventDay.shifts"></app-shift-viewer>
-    </div>
+        <div
+          class="form-group">
+          <app-shift-viewer
+            [shifts]="eventDay.shifts"></app-shift-viewer>
+        </div>
+      </tab>
+      <tab>
+        <template
+          tabHeading>
+      <i style="color: #3366BB" class="glyphicon glyphicon-file"></i> Sessions
+    </template>
+        <p>Some
+          text</p>
+      </tab>
+
+    </tabset>
+
+
+
 
     <div
       class="form-group">
