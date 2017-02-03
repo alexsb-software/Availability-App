@@ -1,0 +1,176 @@
+<div
+  class="row">
+
+  <div
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h3>
+      Edit
+      Sessions
+    </h3>
+
+  </div>
+</div>
+
+<div
+  class="row">
+
+  <!--Session name, notes-->
+  <div
+    class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+    <!--Session name-->
+    <div
+      class="row">
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12  form-group">
+        <input
+          type="text"
+          name="session-name"
+          class="form-control"
+          placeholder="Name">
+      </div>
+
+
+    </div>
+
+    <!--Session notes-->
+    <div
+      class="row">
+
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+        <textarea
+          rows="3"
+          class="form-control"
+          placeholder="Notes"
+          [value]="session.notes"></textarea>
+      </div>
+
+    </div>
+
+    <div
+      class="row">
+
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button
+          type="button"
+          class="btn btn-default">Add Session</button>
+      </div>
+
+
+    </div>
+
+  </div>
+  <!--End session name, notes-->
+
+  <!--Session time-->
+  <div
+    class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+    <div
+      class="row">
+      <!--Session time from -->
+      <div
+        class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+        <label
+          for="_start">From</label>
+        <timepicker
+          [(ngModel)]="startDate"
+          name="_start"></timepicker>
+
+
+      </div>
+
+      <!--Session time to-->
+      <div
+        class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <label
+          for="_end">To</label>
+        <timepicker
+          [(ngModel)]="endDate"
+          name="_end"></timepicker>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!--End session time-->
+
+</div>
+
+
+<!--
+<div
+  class="row">
+
+  <div
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h3>
+      Edit
+      shifts
+    </h3>
+  </div>
+</div>
+
+<div
+  class="row">
+  <div
+    class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+    <div
+      class="row form-group">
+
+      <label
+        class="col-xs-4 col-sm-4 col-md-4 col-lg-4 "
+        for="session-name">TODO:ALIGN Session Name</label>
+      <input
+        class="col-xs-8 col-sm-8 col-md-8 col-lg-8"
+        type="text"
+        name="session-name"
+        class="form-control"
+        placeholder="Name">
+    </div>
+
+    
+
+    <div
+      class="row">
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div
+          class="form-group">
+          <textarea
+            rows="3"
+            class="form-control"
+            placeholder="notes"
+            [value]="session.notes"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div
+    class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <label
+      for="_start">From</label>
+    <timepicker
+      [(ngModel)]="startDate"
+      name="_start"></timepicker>
+  </div>
+
+  
+  <div
+    class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <label
+      for="_end">To</label>
+    <timepicker
+      [(ngModel)]="endDate"
+      name="_end"></timepicker>
+  </div>
+</div>-->

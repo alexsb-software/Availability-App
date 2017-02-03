@@ -20,7 +20,7 @@ export class DayEditorFormComponent {
     //console.debug(this.eventDay.dayDate.toString());
     // Chnage panel to panel-success when save clicked
   }
-
+  
   onShiftSubmit(shift: EventShift) {
     this.eventDay.shifts.push(shift);
   }

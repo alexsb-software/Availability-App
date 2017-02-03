@@ -16,11 +16,15 @@
       name="date-pick"
       (dateChanged)="onDateChanged($event)"></app-date-picker>
 
+
+
     <tabset>
       <tab>
         <template
           tabHeading>
-      <i style="color: #3366BB" class="glyphicon glyphicon-calendar"></i> Shifts
+          
+          <!--glyphicon colors are set in the main css file styles.css-->
+      <i class="glyphicon glyphicon-calendar"></i> Shifts
     </template>
 
         <app-shift-editor-form
@@ -31,28 +35,31 @@
           <app-shift-viewer
             [shifts]="eventDay.shifts"></app-shift-viewer>
         </div>
+
+        <div
+          class="form-group">
+          <button
+            type="button"
+            (click)="saveDay()"
+            class="btn btn-success pull-right">Save</button>
+        </div>
+
       </tab>
       <tab>
         <template
           tabHeading>
-      <i style="color: #3366BB" class="glyphicon glyphicon-file"></i> Sessions
+      <i class="glyphicon glyphicon-file"></i> Sessions
     </template>
-        <p>Some
-          text</p>
+        <div
+          class="form-group">
+          <app-session-editor></app-session-editor>
+        </div>
+
       </tab>
 
     </tabset>
 
 
-
-
-    <div
-      class="form-group">
-      <button
-        type="button"
-        (click)="saveDay()"
-        class="btn btn-success pull-right">Save</button>
-    </div>
 
 
   </accordion-group>
