@@ -1,20 +1,22 @@
-<div class="form-inline">
+<div
+  class="form-inline">
 
 </div>
 
 
-<table style="width: 100%">
-  <tr>
 
-    <td style="vertical-align: middle">
-      <!--3rd Party example-->
-      <my-date-picker (dateChanged)="onDateModified($event)" [options]="datePickerOptions"></my-date-picker>
-    </td>
+<div
+  class="row">
 
-    <td style="vertical-align: middle">
-      <div style="padding:8px;border-radius:4px">
-        {{selectedDateText}}
-      </div>
-    </td>
-  </tr>
-</table>
+  <div
+    class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <my-date-picker
+      (dateChanged)="onDateModified($event)"
+      [options]="datePickerOptions"></my-date-picker>
+  </div>
+
+  <div
+    class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-down">
+    <p style="display: inline-block;vertical-align: bottom">{{selectedDateText}} TODO:ALIGN</p>
+  </div>
+</div>

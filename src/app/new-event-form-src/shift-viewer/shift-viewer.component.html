@@ -1,23 +1,14 @@
-<div
-  class="panel panel-default">
-  <div
-    class="panel-heading clearfix">
-    <label
-      class="panel-title pull-left">{{shifts.length }} Shift{{(shifts.length!=1) ?'s':''}} </label>
-    <button
-      class="btn btn-default pull-right"
-      data-toggle="collapse"
-      (click)="visible=!visible"
-      data-target="#elem-shift-spoiler">{{visible?"Hide":"Show"}} Shift{{(shifts.length!=1) ?'s':''}}</button>
-  </div>
-
-  <div
-    id="elem-shift-spoiler"
-    class="collapse">
-
+<accordion>
+  <accordion-group
+    #group>
     <div
-      class="panel-body">
-
+      accordion-heading>
+      <strong>{{shifts.length }} Shift{{(shifts.length!=1) ?'s':''}}</strong>
+      <i class="pull-right float-xs-right glyphicon"
+        [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+    </div>
+    
+    <div>
       <table
         class="table">
         <thead
@@ -34,8 +25,8 @@
             *ngFor="let shift of shifts;let i= index">
             <th
               scope="row">{{i+1}}</th>
-            <td>{{shift.start|shiftString}}</td>
-            <td>{{shift.end|shiftString}}</td>
+            <td>{{shift.startDate|date:'shortTime'}}</td>
+            <td>{{shift.endDate|date:'shortTime'}}</td>
             <td>
               <button
                 class="btn btn-default"
@@ -45,5 +36,6 @@
         </tbody>
       </table>
     </div>
-  </div>
-</div>
+
+  </accordion-group>
+</accordion>

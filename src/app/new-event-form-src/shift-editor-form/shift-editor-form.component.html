@@ -1,44 +1,57 @@
-<div class="form-group">
-<h3>
-  Edit shifts
-</h3>
+<div
+  class="form-group">
+  <h3>
+    Edit
+    shifts
+  </h3>
 
-<form>
-  <div
-    class="form-inline">
-    <label
-      for="startTime">From</label>
-  
-    <app-time-picker
-      class="row"
-      name="startTime"
-      (onSetTime)='timeChanged($event,"StartTime")'></app-time-picker>
+  <form>
 
-  </div>
-  
-  
-  <div
-    class="form-inline">
-    <label
-      for="endTime">To</label>
-    <app-time-picker 
-      class="row"
-      name="endTime"
-      (onSetTime)='timeChanged($event,"EndTime")'></app-time-picker>
-  </div>
+    <div
+      class="row">
+      <div
+        class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <label
+          for="startTime">From</label>
+        <timepicker
+          name="startTime"
+          [(ngModel)]="shift.startDate"></timepicker>
+      </div>
 
-  
-  <div
-    *ngIf="hasError"
-    class="alert alert-danger">
-    <strong>Please note!</strong>
-    <p>Shift end time is less than or equal to its
-      start time
+
+      <div
+        class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <label
+          for="endTime">To</label>
+        <timepicker
+          name="endTime"
+          [(ngModel)]="shift.endDate"></timepicker>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <button class="form-control"
+        (click)="addShift()"
+        class="btn btn-default">Add Shift</button>
+    </div>
+
+    <div 
+      *ngIf="hasError"
+      class="alert alert-danger">
+      <strong>Please note!</strong>
+      <p>Shift
+        end
+        time
+        is
+        less
+        than
+        or
+        equal
+        to
+        its
+        start
+        time
       </p>
-  </div>
-
-<button
-    (click)="addShift()"
-    class="btn btn-default">Add Shift</button>
-</form>
+    </div>
+  </form>
 </div>

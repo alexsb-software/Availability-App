@@ -1,41 +1,43 @@
-import { ShortTimeDate } from './short-time-date';
+//import { ShortTimeDate } from './short-time-date';
 
 export abstract class TimeDuration {
-    start: ShortTimeDate;
-    end: ShortTimeDate;
+    endDate: Date = new Date("0");
+    startDate: Date = new Date("0");
 
+    public static validate(duration: TimeDuration): boolean {
 
-    validate(): boolean {
         let checkExistence: boolean = false;
 
-        if (this.start && this.end) {
+        if (duration.startDate && duration.endDate) {
             checkExistence = true;
         }
 
         if (checkExistence) {
-            return this.isValid();
+            return (duration.startDate < duration.endDate);
         }
         return false;
     }
 
-    // Validates that start time is less than end time
-    private isValid(): boolean {
-        return ShortTimeDate.isLess(this.start, this.end);
+    // Validates that startDate time is less than endDate time
+    private static isValid(duration: TimeDuration): boolean {
+        return (duration.startDate < duration.endDate);
     }
 
     // Tells whether one duration starts before the other
     static startsBefore(duration: TimeDuration, other: TimeDuration): boolean {
-        return ShortTimeDate.isBigger(duration.start, other.start);
+        //return ShortTimeDate.isBigger(duration.startDate, other.startDate);
+        return duration.startDate > other.startDate;
     }
 
     // Tells whether one duration ends before the other
     static endsBefore(duration: TimeDuration, other: TimeDuration): boolean {
-        return ShortTimeDate.isBigger(duration.end, other.end);
+        //return ShortTimeDate.isBigger(duration.endDate, other.endDate);
+        return duration.endDate > other.endDate;
     }
 
     // This might be used in searching
     static isEqual(duration: TimeDuration, other: TimeDuration) {
-        return ShortTimeDate.isEqual(duration.start, other.start) &&
-            ShortTimeDate.isEqual(duration.end, other.end);
+        return (duration.startDate.getTime() === other.startDate.getTime()) &&
+            (duration.endDate.getTime() === other.endDate.getTime());
     }
 }

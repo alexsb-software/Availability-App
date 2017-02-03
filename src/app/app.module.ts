@@ -8,9 +8,9 @@ import { AppComponent } from './app.component';
 import { ShiftEditor } from './new-event-form-src/shift-editor-form/shift-editor-form.component';
 
 import { UserAvalComponent } from './user_reg/useraval.component';
-import { TimePickerComponent } from './new-event-form-src/time-picker/time-picker.component';
+//import { TimePickerComponent } from './new-event-form-src/time-picker/time-picker.component';
 import { ShiftViewerComponent } from './new-event-form-src/shift-viewer/shift-viewer.component';
-import { ShiftStringPipe } from './new-event-form-src/applogic-event-form/shift-string.pipe';
+//import { ShiftStringPipe } from './new-event-form-src/applogic-event-form/shift-string.pipe';
 import { NewEventComponent } from './new-event-form-src/new-event/new-event.component';
 import { DayEditorFormComponent } from './new-event-form-src/day-editor-form/day-editor-form.component';
 import { DatePickerComponent } from './new-event-form-src/date-picker/date-picker.component';
@@ -18,20 +18,24 @@ import { DatePickerComponent } from './new-event-form-src/date-picker/date-picke
 import { MyDatePickerModule } from 'mydatepicker';
 import { SessionComponent } from './availability-grid-src/session/session.component';
 
-import { TimepickerModule } from 'ng2-bootstrap';
+import { TimepickerModule } from 'ng2-bootstrap/timepicker';
+import { AccordionModule } from 'ng2-bootstrap/accordion';
+import { InfoTextComponent } from './applogic-general/info-text/info-text.component';
+import { CommitteeMembersComponent } from './availability-grid-src/committee-members/committee-members.component';
+import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShiftEditor,
     UserAvalComponent,
-    TimePickerComponent,
     ShiftViewerComponent,
-    ShiftStringPipe,
     NewEventComponent,
     DayEditorFormComponent,
     DatePickerComponent,
-    SessionComponent
+    SessionComponent,
+    InfoTextComponent,
+    CommitteeMembersComponent
   ],
   imports: [
     BrowserModule,
@@ -39,9 +43,12 @@ import { TimepickerModule } from 'ng2-bootstrap';
     HttpModule,
     MyDatePickerModule,
     TimepickerModule.forRoot(),
+    AccordionModule.forRoot(),
+    TypeaheadModule.forRoot(),
     RouterModule.forRoot([
       { path: 'event/new', component: NewEventComponent },
       { path: 'availability', component: SessionComponent },
+      { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
       { path: '', component: AppComponent },
       { path: '**', component: AppComponent }

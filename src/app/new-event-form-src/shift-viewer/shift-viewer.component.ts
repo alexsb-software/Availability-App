@@ -8,6 +8,7 @@ import { EventShift } from '../applogic-event-form/event-shift';
 export class ShiftViewerComponent {
   // Shifts will be set by a container
   @Input() shifts: EventShift[];
+
   counter: number = 0;
   visible: boolean = false;
   removeShift(shift: EventShift): void {
@@ -17,7 +18,7 @@ export class ShiftViewerComponent {
       this.shifts.splice(index, 1);
       console.log("Deleted");
     } else {
-      console.log("Failed to delete");
+      console.error("Failed to delete");
     }
   }
 }

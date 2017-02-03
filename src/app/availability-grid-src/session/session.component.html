@@ -1,76 +1,44 @@
-<p>
-  session
-  works!
-</p>
-
 <div
-  class="row form-group">
+  class="row">
+
+  <!--Start date-->
 
   <div
-    class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-    <div
-      class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
-      <div
-        class="row">
-        <div
-          class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-          <label
-            for="_start">From</label>
-        </div>
-        <div
-          class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-          <timepicker
-            [(ngModel)]="startDate"
-            name="_start"></timepicker>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
-      <div
-        class="row">
-        <div
-          class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-          <label
-            for="_end">To</label>
-        </div>
-        <div
-          class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-          <timepicker
-            [(ngModel)]="endDate"
-            name="_end"></timepicker>
-        </div>
-      </div>
-
-    </div>
-
+    class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+    <label
+      for="_start">From</label>
+    <timepicker
+      [(ngModel)]="startDate"
+      name="_start"></timepicker>
   </div>
+
+  <!--End date-->
 
 
   <div
     class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-
-    <div
-      class="row">
-      <strong>Public Relations</strong>
-      <p>Name</p>
-    </div>
-    <div
-      class="row">
-      <strong>R&P</strong>
-      <p>Name</p>
-    </div>
+    <label
+      for="_end">To</label>
+    <timepicker
+      [(ngModel)]="endDate"
+      name="_end"></timepicker>
   </div>
-
 
   <div
-    class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-    {{this.session.end}}
-    {{this.session.start}}
+    class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+
+    <div
+      class="row">
+      <info-text
+        [label]="'Public Relations'"
+        [content]="'Name'"></info-text>
+    </div>
+
+    <div
+      class="row">
+      <info-text
+        [label]="'R&P'"
+        [content]="'Name'"></info-text>
+    </div>
   </div>
-
-
 </div>

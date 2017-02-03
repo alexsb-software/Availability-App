@@ -1,7 +1,5 @@
 import { TimeDuration } from '../../applogic-general/time-duration';
-import { ShortTimeDate } from '../../applogic-general/short-time-date';
-import { Member } from '../../applogic-general/member';
-import { Committee } from '../../applogic-general/committee.enum';
+import { Member, Committee } from '../../applogic-general/member';
 
 export class SessionInfo extends TimeDuration {
     name: string;
@@ -28,7 +26,7 @@ export class SessionInfo extends TimeDuration {
     validateSession(): boolean {
         return this.reporting &&
             this.publicRelations &&
-            this.validate();
+            TimeDuration.validate(this);
     }
     private _checkMember(member: Member, comm: Committee): boolean {
         return member.committee === comm;

@@ -1,40 +1,36 @@
-<div
-  class="panel panel-default">
+<accordion>
+  <accordion-group
+    #group>
+    <div
+      accordion-heading>
+      <strong>Day 0 {{eventDay.dayDate?.toDateString()}}</strong>
+      <i class="pull-right float-xs-right glyphicon"
+        [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+    </div>
 
-  <div
-    class="panel-heading clearfix">
-    <label
-      class="panel-title pull-left">Day 0 {{eventDay.dayDate?.toDateString()}}</label>
-    <button
-      class="btn btn-default pull-right"
-      data-toggle="collapse"
-      (click)="visible=!visible"
-      data-target="#day-spoiler">{{visible?"Hide":"Show"}} Day</button>
-  </div>
+<label for="date-pick">Date </label>
+    <app-date-picker
+    name="date-pick"
+      (dateChanged)="onDateChanged($event)"></app-date-picker>
 
-  <div
-    class="collapse"
-    id="day-spoiler">
+
+    <app-shift-editor-form
+      (shiftAdded)="onShiftSubmit($event)"></app-shift-editor-form>
 
     <div
-      class="panel-body">
-
-
-      <app-date-picker
-        (dateChanged)="onDateChanged($event)"></app-date-picker>
-
-
-      <app-shift-editor-form
-        (shiftAdded)="onShiftSubmit($event)"></app-shift-editor-form>
-
-
+      class="form-group">
       <app-shift-viewer
         [shifts]="eventDay.shifts"></app-shift-viewer>
-
-    <button type="button" (click)="saveDay()" class="btn btn-success pull-right">Save</button>
-
     </div>
-    
-    
-  </div>
-</div>
+
+    <div
+      class="form-group">
+      <button
+        type="button"
+        (click)="saveDay()"
+        class="btn btn-success pull-right">Save</button>
+    </div>
+
+
+  </accordion-group>
+</accordion>
