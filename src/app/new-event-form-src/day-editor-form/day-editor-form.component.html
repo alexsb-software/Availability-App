@@ -34,6 +34,7 @@
           class="form-group">
           <dynamic-table
             [properties]="['startDate','endDate']"
+            [propertyDisplayNames]="['Start Date','End Date']"
             [pipe]="pipe"
             [pipeArgs]="[pipeFormat]"
             (itemRemoved)="onItemRemoved($event)"
@@ -62,9 +63,5 @@
       </tab>
 
     </tabset>
-
-
-
-
   </accordion-group>
 </accordion>

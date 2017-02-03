@@ -20,7 +20,6 @@ export class DayEditorFormComponent {
 
   onDateChanged(newDate: Date): void {
     this.eventDay.dayDate = newDate;
-    //console.debug(this.eventDay.dayDate.toString());
     // Chnage panel to panel-success when save clicked
   }
 
