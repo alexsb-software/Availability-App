@@ -12,27 +12,26 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
 export class DayEditorFormComponent {
   @Output() daySaved: EventEmitter<EventDay> = new EventEmitter<EventDay>();
   @Input() dayNumber: number;
-  pipe: DatePipe = new DatePipe("en-UK");
-  pipeFormat: string = 'shortTime';
+
   eventDay: EventDay = new EventDay();
   visible: boolean = false;
 
 
   onDateChanged(newDate: Date): void {
+    // TODO replace events with binding
     this.eventDay.dayDate = newDate;
-    // Chnage panel to panel-success when save clicked
-  }
 
-  onShiftSubmit(shift: EventShift) {
-    this.eventDay.shifts.push(shift);
+    // Chnage panel to panel-success when save clicked
   }
 
   saveDay(): void {
     // Called when success button is clicked
     this.daySaved.emit(this.eventDay);
+    this.eventDay.shifts
   }
 
-  onItemRemoved(e: ArrayItemEventArgs): void {
-    this.eventDay.shifts.splice(e.index, 1);
+  onSessionsSave(): void {
+    console.debug("Will save sessions");
   }
+
 }

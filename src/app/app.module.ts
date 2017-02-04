@@ -16,7 +16,7 @@ import { DayEditorFormComponent } from './new-event-form-src/day-editor-form/day
 import { DatePickerComponent } from './new-event-form-src/date-picker/date-picker.component';
 
 import { MyDatePickerModule } from 'mydatepicker';
-import { SessionComponent } from './availability-grid-src/session/session.component';
+//import { SessionComponent } from './availability-grid-src/session/session.component';
 
 import { TimepickerModule } from 'ng2-bootstrap/timepicker';
 import { AccordionModule } from 'ng2-bootstrap/accordion';
@@ -35,7 +35,7 @@ import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-
     NewEventComponent,
     DayEditorFormComponent,
     DatePickerComponent,
-    SessionComponent,
+    //SessionComponent,
     InfoTextComponent,
     CommitteeMembersComponent,
     SessionEditorComponent,
@@ -52,7 +52,7 @@ import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-
     TabsModule.forRoot(),
     RouterModule.forRoot([
       { path: 'event/new', component: NewEventComponent },
-      { path: 'session', component: SessionComponent },
+      //{ path: 'session', component: SessionComponent },
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
       { path: '', component: AppComponent },

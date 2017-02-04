@@ -11,6 +11,13 @@
     class="form-control">
 </div>
 
+<dynamic-table
+[properties]='["name"]'
+[propertyDisplayNames]="['Start Date']"
+[items]="selectedMembers"
+(itemRemoved)="removeMember($event)"
+></dynamic-table>
+
 <div
   class="container">
   <table
