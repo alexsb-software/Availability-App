@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { EventShift } from '../applogic-event-form/event-shift';
+import { EventShift } from '../../applogic-general/event-shift';
 
 import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic-table.component';
 
@@ -10,10 +10,10 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
   styleUrls: ['./shift-editor-form.component.css']
 })
 export class ShiftEditor {
-  
-  @Input() shifts: EventShift[];
 
-  shift: EventShift = new EventShift();
+  @Input() shifts: EventShift[];
+  @Output() onShiftRemoved: EventEmitter<number> = new EventEmitter<number>();
+  model: EventShift = new EventShift();
   hasError: boolean = false;
   pipe: DatePipe = new DatePipe("en-US");
   pipeFormat: string = 'shortTime';
@@ -22,22 +22,36 @@ export class ShiftEditor {
     // ASSUMPTION: No events will start at <x> PM to <y> AM
     // Validate model
 
-    if (EventShift.validate(this.shift)) {
+    if (EventShift.validate(this.model)) {
       this.hasError = false;
-      this.shifts.push(this.shift);
 
-      const lastEnd = new Date(this.shift.endDate);
-      this.shift = new EventShift();
-      this.shift.startDate = lastEnd;
-      this.shift.endDate = lastEnd;
+      this.model.number = this.shifts.length + 1;
+      this.shifts.push(this.model);
+
+      console.debug("Add shift");
+      console.log(this.model);
+
+      const lastEnd = new Date(this.model.endDate);
+      this.model = new EventShift();
+      this.model.startDate = lastEnd;
+      this.model.endDate = lastEnd;
     }
     else {
       this.hasError = true;
     }
   }
 
-  onShiftRemoved(e: ArrayItemEventArgs): void {
+  shiftRemoved(e: ArrayItemEventArgs): void {
     this.shifts.splice(e.index, 1);
+
+    // TODO remove session names in other component!!
+    let shiftNumber: number = (<EventShift>e.object).number;
+    this.onShiftRemoved.emit(shiftNumber);
+
+    // Refresh shift numbers
+    for (let i: number = 0; i < this.shifts.length; i++) {
+      this.shifts[i].number = i + 1;
+    }
   }
 
 } // ShiftEditor

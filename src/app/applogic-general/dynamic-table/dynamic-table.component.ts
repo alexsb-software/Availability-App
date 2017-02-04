@@ -91,7 +91,7 @@ export class DynamicTableComponent implements OnChanges {
        * 
        * If the lengths are not equal, throw an error
        */
-      if (this.applyPipeProps && (this.applyPipeProps.length != this.properties.length)) {
+      if (!this.applyPipeProps || (this.applyPipeProps.length != this.properties.length)) {
         throw new EvalError("[ng2-dynamic-table]:applyPipeProps length must be equal to the" +
           " length of properties provided since you're using" +
           " a pipe and multiple properties to display");

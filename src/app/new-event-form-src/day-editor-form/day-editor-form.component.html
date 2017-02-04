@@ -14,50 +14,54 @@
     <!--Date picker-->
     <div
       class="row">
-      
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <label
-        for="date-pick">Date </label>
-      <app-date-picker
-        name="date-pick"
-        (dateChanged)="onDateChanged($event)"></app-date-picker>
+
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <label
+          for="date-pick">Date </label>
+        <app-date-picker
+          name="date-pick"
+          (dateChanged)="onDateChanged($event)"></app-date-picker>
       </div>
-      
+
     </div>
 
     <!--Shift/Session Editors-->
     <div
       class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <tabset>
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <tabset>
 
 
-        <tab>
-          <template
-            tabHeading>
+          <tab>
+            <template
+              tabHeading>
           <!--glyphicon colors are set in the main css file styles.css-->
           <i class="glyphicon glyphicon-calendar"></i> Shifts
         </template>
-          <app-shift-editor-form
-            [shifts]="this.eventDay.shifts"></app-shift-editor-form>
-        </tab>
+            <app-shift-editor-form
+              (onShiftRemoved)="updateSessions($event)"
+              [shifts]="this.eventDay.shifts"></app-shift-editor-form>
+          </tab>
 
 
-        <tab>
-          <template
-            tabHeading>
+          <tab>
+            <template
+              tabHeading>
           <i class="glyphicon glyphicon-file"></i> Sessions
         </template>
-          <div
-            class="form-group">
-            <app-session-editor
-              [sessions]="this.eventDay.sessions"></app-session-editor>
-          </div>
-        </tab>
-        <!--End of tab-->
-      </tabset>
+            <div
+              class="form-group">
+              <app-session-editor
+                [shifts]="this.eventDay.shifts"
+                [sessions]="this.eventDay.sessions"></app-session-editor>
+            </div>
+          </tab>
+          <!--End of tab-->
+        </tabset>
       </div>
-      
+
     </div>
 
 

@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import { EventShift } from '../applogic-event-form/event-shift';
-import { EventDay } from '../applogic-event-form/event-day';
+import { EventShift } from '../../applogic-general/event-shift';
+import { EventDay } from '../../applogic-general/event-day';
 import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic-table.component';
 @Component({
   selector: 'app-day-editor-form',
@@ -33,5 +33,13 @@ export class DayEditorFormComponent {
   onSessionsSave(): void {
     console.debug("Will save sessions");
   }
+  updateSessions(deletedShiftNum: number): void {
+    for (let i: number = 0; i < this.eventDay.sessions.length; i++) {
+      // Remove the items of the deleted shift
+      if (this.eventDay.sessions[i].shiftNumber == deletedShiftNum) {
+        this.eventDay.sessions.splice(i, 1);
+      }
 
+    }
+  }
 }

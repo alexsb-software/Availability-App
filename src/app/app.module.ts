@@ -22,6 +22,8 @@ import { TimepickerModule } from 'ng2-bootstrap/timepicker';
 import { AccordionModule } from 'ng2-bootstrap/accordion';
 import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
 import { TabsModule } from 'ng2-bootstrap/tabs';
+import { DropdownModule } from 'ng2-bootstrap/dropdown';
+
 import { InfoTextComponent } from './applogic-general/info-text/info-text.component';
 import { CommitteeMembersComponent } from './availability-grid-src/committee-members/committee-members.component';
 import { SessionEditorComponent } from './new-event-form-src/session-editor/session-editor.component';
@@ -48,6 +50,7 @@ import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-
     MyDatePickerModule,
     TimepickerModule.forRoot(),
     AccordionModule.forRoot(),
+    DropdownModule.forRoot(),
     TypeaheadModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot([

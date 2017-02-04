@@ -15,7 +15,7 @@
           for="startTime">From</label>
         <timepicker
           name="startTime"
-          [(ngModel)]="shift.startDate"></timepicker>
+          [(ngModel)]="model.startDate"></timepicker>
       </div>
 
 
@@ -25,7 +25,7 @@
           for="endTime">To</label>
         <timepicker
           name="endTime"
-          [(ngModel)]="shift.endDate"></timepicker>
+          [(ngModel)]="model.endDate"></timepicker>
       </div>
     </div>
 
@@ -59,31 +59,31 @@
 </div>
 
 
+
 <div
-  class="container">
-  <div
-    class="form-group">
-
-    <accordion>
-      <accordion-group
-        #group>
-        <div
-          accordion-heading>
-          <strong>
+  class="form-group">
+  <accordion>
+    <accordion-group
+      #group>
+      <div
+        accordion-heading>
+        <strong>
         {{this.shifts.length}} Shift{{this.shifts.length!=1?"s":""}} </strong>
-          <i class="pull-right float-xs-right glyphicon"
-            [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
-        </div>
+        <i class="pull-right float-xs-right glyphicon"
+          [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+      </div>
 
-        <dynamic-table
-          [properties]="['startDate','endDate']"
-          [propertyDisplayNames]="['Start Date','End Date']"
-          [pipe]="pipe"
-          [pipeArgs]="[pipeFormat]"
-          (itemRemoved)="onShiftRemoved($event)"
-          [items]="this.shifts"></dynamic-table>
+      <dynamic-table
+        [properties]="['number', 'startDate','endDate']"
+        [propertyDisplayNames]="['#','Start Date','End Date']"
+        [applyPipeProps]="[0,1,1]"
+        [pipe]="pipe"
+        [pipeArgs]="[pipeFormat]"
+        [showIndex]="false"
+        (itemRemoved)="shiftRemoved($event)"
+        [items]="this.shifts"></dynamic-table>
 
 
-      </accordion-group>
-    </accordion>
-  </div>
+    </accordion-group>
+  </accordion>
+</div>
