@@ -63,12 +63,27 @@
   class="container">
   <div
     class="form-group">
-    <dynamic-table
-      [properties]="['startDate','endDate']"
-      [propertyDisplayNames]="['Start Date','End Date']"
-      [pipe]="pipe"
-      [pipeArgs]="[pipeFormat]"
-      (itemRemoved)="onShiftRemoved($event)"
-      [items]="this.shifts"></dynamic-table>
+
+    <accordion>
+      <accordion-group
+        #group>
+        <div
+          accordion-heading>
+          <strong>
+        {{this.shifts.length}} Shift{{this.shifts.length!=1?"s":""}} </strong>
+          <i class="pull-right float-xs-right glyphicon"
+            [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+        </div>
+
+        <dynamic-table
+          [properties]="['startDate','endDate']"
+          [propertyDisplayNames]="['Start Date','End Date']"
+          [pipe]="pipe"
+          [pipeArgs]="[pipeFormat]"
+          (itemRemoved)="onShiftRemoved($event)"
+          [items]="this.shifts"></dynamic-table>
+
+
+      </accordion-group>
+    </accordion>
   </div>
-</div>

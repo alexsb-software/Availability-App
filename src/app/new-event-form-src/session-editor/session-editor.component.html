@@ -36,30 +36,26 @@
 
     <!--Session notes-->
     <div
-      class="row">
+      class="form-group">
 
-      <div
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
-        <textarea
-          rows="3"
-          class="form-control"
-          placeholder="Notes"
-          [(ngModel)]="session.notes"></textarea>
-      </div>
+
+      <textarea
+        rows="3"
+        class="form-control"
+        placeholder="Notes"
+        [(ngModel)]="session.notes"></textarea>
+
 
     </div>
 
     <div
-      class="row">
+      class="form-group">
 
-      <div
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button
-          type="button"
-          (click)="addSession()"
-          class="btn btn-default">Add Session</button>
-      </div>
 
+      <button
+        type="button"
+        (click)="addSession()"
+        class="btn btn-default">Add Session</button>
 
     </div>
 
@@ -146,17 +142,30 @@
 
 
   <div
-    class="row">
+    class="container">
     <div
       class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <dynamic-table
-        [items]="sessions"
-        [properties]="['name','startDate','endDate']"
-        [applyPipeProps]="[0,1,1]"
-        [propertyDisplayNames]="['Name','Start time','End time']"
-        [pipe]="pipe"
-        [pipeArgs]="['shortTime']"
-        (itemRemoved)="onItemRemove($event)"></dynamic-table>
+
+      <accordion>
+        <accordion-group
+          #group>
+          <div
+            accordion-heading>
+            <strong>
+        {{this.sessions.length}} Session{{this.sessions.length!=1?"s":""}} </strong>
+            <i class="pull-right float-xs-right glyphicon"
+              [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+          </div>
+          <dynamic-table
+            [items]="sessions"
+            [properties]="['name','startDate','endDate']"
+            [applyPipeProps]="[0,1,1]"
+            [propertyDisplayNames]="['Name','Start time','End time']"
+            [pipe]="pipe"
+            [pipeArgs]="['shortTime']"
+            (itemRemoved)="onItemRemove($event)"></dynamic-table>
+        </accordion-group>
+      </accordion>
     </div>
   </div>
 </div>
