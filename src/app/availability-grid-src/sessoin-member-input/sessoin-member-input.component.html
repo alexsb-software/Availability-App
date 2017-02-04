@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="form-group">
+    <label for="pr-input">Public Relations</label>
+    <input name="pr-input" class="form-control" placeholder="Name" [(ngModel)]="selected" [typeahead]="members" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'PublicRel')" class="form-control">
+  </div>
+</div>
+
+<div class="container">
+  <div class="form-group">
+    <label for="report-input">Reportings</label>
+    <!--<input type="text" class="form-control" placeholder="Name">-->
+    <input name="report-input" class="form-control" placeholder="Name" [(ngModel)]="selected" [typeahead]="members" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'Reporting')" class="form-control">
+  </div>
+</div>

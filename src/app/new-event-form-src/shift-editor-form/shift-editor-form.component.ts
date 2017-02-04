@@ -28,9 +28,6 @@ export class ShiftEditor {
       this.model.number = this.shifts.length + 1;
       this.shifts.push(this.model);
 
-      console.debug("Add shift");
-      console.log(this.model);
-
       const lastEnd = new Date(this.model.endDate);
       this.model = new EventShift();
       this.model.startDate = lastEnd;

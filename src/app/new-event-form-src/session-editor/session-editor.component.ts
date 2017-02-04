@@ -33,9 +33,6 @@ export class SessionEditorComponent {
       else {
         this.error = 1;
       }
-      console.debug("session validate");
-      console.log(this.session);
-
       return;
     }
     if (this.session.name.length === 0) {
