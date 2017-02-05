@@ -108,21 +108,29 @@
               *ngIf="applyPipeProps">
               <ng-container
                 *ngIf="applyPipeProps[j]">
+                <!--{{ pipe?
+                pipe.transform(item[prop],pipeArgs):item[prop]}}-->
                 {{ pipe?
-                pipe.transform(item[prop],pipeArgs):item[prop]}}
+                pipe.transform(eval(item,prop),pipeArgs):eval(item,prop)}}
+                
               </ng-container>
               <ng-container
                 *ngIf="!applyPipeProps[j]">
-                {{ item[prop]
-                }}
+                <!--{{ item[prop]
+                }}-->
+
+                  {{ eval(item,prop)}}
               </ng-container>
             </ng-container>
 
             <!--Transform all properties if a pipe is provided-->
             <ng-container
               *ngIf="!applyPipeProps ||applyPipeProps.length===0">
+              <!--{{ pipe?
+              pipe.transform(item[prop],pipeArgs):item[prop]}}-->
               {{ pipe?
-              pipe.transform(item[prop],pipeArgs):item[prop]}}
+              pipe.transform(eval(item,prop),pipeArgs):eval(item,prop)}}
+              
             </ng-container>
           </td>
         </ng-container>
@@ -140,4 +148,4 @@
       </tr>
     </tbody>
   </table>
-</ng-container>
+</ng-container> 

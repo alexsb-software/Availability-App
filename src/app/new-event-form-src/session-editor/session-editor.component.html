@@ -128,7 +128,7 @@
         {{this.sessions.length}} Session{{this.sessions.length!=1?"s":""}} </strong>
         <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
       </div>
-      <dynamic-table [items]="sessions" [propertyDisplayNames]="['Session Name','Start time','End time','Shift number']" [properties]="['name','startDate','endDate','shiftNumber']" [applyPipeProps]="[0,1,1,0]" [pipe]="pipe" [pipeArgs]="['shortTime']" (itemRemoved)="onItemRemove($event)"></dynamic-table>
+      <dynamic-table [items]="sessions" [propertyDisplayNames]="['Session Name','Start time','End time','Shift number']" [properties]="['name','startDate','endDate','shift.number']" [applyPipeProps]="[0,1,1,0]" [pipe]="pipe" [pipeArgs]="['shortTime']" (itemRemoved)="onItemRemove($event)"></dynamic-table>
     </accordion-group>
   </accordion>
 </div>

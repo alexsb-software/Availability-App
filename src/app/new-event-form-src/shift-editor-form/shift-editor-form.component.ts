@@ -41,8 +41,8 @@ export class ShiftEditor {
   shiftRemoved(e: ArrayItemEventArgs): void {
     this.shifts.splice(e.index, 1);
 
-    // TODO remove session names in other component!!
-    let shiftNumber: number = (<EventShift>e.object).number;
+
+    const shiftNumber: number = (<EventShift>e.object).number;
     this.onShiftRemoved.emit(shiftNumber);
 
     // Refresh shift numbers

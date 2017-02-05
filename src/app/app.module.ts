@@ -26,6 +26,7 @@ import { CommitteeMembersComponent } from './availability-grid-src/committee-mem
 import { SessionEditorComponent } from './new-event-form-src/session-editor/session-editor.component';
 import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-table.component';
 import { SessoinMemberInputComponent } from './availability-grid-src/sessoin-member-input/sessoin-member-input.component';
+import { MemberViewComponent } from './availability-grid-src/member-view/member-view.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +41,8 @@ import { SessoinMemberInputComponent } from './availability-grid-src/sessoin-mem
     CommitteeMembersComponent,
     SessionEditorComponent,
     DynamicTableComponent,
-    SessoinMemberInputComponent
+    SessoinMemberInputComponent,
+    MemberViewComponent
 
   ],
   imports: [
@@ -58,6 +60,7 @@ import { SessoinMemberInputComponent } from './availability-grid-src/sessoin-mem
       { path: 'session', component: SessoinMemberInputComponent },
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
+      { path: 'member', component: MemberViewComponent },
       { path: '', component: AppComponent },
       { path: '**', component: AppComponent }
     ])

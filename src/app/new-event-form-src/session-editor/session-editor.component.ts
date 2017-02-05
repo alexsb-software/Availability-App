@@ -26,7 +26,7 @@ export class SessionEditorComponent {
 
     if (!SessionInfo.validate(this.session)) {
       // Add error message
-      if (isNaN(this.session.getShift().number)) {
+      if (isNaN(this.session.shift.number)) {
         console.log("error is nana");
         this.error = 3;
       }
@@ -58,6 +58,6 @@ export class SessionEditorComponent {
   }
 
   onLink(shift: EventShift): void {
-    this.session.setShift(shift);
+    this.session.shift = shift;
   }
 }

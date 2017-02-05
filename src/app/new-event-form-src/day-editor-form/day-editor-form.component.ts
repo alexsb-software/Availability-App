@@ -36,7 +36,7 @@ export class DayEditorFormComponent {
   updateSessions(deletedShiftNum: number): void {
     for (let i: number = 0; i < this.eventDay.sessions.length; i++) {
       // Remove the items of the deleted shift
-      if (this.eventDay.sessions[i].shiftNumber == deletedShiftNum) {
+      if (this.eventDay.sessions[i].shift.number == deletedShiftNum) {
         this.eventDay.sessions.splice(i, 1);
       }
 

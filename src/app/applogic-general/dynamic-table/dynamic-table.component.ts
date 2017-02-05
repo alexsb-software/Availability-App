@@ -66,8 +66,7 @@ export class DynamicTableComponent implements OnChanges {
      * don't check for its length because it might just
      * be empty now
      */
-    if(!this.items)
-    {
+    if (!this.items) {
       throw new EvalError("[ng2-dynamic-table] No items are provided");
     }
 
@@ -102,10 +101,42 @@ export class DynamicTableComponent implements OnChanges {
        * We assmue that they want to transform all
        * the provided properties.
        */
+
+      // /**
+      //  * Deep binding
+      //  */
+      // for (let i: number = 0; i < this.properties.length; i++) {
+      //   // No '.' found
+      //   if (this.properties[i].indexOf('.') === -1) continue;
+
+      //   // This is a complex property
+
+      // }
     }
   }
 
   constructor() {
+
+  }
+
+  /**
+   * Resolves the dot notation access of properties
+   * to hash table property access:
+   * val.subObj.prop -> val[""]
+   */
+  private deepParse(complexProp: string): string {
+    let dotIdx: number = complexProp.indexOf('.');
+
+    // Base case
+    if (dotIdx === -1)
+      return complexProp;
+
+    // Solve part of the problem. evaluate the dot
+    // notation to an hashtable access [<propname>]
+
+    /**
+     * TODO
+     */
 
   }
 
@@ -119,6 +150,15 @@ export class DynamicTableComponent implements OnChanges {
     if (!this.canRemove) return;
     this.itemRemoved.emit(new ArrayItemEventArgs(obj, index));
   }
+
+  public eval(item: any, prop: string) {
+    // Concat object and its property with dot notation
+    // then find this value using eval -- this is a bad practice
+    // it'll stay here until a better solution is found
+    console.log("item" + "." + prop);
+    return eval("item" + "." + prop);
+  }
+
 }
 
 /**
@@ -137,5 +177,4 @@ export class ArrayItemEventArgs {
     this.index = index;
   }
 }
-
 // Add some interface for item removed, pipes, and so on
