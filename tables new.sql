@@ -18,7 +18,7 @@ member_name varchar(40) not null,
 
 CREATE TABLE shift (
 
-shift_name varchar,
+shift_name varchar(50),
 shift_id int(3) not null PRIMARY KEY AUTO_INCREMENT,
 shift_start time,
 shift_end time
@@ -34,11 +34,11 @@ shift_end time
 CREATE TABLE session (
 
 session_id int(3) not null AUTO_INCREMENT,
-session_name varchar,
+session_name varchar(50),
 shift_id int(3),
 rnp_session_id int(3),
 pr_session_id int(3),
-notes varchar,
+notes varchar(100),
 CONSTRAINT PK_session PRIMARY KEY (session_id,rnp_session_id,pr_session_id)
 --to differentiate shift(1) & session(0)...
 
