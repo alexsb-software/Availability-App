@@ -44,7 +44,7 @@ $availablity = $_POST['availablity.value'];
 
 //entry all at once?
 
-$sql = "SELECT member_name, member_id, event_id, event_name, event_date, day_id, committee_name, committee_id, shift_id, shift_start, shift_end, shift_type FROM member WHERE member_id='".$member_id."' AND shift_id='".$shift_id."' ";
+$sql = "SELECT member_name, member_id, event_id, event_name, event_date, committee_name, committee_id, hift_id, shift_name, shift_start, shift_end session_id, session_name, rnp_session_id, pr_session_id, notes, availablity FROM member WHERE member_id='".$member_id."' AND shift_id='".$shift_id."' ";
 
 $result = $conn->query($sql);
 
