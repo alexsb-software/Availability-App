@@ -73,7 +73,7 @@ event_id int(3) not null,
 event_name varchar(20) not null,
 event_date date PRIMARY KEY,
 --day 1, 2, etc
-day_id int
+--day_id int
 --CONSTRAINT PK_event PRIMARY KEY (event_id,event_date,day_id)
 );
 
