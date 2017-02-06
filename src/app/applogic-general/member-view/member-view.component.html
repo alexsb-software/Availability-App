@@ -1,0 +1,14 @@
+<input-search (onKeyInputStop)="onSearchClicked($event)" [placeholder]="'Search by shift'"></input-search>
+<accordion>
+  <accordion-group #group>
+    <div accordion-heading>
+      {{filteredMemberAvails.length}} Member{{filteredMemberAvails.length!=1?"s":""}}
+      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+    </div>
+
+    <ng-container *ngIf="memberAvailabilities.length > 0">
+      <dynamic-table [properties]="['member.name','shiftNumber','availabileCommittee']" [propertyDisplayNames]="['Name', 'Shift Number', 'Committee']" [items]="filteredMemberAvails" [canRemove]="false"></dynamic-table>
+    </ng-container>
+
+  </accordion-group>
+</accordion>
