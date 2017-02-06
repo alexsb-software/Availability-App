@@ -14,8 +14,6 @@ echo "Connected to the Database";
 //assuming that member, event, shift and committee IDs are assigned at front end (otherwise assign here)
 //shift and session clash handling?
 
-
-
 $member_name = $_POST['Members.name'];
 $member_id = $_POST['Members.id'];
 	
@@ -28,23 +26,6 @@ $event_date = $_POST['Event.dayDate'];
 
 $committee_name = $_POST['committee_name'];
 $committee_id = $_POST['committee_id'];
-
-
-
-
-
-{
-	‘shifts’ : [// array of shift objects
-
-‘availMembers’: ‘ids’ or [id, id, id] // ids of members that are available on this shift,]
-			‘sessions’: [//array of session objects 
-	‘name’: name
-	‘notes’: notes
-	‘reporting’: reporting member id
-	‘pr’: pr member id
-	‘shift’: shift id
-     ]
-},
 
 $shift_id = $_POST['shifts.id'];
 $shift_name = $_POST['shifts.name'];
@@ -60,37 +41,6 @@ $pr_session_id = $_POST['pr_session.name'];
 $notes = $_POST['notes.value'];
 
 $availablity = $_POST['availablity.value'];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //entry all at once?
 
