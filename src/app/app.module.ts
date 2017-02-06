@@ -26,7 +26,16 @@ import { CommitteeMembersComponent } from './availability-grid-src/committee-mem
 import { SessionEditorComponent } from './new-event-form-src/session-editor/session-editor.component';
 import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-table.component';
 import { SessoinMemberInputComponent } from './availability-grid-src/sessoin-member-input/sessoin-member-input.component';
-import { MemberViewComponent } from './availability-grid-src/member-view/member-view.component';
+import { MemberViewComponent } from './applogic-general/member-view/member-view.component';
+import { TextSearchHelperComponent } from './applogic-general/text-search-helper/text-search-helper.component';
+import { SearchBarDirective } from './applogic-general/search-bar.directive';
+import { CommFilterPipe } from './applogic-general/member-view/comm-filter.pipe';
+import { ShiftFilterPipe } from './applogic-general/member-view/shift-filter.pipe';
+import { NameFilterPipe } from './applogic-general/member-view/name-filter.pipe';
+//import { MultiSelectComponent } from './applogic-general/multi-select/multi-select.component';
+import { NameSortPipe } from './applogic-general/member-view/name-sort.pipe';
+import { CommitteeSortPipe } from './applogic-general/member-view/committee-sort.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,8 +51,16 @@ import { MemberViewComponent } from './availability-grid-src/member-view/member-
     SessionEditorComponent,
     DynamicTableComponent,
     SessoinMemberInputComponent,
-    MemberViewComponent
+    MemberViewComponent,
+    TextSearchHelperComponent,
+    SearchBarDirective,
+    CommFilterPipe,
+    ShiftFilterPipe,
 
+    NameFilterPipe,
+    //MultiSelectComponent,
+    NameSortPipe,
+    CommitteeSortPipe
   ],
   imports: [
     BrowserModule,

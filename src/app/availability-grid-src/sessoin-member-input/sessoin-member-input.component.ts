@@ -10,12 +10,12 @@ import { SessionInfo } from '../../applogic-general/session-info';
 export class SessoinMemberInputComponent {
 
   @Input() session: SessionInfo;
-  @Input() publicRelMembers:Member[];
-  @Input() reportingsMembers:Member[];
-  
-  selectedPublicRelMember:Member;
-    selectedReportingMember:Member;
-  
+  @Input() publicRelMembers: Member[];
+  @Input() reportingsMembers: Member[];
+
+  selectedPublicRelMember: Member;
+  selectedReportingMember: Member;
+
   constructor() {
     this.session = new SessionInfo();
     this.session.name = 'session';

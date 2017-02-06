@@ -135,7 +135,7 @@ export class DynamicTableComponent implements OnChanges {
     // notation to an hashtable access [<propname>]
 
     /**
-     * TODO
+     * TODOthis.
      */
 
   }
@@ -155,9 +155,14 @@ export class DynamicTableComponent implements OnChanges {
     // Concat object and its property with dot notation
     // then find this value using eval -- this is a bad practice
     // it'll stay here until a better solution is found
-    console.log("item" + "." + prop);
+    
+    // console.log("item" + "." + prop);
     return eval("item" + "." + prop);
   }
+
+/**
+ * TODO display a certain amount of rows then show scrollbar
+ */
 
 }
 
