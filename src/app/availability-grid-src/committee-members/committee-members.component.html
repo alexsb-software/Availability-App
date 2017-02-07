@@ -1,47 +1,16 @@
-{{this.members.length}}
-- {{this.selectedMembers.length}}
+{{this.commShiftMembers.length}} - {{this.selectedMembers.length}}
 
-<div
-  class="container">
-  <input
-    [(ngModel)]="selected"
-    [typeahead]="members"
-    typeaheadOptionField="name"
-    (typeaheadOnSelect)="typeaheadOnSelect($event)"
-    class="form-control">
+<div class="row">
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <input [(ngModel)]="selected" [typeahead]="commShiftMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event)" placeholder="Find" class="form-control">
+  </div>
 </div>
 
-<dynamic-table
-[properties]='["name"]'
-[propertyDisplayNames]="['Start Date']"
-[items]="selectedMembers"
-(itemRemoved)="removeMember($event)"
-></dynamic-table>
 
-<div
-  class="container">
-  <table
-    class="table">
-    <thead
-      class="thead-inverse">
-      <tr>
-        <th>#</th>
-        <th>Member</th>
-      </tr>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <dynamic-table [properties]='["name"]' [propertyDisplayNames]="['Name']" [items]="selectedMembers" (itemRemoved)="removeMember($event)"></dynamic-table>
+  </div>
 
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let member of selectedMembers;let i= index">
-        <th
-          scope="row">{{i+1}}</th>
-        <td>{{member.name}}</td>
-        <td>
-          <button
-            class="btn btn-default"
-            (click)="removeMember(member,i)"><span  style="color:red" class="glyphicon glyphicon-remove"></span></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

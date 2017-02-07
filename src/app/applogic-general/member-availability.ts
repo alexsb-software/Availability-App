@@ -4,7 +4,7 @@ import { EventShift } from './event-shift';
 
 export class MemberAvailability {
     member: Member;
-    availabileCommittee: string;
+    availabileCommittees: string[];
 
     /**
      * I'm not sure if including the shiftNumber
@@ -12,4 +12,24 @@ export class MemberAvailability {
      * object is better.
      */
     shiftNumber: number;
+    private busy: boolean = false;
+    private owningCommittee: string;
+
+    public reserve(comm: string) {
+        this.busy = true;
+        this.owningCommittee = comm;
+    }
+
+    public release(): void {
+        this.busy = false;
+        this.owningCommittee = "";
+    }
+
+    public isBusy(): boolean {
+        return this.busy;
+    }
+
+    public getOwningCommittee(): string {
+        return this.owningCommittee;
+    }
 }

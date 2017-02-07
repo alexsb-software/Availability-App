@@ -7,18 +7,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class TextSearchHelperComponent {
   @Input() placeholder = "";
-  @Output() onKeyInputStop: EventEmitter<string> = new EventEmitter<string>();
+  @Output() searchRequest: EventEmitter<string> = new EventEmitter<string>();
   searchString: string;
 
   constructor() { }
 
   search(): void {
-    this.onKeyInputStop.emit(this.searchString);
+    this.searchRequest.emit(this.searchString);
   }
 
   onKey(e: KeyboardEvent) {
     if (e.key === "Enter" || e.key === "Backspace" || e.key === "Delete") {
-      this.onKeyInputStop.emit(this.searchString);
+      this.searchRequest.emit(this.searchString);
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -15,27 +15,42 @@ import { Member } from '../../applogic-general/member';
 export class CommitteeMembersComponent {
   public selected: string;
 
-  // TODO this class will have the members injected
-  // according to their committees from an above 
-  // component
+  /**
+   * This component will have a copy of the members
+   * available in the shift && according to their committee
+   * 
+   * NOTE: member availability can't be used here as 
+   * the auto-complete input doesn't provide deep properties
+   * support
+   */
+  @Input() commShiftMembers: Member[] = [];
+  @Input() commName: string;
+  selectedMembers: Member[] = [];
 
-  constructor() {
-    for (let i: number = 0; i < 5; i++) {
-      let m: Member = new Member();
-      m.name = "Aido" + i;
-      this.members.push(m);
-    }
-
-  }
-
-  public members: any[] = [];
-  public selectedMembers: Member[] = [];
+  /**
+   * Event emitters are used to notify the parent
+   * component to modify the original data
+   */
+  @Output() memberSelected: EventEmitter<Member> = new EventEmitter<Member>();
+  @Output() memberReleased: EventEmitter<Member> = new EventEmitter<Member>();
 
   typeaheadOnSelect(e: TypeaheadMatch) {
     console.log('Selected value: ', e.item);
     let selected: Member = e.item;
 
-    let index: number = this.members.findIndex((m: Member) => {
+    /**
+     * Filter the member from the shiftMembers array
+     * 
+     * This filtering occurrs on the 1 unique instance
+     * of memberID <> shift relation.
+     * 
+     * As 1 member might be available in many committees
+     * in the same shift, filtering by memberID will be
+     * held by an upper component to remove this member
+     * from all their available committees
+     * 
+     */
+    let index: number = this.commShiftMembers.findIndex((m: Member) => {
       if (m.id) {
         return m.id === selected.id;
       } else {
@@ -48,7 +63,9 @@ export class CommitteeMembersComponent {
     }
 
     // Move the element to the selected array
-    this.members.splice(index, 1);
+    this.memberSelected.emit(this.commShiftMembers[index]);
+
+    this.commShiftMembers.splice(index, 1);
     this.selectedMembers.push(selected);
 
     this.selected = "";
@@ -62,7 +79,8 @@ export class CommitteeMembersComponent {
     // use the index to access the array, and splice
     // use the object itself to add its id back to the pool
 
-    let removed: Member = this.selectedMembers.splice(index, 1)[0];
-    this.members.push(removed);
+    const removed: Member = this.selectedMembers.splice(index, 1)[0];
+    this.commShiftMembers.push(removed);
+    this.memberReleased.emit(removed);
   }
 }

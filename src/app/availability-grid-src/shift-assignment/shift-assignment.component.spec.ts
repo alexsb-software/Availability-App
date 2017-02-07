@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { MultiSelectComponent } from './multi-select.component';
+import { ShiftAssignmentComponent } from './shift-assignment.component';
 
-describe('MultiSelectComponent', () => {
-  let component: MultiSelectComponent;
-  let fixture: ComponentFixture<MultiSelectComponent>;
+describe('ShiftAssignmentComponent', () => {
+  let component: ShiftAssignmentComponent;
+  let fixture: ComponentFixture<ShiftAssignmentComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MultiSelectComponent ]
+      declarations: [ ShiftAssignmentComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MultiSelectComponent);
+    fixture = TestBed.createComponent(ShiftAssignmentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

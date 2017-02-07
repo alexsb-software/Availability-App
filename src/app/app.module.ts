@@ -32,10 +32,11 @@ import { SearchBarDirective } from './applogic-general/search-bar.directive';
 import { CommFilterPipe } from './applogic-general/member-view/comm-filter.pipe';
 import { ShiftFilterPipe } from './applogic-general/member-view/shift-filter.pipe';
 import { NameFilterPipe } from './applogic-general/member-view/name-filter.pipe';
-//import { MultiSelectComponent } from './applogic-general/multi-select/multi-select.component';
 import { NameSortPipe } from './applogic-general/member-view/name-sort.pipe';
-import { CommitteeSortPipe } from './applogic-general/member-view/committee-sort.pipe';
 
+
+import { PaginationModule } from 'ng2-bootstrap/pagination';
+import { ShiftAssignmentComponent } from './availability-grid-src/shift-assignment/shift-assignment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,17 +57,18 @@ import { CommitteeSortPipe } from './applogic-general/member-view/committee-sort
     SearchBarDirective,
     CommFilterPipe,
     ShiftFilterPipe,
-
     NameFilterPipe,
-    //MultiSelectComponent,
     NameSortPipe,
-    CommitteeSortPipe
+    ShiftAssignmentComponent,
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     MyDatePickerModule,
+
+    PaginationModule.forRoot(),
     TimepickerModule.forRoot(),
     AccordionModule.forRoot(),
     DropdownModule.forRoot(),
@@ -78,6 +80,7 @@ import { CommitteeSortPipe } from './applogic-general/member-view/committee-sort
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
       { path: 'member', component: MemberViewComponent },
+      { path: 'shift', component: ShiftAssignmentComponent },
       { path: '', component: AppComponent },
       { path: '**', component: AppComponent }
     ])

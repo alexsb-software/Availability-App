@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 
 import { Committee } from '../../applogic-general/committee';
 import { MemberAvailability } from '../../applogic-general/member-availability';
@@ -8,15 +8,15 @@ import { ShiftFilterPipe } from './shift-filter.pipe';
 import { NameFilterPipe } from './name-filter.pipe';
 import { CommFilterPipe } from './comm-filter.pipe';
 import { NameSortPipe } from './name-sort.pipe';
-import { CommitteeSortPipe } from './committee-sort.pipe';
+
 @Component({
   selector: 'app-member-view',
   templateUrl: './member-view.component.html',
   styleUrls: ['./member-view.component.css']
 })
-export class MemberViewComponent {
-
-  @Input() memberAvailabilities: MemberAvailability[];
+export class MemberViewComponent implements OnChanges {
+  @Input() headerText: string = "All"
+  @Input() memberAvailabilities: MemberAvailability[] = [];
 
   filteredMemberAvails: MemberAvailability[] = [];
 
@@ -26,25 +26,16 @@ export class MemberViewComponent {
   nameSortPipe: NameSortPipe = new NameSortPipe();
 
   commPipe: CommFilterPipe = new CommFilterPipe();
-  commSortPipe: CommitteeSortPipe = new CommitteeSortPipe();
 
   constructor() {
-    let arr: MemberAvailability[] = [];
-    for (let i: number = 0; i < 200; i++) {
-      let memAv: MemberAvailability = new MemberAvailability();
 
-      memAv.availabileCommittee =
-        Committee.getCommittee((i % Committee.commLength()));
-      memAv.shiftNumber = i % 10;
-
-      let m: Member = new Member();
-      m.name = "mem" + i;
-      memAv.shiftNumber
-      memAv.member = m;
-      arr.push(memAv);
-    }
-    this.memberAvailabilities = arr;
     this.filteredMemberAvails = this.memberAvailabilities;
+  }
+
+  ngOnChanges(e: SimpleChanges): void {
+    if (this.filteredMemberAvails.length === 0) {
+      this.filteredMemberAvails = this.memberAvailabilities;
+    }
   }
 
   filterMembers(filter: string): void {
@@ -52,10 +43,10 @@ export class MemberViewComponent {
       this.filteredMemberAvails = this.memberAvailabilities;
       return;
     }
-    
+
     let shiftFiltered = this.shiftPipe.transform(this.memberAvailabilities, parseInt(filter));
-    shiftFiltered = this.commSortPipe.transform(shiftFiltered);
-    
+    shiftFiltered = this.nameSortPipe.transform(shiftFiltered);
+
     // TODO Committee pipe
     // TODO Name sort
 

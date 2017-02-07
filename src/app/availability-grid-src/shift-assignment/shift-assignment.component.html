@@ -1,0 +1,24 @@
+<accordion>
+
+  <div class="stack-element">
+    <app-sessoin-member-input [session]="" [publicRelMembers]="" [reportingsMembers]=""></app-sessoin-member-input>
+  </div>
+
+  <ng-container *ngFor="let comm of committees">
+    <div class="stack-element">
+      <accordion-group #group>
+        <div accordion-heading>
+          {{comm}}
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+        </div>
+        <div class="stack-element">
+          <app-committee-members [commName]="comm" [commShiftMembers]="shiftMembers" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
+        </div>
+      </accordion-group>
+    </div>
+  </ng-container>
+</accordion>
+
+<div class="stack-element">
+  <app-member-view [memberAvailabilities]="shiftMembersAvailability"></app-member-view>
+</div>

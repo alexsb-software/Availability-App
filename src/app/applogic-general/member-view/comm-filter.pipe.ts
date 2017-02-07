@@ -12,7 +12,7 @@ export class CommFilterPipe implements PipeTransform {
 
     return memAvs.filter(
       (av: MemberAvailability) =>
-        av.availabileCommittee.startsWith(comm));
+        av.availabileCommittees.findIndex(c => c.includes(comm)));
   }
 
 }

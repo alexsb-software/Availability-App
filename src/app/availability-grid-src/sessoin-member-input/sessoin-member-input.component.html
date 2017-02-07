@@ -1,13 +1,18 @@
-<div class="container">
-  <div class="form-group">
-    <label for="public-rel-input">Public Relations</label>
-    <input name="public-rel-input" class="form-control" placeholder="Name" [(ngModel)]="selectedPublicRelMember" [typeahead]="publicRelMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'PublicRel')" class="form-control">
-  </div>
+<div class="stack-element">
+  <strong>{{this.session.name}}</strong>
+</div>
+<div class="stack-element">
+  <label for="public-rel-input">Public Relations</label>
+  <input name="public-rel-input" class="form-control" placeholder="Name" [(ngModel)]="selectedPublicRelMember" [typeahead]="publicRelMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'PublicRel')" class="form-control">
 </div>
 
-<div class="container">
-  <div class="form-group">
-    <label for="report-input">Reportings</label>
-    <input name="report-input" class="form-control" placeholder="Name" [(ngModel)]="selectedReportingMember" [typeahead]="reportingsMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'Reporting')" class="form-control">
-  </div>
+<div class="stack-element">
+  <label for="report-input">Reportings</label>
+  <input name="report-input" class="form-control" placeholder="Name" [(ngModel)]="selectedReportingMember" [typeahead]="reportingsMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'Reporting')" class="form-control">
+</div>
+<div class="stack-element">
+  <ul>
+    <li><b>PR </b>{{this.session.publicRelations.name}}</li>
+    <li><b>RnP </b>{{this.session.reporting.name}}</li>
+  </ul>
 </div>
