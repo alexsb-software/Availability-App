@@ -3,9 +3,5 @@
   "indent_char": " ",
   "css": {
     "indent_size": 2
-  },
-  "html":{
-    //"max_preserve_newlines":3,
-    "wrap_line_length":3
   }
 }

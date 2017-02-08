@@ -11,6 +11,13 @@
     class="form-control">
 </div>
 
+<dynamic-table
+[properties]='["name"]'
+[propertyDisplayNames]="['Start Date']"
+[items]="selectedMembers"
+(itemRemoved)="removeMember($event)"
+></dynamic-table>
+
 <div
   class="container">
   <table
@@ -32,7 +39,7 @@
         <td>
           <button
             class="btn btn-default"
-            (click)="removeMember(member,i)"><span  style="color:red" class="glyphicon glyphicon-remove red"></span></button>
+            (click)="removeMember(member,i)"><span  style="color:red" class="glyphicon glyphicon-remove"></span></button>
         </td>
       </tr>
     </tbody>

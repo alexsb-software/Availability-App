@@ -7,7 +7,7 @@
       <i class="pull-right float-xs-right glyphicon"
         [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
     </div>
-    
+
     <div>
       <table
         class="table">
@@ -30,7 +30,7 @@
             <td>
               <button
                 class="btn btn-default"
-                (click)="removeShift(shift)">Remove</button>
+                (click)="removeShift(shift)"> <span class="glyphicon glyphicon-remove red" aria-hidden="true"></span></button>
             </td>
           </tr>
         </tbody>

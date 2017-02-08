@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDay } from '../applogic-event-form/event-day';
+import { EventDay } from '../../applogic-general/event-day';
 
 @Component({
   selector: 'app-new-event',

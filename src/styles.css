@@ -1,4 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+.glyphicon{
+    color: #0D68A8
+}
+
+/*div{
+    
+    border: 1px solid red;
+}*/
+
+.red{
+    color: #A30118;
+    vertical-align: middle
+}
+
+
+
+
 /* start of menu styles and animation */
 #hamb {
     position: fixed;
@@ -174,3 +192,5 @@
     }
 }
 /*       End of Menu Style and animation         */
+
+

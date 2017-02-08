@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { EventShift } from '../applogic-event-form/event-shift';
+import { EventShift } from '../../applogic-general/event-shift';
 @Component({
   selector: 'app-shift-viewer',
   templateUrl: './shift-viewer.component.html',
