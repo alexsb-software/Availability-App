@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 .glyphicon{
     color: #0D68A8
 }
@@ -12,3 +13,184 @@
     color: #A30118;
     vertical-align: middle
 }
+
+
+
+
+/* start of menu styles and animation */
+#hamb {
+    position: fixed;
+    top: 30px;
+    left: 35px;
+    z-index: 99;
+    cursor: pointer;
+}
+#hamb span {
+    width: 25px;
+    height: 3px;
+    background: #b1b1b1;
+    display: block;
+    margin: 5px 0;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+.hamb-open .span2 {
+    opacity: 0;
+}
+.hamb-open .span1 {
+    -webkit-transform: rotate(135deg) translate(5px, -5px);
+    transform: rotate(135deg) translate(5px, -5px);
+}
+.hamb-open .span3 {
+    -webkit-transform: rotate(45deg) translate(-6px, -6px);
+    transform: rotate(45deg) translate(-6px, -6px);
+}
+
+.main-nav {
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 90;
+    background-color: rgba(2, 90, 180, 0.8);
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    -webkit-transform: translate(-300px,0);
+    transform: translate(-300px,0);
+}
+.main-nav .img-wrapper {
+    width: 200px;
+    height: 200px;
+    margin: 70px auto 80px auto;
+    border-radius: 50%;
+    border: 7px solid #fff;
+    position: relative;
+}
+.main-nav .img-wrapper img {
+    width: 180px;
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.main-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    -webkit-transform-origin: right;
+    transform-origin: right;
+}
+.main-nav ul li {
+    width: 95%;
+    height: 45px;
+    float: right;
+    line-height: 45px;
+    background: #017efd;
+    margin: 5px 0;
+    -webkit-transform: rotate(-6deg) translate(-10%, -60%);
+    transform: rotate(-6deg) translate(-10%, -60%);
+    opacity: 0;
+}
+.main-nav ul li:first-of-type {
+    -webkit-transition: all 0.5s 0.2s;
+    transition: all 0.5s 0.2s;
+}
+.main-nav ul li:nth-of-type(2) {
+    -webkit-transition: all 0.5s 0.3s;
+    transition: all 0.5s 0.3s;
+}
+.main-nav ul li:nth-of-type(3) {
+    -webkit-transition: all 0.5s 0.4s;
+    transition: all 0.5s 0.4s;
+}
+.main-nav ul li:nth-of-type(4) {
+    -webkit-transition: all 0.5s 0.5s;
+    transition: all 0.5s 0.5s;
+}
+.main-nav ul li:last-of-type {
+    -webkit-transition: all 0.5s 0.6s;
+    transition: all 0.5s 0.6s;
+}
+.main-nav ul li a {
+    width: 100%;
+    height: 45px;
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 17px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.main-nav ul .nav-icon {
+    width: 45px;
+    height: 45px;
+    float: left;
+    margin-right: 20px;/* change if required*/
+    background: #025ab3 url('assets/icons-white.png') no-repeat;
+}
+.main-nav ul .nav-icon-blue {
+    width: 100%;
+    height: 100%;/* change if required*/
+    background: #e2e2e2 url('assets/icons-blue.png') no-repeat;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    opacity: 0;
+}
+#nav-icon1, #nav-icon-b1 {
+    background-position: 4px 5px;
+}
+#nav-icon2, #nav-icon-b2 {
+    background-position: 4px -55px;
+}
+#nav-icon3, #nav-icon-b3 {
+    background-position: 4px -115px;
+}
+#nav-icon4, #nav-icon-b4 {
+    background-position: 4px -175px;
+}
+#nav-icon5, #nav-icon-b5 {
+    background-position: 4px -235px;
+}
+
+/* nav animation */
+.main-nav.main-nav-open{
+    -webkit-transform: translate(0,0);
+    transform: translate(0,0);
+}
+.main-nav.main-nav-open ul li {
+    -webkit-transform: rotate(0deg) translate(0, 0);
+    transform: rotate(0deg) translate(0, 0);
+    opacity: 1;
+}
+.main-nav ul li a:hover {
+    background: #fff;
+    color: #017efd;
+}
+.main-nav ul li a:hover .nav-icon-blue {
+    opacity: 1;
+}
+
+/*for small devices*/
+@media only all and (max-height:640px){
+    .main-nav{
+        width:260px;
+    }
+    .main-nav .img-wrapper {
+        -webkit-transform:scale(0.8) ;
+        transform:scale(0.8) ;
+        margin: 20px auto 0 auto;
+    }
+    .main-nav ul{
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+        float: right;
+    }
+}
+/*       End of Menu Style and animation         */
+
+

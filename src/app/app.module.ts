@@ -23,6 +23,9 @@ import { DropdownModule } from 'ng2-bootstrap/dropdown';
 
 import { InfoTextComponent } from './applogic-general/info-text/info-text.component';
 import { CommitteeMembersComponent } from './availability-grid-src/committee-members/committee-members.component';
+
+import {SessionEditorComponent} from "./new-event-form-src/session-editor/session-editor.component";
+
 import { SessionEditorComponent } from './new-event-form-src/session-editor/session-editor.component';
 import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-table.component';
 import { SessoinMemberInputComponent } from './availability-grid-src/sessoin-member-input/sessoin-member-input.component';
@@ -48,6 +51,9 @@ import { CommitteeSortPipe } from './applogic-general/member-view/committee-sort
     //SessionComponent,
     InfoTextComponent,
     CommitteeMembersComponent,
+
+    SessionEditorComponent
+
     SessionEditorComponent,
     DynamicTableComponent,
     SessoinMemberInputComponent,
@@ -61,6 +67,7 @@ import { CommitteeSortPipe } from './applogic-general/member-view/committee-sort
     //MultiSelectComponent,
     NameSortPipe,
     CommitteeSortPipe
+
   ],
   imports: [
     BrowserModule,
