@@ -38,6 +38,7 @@ import { NameSortPipe } from './applogic-general/member-view/name-sort.pipe';
 
 import { PaginationModule } from 'ng2-bootstrap/pagination';
 import { ShiftAssignmentComponent } from './availability-grid-src/shift-assignment/shift-assignment.component';
+import { DayComponentComponent } from './availability-grid-src/day-component/day-component.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +63,8 @@ import { ShiftAssignmentComponent } from './availability-grid-src/shift-assignme
     NameSortPipe,
 
     ShiftAssignmentComponent,
+
+    DayComponentComponent,
 
   ],
   imports: [
