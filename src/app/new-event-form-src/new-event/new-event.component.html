@@ -1,35 +1,19 @@
-<div
-  class="row new-event">
-   <!--Notice the BR-->
-  <br> 
-  <div
-    class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-    <div
-      class="form-group">
-      <input
-        name="event-name"
-        class="form-control"
-        placeholder="Enter event name"
-        type="text">
+<div class="row new-event">
+  <!--Notice the BR-->
+  <br>
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <div class="form-group">
+      <input name="event-name" class="form-control" placeholder="Enter event name" type="text">
     </div>
-    <div
-      class="form-group">
-      <button
-        type="submit"
-        (click)="addDay()"
-        class="btn btn-default">Add day</button></div>
+    <div class="form-group">
+      <button type="submit" (click)="addDay()" class="btn btn-default">Add day</button></div>
   </div>
 </div>
 
 
-<div
-  *ngFor="let day of days;let i= index">
-  <div
-    style="margin-bottom: 1%">
-    <app-day-editor-form
-      name="date-picker"
-      [dayNumber]="i"
-      (daySaved)="onDaySave($event)"></app-day-editor-form>
+<div *ngFor="let day of days;let i= index">
+  <div class="stack-element">
+    <app-day-editor-form name="date-picker" [dayNumber]="i" (daySaved)="onDaySave($event)"></app-day-editor-form>
 
   </div>
 

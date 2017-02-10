@@ -15,17 +15,6 @@
         <label for="date-pick">Date </label>
         <app-date-picker name="date-pick" (dateChanged)="onDateChanged($event)"></app-date-picker>
       </div>
-
-
-    <tabset>
-      <tab>
-        <template
-          tabHeading>
-
-          <!--glyphicon colors are set in the main css file styles.css-->
-      <i class="glyphicon glyphicon-calendar"></i> Shifts
-    </template>
-
     </div>
 
 
@@ -34,16 +23,6 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <tabset>
 
-
-
-        <div
-          class="form-group col-md-6 col-md-offset-3">
-          <button
-            type="button"
-            (click)="saveDay()"
-            class="btn btn-success btn-lg center-block">Save</button>
-        </div>
-
           <tab>
             <template tabHeading>
           <!--glyphicon colors are set in the main css file styles.css-->
@@ -51,8 +30,6 @@
         </template>
             <app-shift-editor-form [shifts]="this.eventDay.shifts"></app-shift-editor-form>
           </tab>
-
-
 
           <tab>
             <template tabHeading>
@@ -68,24 +45,25 @@
 
 
     <!--Day Summary-->
-    <hr>
-    <div class="row">
 
-      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-        <ul><b>Summary:</b>
-          <li>{{this.eventDay.shifts.length}} Shift{{this.eventDay.shifts.length!=1?"s":""}}
-          </li>
-          <li>{{sessionCount}} Session{{sessionCount!=1?"s":""}}
-          </li>
-        </ul>
-      </div>
-
-
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <button class="btn btn-success pull-right" (click)="onSessionsSave()">Save Day (TODO:ALIGN-VER-MIDDLE) </button>
-      </div>
-
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+      <button class="btn btn-success pull-right" (click)="onSessionsSave()">Save Day (TODO:ALIGN-VER-MIDDLE) </button>
     </div>
+
+
 
   </accordion-group>
 </accordion>
+
+<hr>
+<div class="row">
+
+  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+    <ul><b>Summary:</b>
+      <li>{{this.eventDay.shifts.length}} Shift{{this.eventDay.shifts.length!=1?"s":""}}
+      </li>
+      <li>{{sessionCount}} Session{{sessionCount!=1?"s":""}}
+      </li>
+    </ul>
+  </div>
+</div>
