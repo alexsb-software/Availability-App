@@ -14,9 +14,32 @@
     vertical-align: middle
 }
 
-<<<<<<< HEAD
+.vertical-divider{
+	clear: both;
+	position: relative;
+}
 
+.vertical-divider:after {
+	clear: both;
+	content: " ";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
 
+.vertical-divider .column:not(:first-child):after, .vertical-divider .columns:not(:first-child):after{
+	background: #DDDDDD;
+	bottom: 0;
+	content: " ";
+	margin-left: -10px;
+	position: absolute;
+	top: 0;
+	width: 1px;
+}
+
+.stack-element{
+	margin: 0.5%
+}
 
 /* start of menu styles and animation */
 #hamb {
@@ -193,33 +216,3 @@
     }
 }
 /*       End of Menu Style and animation         */
-
-
-=======
-.vertical-divider{
-	clear: both;
-	position: relative;
-}
-
-.vertical-divider:after {
-	clear: both;
-	content: " ";
-	display: block;
-	height: 0;
-	visibility: hidden;
-}
-
-.vertical-divider .column:not(:first-child):after, .vertical-divider .columns:not(:first-child):after{
-	background: #DDDDDD;
-	bottom: 0;
-	content: " ";
-	margin-left: -10px;
-	position: absolute;
-	top: 0;
-	width: 1px;
-}
-
-.stack-element{
-	margin: 0.5%
-}
->>>>>>> grid-0
