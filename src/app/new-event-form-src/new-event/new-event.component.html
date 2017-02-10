@@ -13,8 +13,7 @@
 
 <div *ngFor="let day of days;let i= index">
   <div class="stack-element">
-    <app-day-editor-form name="date-picker" [dayNumber]="i" (daySaved)="onDaySave($event)"></app-day-editor-form>
-
+    <app-day-editor-form name="date-picker" (onDeleteDay)="removeDay(i)" [dayIdx]="i"></app-day-editor-form>
   </div>
 
 </div>

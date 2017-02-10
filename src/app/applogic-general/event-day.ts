@@ -8,5 +8,12 @@ import { SessionInfo } from './session-info';
 export class EventDay {
     dayDate: Date;
     shifts: EventShift[] = [];
-    
+
+    // Add method, getSessionCount()
+    getSessionCount(): number {
+        let count: number = 0;
+        this.shifts.forEach(s => count += s.sessions.length);
+        return count;
+    }
+
 }
