@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 export class EventDataService {
 
     private _apiurl = '../api/events.json';
-    private newEventAPI = '../api/newevent';
+    private newEventAPI = 'https://avalapp-mahmoudmcd1.c9users.io/hello-world.php';
 
     constructor(private _http: Http) { }
 
