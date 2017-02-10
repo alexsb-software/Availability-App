@@ -35,7 +35,7 @@ export class ShiftAssignmentComponent implements OnChanges {
   /**
    * Event day that this object is holding
    */
-  @Input() shift: EventShift;
+  @Input() shift: EventShift= new EventShift();
 
   committees: string[] = Committee.getAll();
   shiftMembers: Member[] = [];

@@ -1,5 +1,5 @@
 <accordion>
-  <ng-container *ngFor="let sessionItem of this.day.sessions">
+  <ng-container *ngFor="let sessionItem of this.shift.sessions">
     <div class="stack-element">
       <app-sessoin-member-input [session]="sessionItem" [publicRelMembers]="publicRelationMembers" [reportingsMembers]="reportingsMembers"></app-sessoin-member-input>
     </div>
@@ -14,7 +14,7 @@
           <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
         </div>
         <div class="stack-element">
-          <app-committee-members [commName]="comm" [commShiftMembers]="shiftMembers" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
+          <app-committee-members [commShiftMembers]="shiftMembers"  [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
         </div>
       </accordion-group>
     </div>
