@@ -43,4 +43,6 @@ export class EventDataService {
             .map((response: Response) => <number>response.status)
     }
 
+    //postEvent()
+
 }
