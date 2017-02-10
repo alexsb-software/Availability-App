@@ -1,3 +1,5 @@
+<!--TODO: create a component to edit each shift on its own-->
+
 <div class="row">
 
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -19,34 +21,24 @@
     </div>
 
     <div class="form-group">
-      <!--<ng-container
-        *ngIf="shifts">
-        <select
-          class="form-control"
-          (change)="changeFunction()">
-         <option *ngFor="let shiftItem of shifts" [value]="shiftItem"  [selected]="selectFunction(shiftItem)">{{shiftItem.number}}</option>
-        </select>
-
-      </ng-container>-->
-    </div>
-
-    <!--<option *ngFor="let shiftItem of shifts" [value]="shiftItem"  [selected]="selectFunction(shiftItem)">{{shiftItem.number}}</option>-->
-    <div class="form-group">
 
       <div [ngSwitch]="this.shifts?.length>0">
         <div *ngSwitchCase="true">
+
+
           <div class="btn-group" dropdown>
             <button id="single-button" type="button" class="btn btn-default" dropdownToggle>
-                {{this.session.shiftNumber? ('Shift #'+this.session.shiftNumber):"Select Shift"}} <span class="caret"></span>
+                {{this.shiftIndex>=0? ('Shift #'+this.shifts[shiftIndex]?.number):"Select Shift"}} <span class="caret"></span>
             </button>
             <ul dropdownMenu role="menu" aria-labelledby="single-button">
-              <ng-container *ngFor="let shiftItem of shifts">
-                <li role="menuitem"><a class="dropdown-item" (click)="onLink(shiftItem)">{{shiftItem.number}}</a></li>
+              <ng-container *ngFor="let shiftItem of shifts;let i = index">
+                <li role="menuitem"><a class="dropdown-item" (click)="onShiftSelect(i)">{{shiftItem.number}}</a></li>
               </ng-container>
             </ul>
           </div>
-
         </div>
+
+
         <div *ngSwitchDefault>
           <strong class="text-danger">Please add shifts</strong>
         </div>
@@ -125,10 +117,41 @@
     <accordion-group #group>
       <div accordion-heading>
         <strong>
-        {{this.sessions.length}} Session{{this.sessions.length!=1?"s":""}} </strong>
+        {{this.daySessionCount}} Session{{this.daySessionCount!=1?"s":""}} </strong>
         <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
       </div>
-      <dynamic-table [items]="sessions" [propertyDisplayNames]="['Session Name','Start time','End time','Shift number']" [properties]="['name','startDate','endDate','shift.number']" [applyPipeProps]="[0,1,1,0]" [pipe]="pipe" [pipeArgs]="['shortTime']" (itemRemoved)="onItemRemove($event)"></dynamic-table>
+
+      <!--Day session details table-->
+      <ng-container *ngIf="this.shifts"></ng-container>
+      <table class="table table-stipped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>ShiftNumber</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let shiftIter of shifts;let shiftIdx=index">
+            <ng-container *ngFor="let session of shiftIter.sessions;let sessionIdx=index">
+              <tr>
+                <td>{{session.name}}</td>
+                <td>{{session.startDate|date:'shortTime'}}</td>
+                <td>{{session.endDate|date:'shortTime'}}</td>
+                <td>{{shiftIter.number}}</td>
+                <td>
+                  <button (click)="onSessionRemove(shiftIdx,sessionIdx)" class="btn btn-default">
+            <span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>
+          </button>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+
     </accordion-group>
   </accordion>
 </div>
