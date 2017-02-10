@@ -21,9 +21,12 @@ export class UserAvalComponent implements OnInit{
             eventslist => this.eventsList = eventslist,
             error => console.log(error)
         );
+        
     }
     
     onSaveClicked(): void {
+        console.log(this.eventData.avalHash);
+        
         let useraval: UserAvalability = {
             eventId: this.choosedEventId,
             userId: 0, // TODO

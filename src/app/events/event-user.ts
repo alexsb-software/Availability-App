@@ -4,10 +4,10 @@
     shift per day and the value is the avalabilty of the user in the given shift-day
 */
 
+import { Event } from '../applogic-general/event';
+
 export interface EventUser{
     id: number;
-    title: string;
-    numOfDays: number;
-    numOfShifts: number;
+    event: Event;
     avalHash: Array<Array<Boolean>>;
 }
