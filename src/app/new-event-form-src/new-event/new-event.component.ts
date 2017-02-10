@@ -9,7 +9,8 @@ import { EventDay } from '../../applogic-general/event-day';
 export class NewEventComponent {
   eventName: string;
   dayCount: number = 1;
-  days: number[] = [0];
+  days: EventDay[] = [new EventDay()];
+
   // TODO this page will need an enter the
   // number of day form, then a forloop will 
   // generate an array of components ( app-day-editor-form )
@@ -18,12 +19,12 @@ export class NewEventComponent {
   // parameters while in the loop
   // The for loo
 
-  onDaySave(day: EventDay): void {
-    console.log("Save day" + day);
+  removeDay(dayIdx: number) {
+    this.days.splice(dayIdx, 1);
   }
 
   addDay(): void {
-
-    this.days.push((++this.dayCount));
+    ++this.dayCount;
+    this.days.push(new EventDay());
   }
 }

@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, ViewChildren, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { EventShift } from '../../applogic-general/event-shift';
-
 import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic-table.component';
 
 @Component({
   selector: 'app-shift-editor-form',
+
   templateUrl: './shift-editor-form.component.html',
   styleUrls: ['./shift-editor-form.component.css']
 })
@@ -39,9 +39,8 @@ export class ShiftEditor {
   }
 
   shiftRemoved(e: ArrayItemEventArgs): void {
-
     this.shifts.splice(e.index, 1);
-
+    // TODO shift tab should be removed when a shift is removed
     let updatedShifts: EventShift[] = [];
     // Refresh shift numbers
     for (let i: number = 0; i < this.shifts.length; i++) {

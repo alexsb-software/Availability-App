@@ -10,10 +10,9 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
   styleUrls: ['./day-editor-form.component.css']
 })
 export class DayEditorFormComponent {
-  @Output() daySaved: EventEmitter<EventDay> = new EventEmitter<EventDay>();
-  @Input() dayNumber: number;
-
-  eventDay: EventDay = new EventDay();
+  @Input() dayIdx: number;
+  @Input() eventDay: EventDay = new EventDay();
+  @Output() onDeleteDay: EventEmitter<number> = new EventEmitter<number>();
   sessionCount: number = 0;
   visible: boolean = false;
 
@@ -25,18 +24,13 @@ export class DayEditorFormComponent {
     // Chnage panel to panel-success when save clicked
   }
 
-  saveDay(): void {
-    // Called when success button is clicked
-    this.daySaved.emit(this.eventDay);
-    this.eventDay.shifts
+  deleteDay(): void {
+    console.debug("Delete day");
+    this.onDeleteDay.emit(this.dayIdx);
   }
 
-  onSessionsSave(): void {
-    console.debug("Will save sessions");
-  }
-
-  sessionsChange(sessionCount: number) {
-    this.sessionCount = sessionCount;
+  sessionsChange() {
+    this.sessionCount = this.eventDay.getSessionCount();
   }
 
 }
