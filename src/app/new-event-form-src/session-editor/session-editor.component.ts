@@ -115,7 +115,7 @@ export class SessionEditorComponent implements DoCheck {
       // statement if a shift was deleted and re added
       if (this.shiftIndex === oldShiftIndex) return;
 
-      console.debug("Get last date");
+      
       const sessLastIdx: number = tempShift.sessions.length - 1;
       const lastSession: SessionInfo = tempShift.sessions[sessLastIdx];
       // Create a copy of the object
@@ -123,7 +123,6 @@ export class SessionEditorComponent implements DoCheck {
       this.session.endDate = Object.assign(lastSession.endDate);
     }
     else {
-      console.debug("Reset date");
       // No seessions in this shifts, reset the time picker
       this.session.startDate = new Date("0");
       this.session.endDate = new Date("0");

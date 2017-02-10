@@ -19,8 +19,7 @@ export class NewEventComponent {
   // The for loo
 
   onDaySave(day: EventDay): void {
-    console.debug("Save day");
-    console.log(day);
+    console.log("Save day" + day);
   }
 
   addDay(): void {
