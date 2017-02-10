@@ -10,5 +10,5 @@ import { EventDay } from './event-day';
 class EventInfo {
     name: String;
     description: String;
-    dayDetails: EventDay[];
+    days: EventDay[];
 }
