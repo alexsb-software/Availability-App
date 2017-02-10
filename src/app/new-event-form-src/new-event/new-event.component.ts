@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDay } from '../../applogic-general/event-day';
-
+import { EventDataService } from '../../events/eventdata.service';
+import { Event } from '../../applogic-general/event';
 @Component({
   selector: 'app-new-event',
   templateUrl: './new-event.component.html',
@@ -9,7 +10,13 @@ import { EventDay } from '../../applogic-general/event-day';
 export class NewEventComponent {
   eventName: string;
   dayCount: number = 1;
-  days: EventDay[] = [new EventDay()];
+  event: Event;
+
+  constructor(private service: EventDataService) {
+    this.event = new Event();
+    this.event.eventDays = [];
+    this.event.eventDays.push(new EventDay());
+  }
 
   // TODO this page will need an enter the
   // number of day form, then a forloop will 
@@ -20,11 +27,15 @@ export class NewEventComponent {
   // The for loo
 
   removeDay(dayIdx: number) {
-    this.days.splice(dayIdx, 1);
+    this.event.eventDays.splice(dayIdx, 1);
   }
 
   addDay(): void {
     ++this.dayCount;
-    this.days.push(new EventDay());
+    this.event.eventDays.push(new EventDay());
+  }
+
+  saveEvent(): void {
+    this.service.postEvent(this.event);
   }
 }

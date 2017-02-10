@@ -32,5 +32,4 @@ export class DayEditorFormComponent {
   sessionsChange() {
     this.sessionCount = this.eventDay.getSessionCount();
   }
-
 }

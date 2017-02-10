@@ -1,19 +1,39 @@
+<h1>{{eventName}}</h1>
 <div class="row new-event">
   <!--Notice the BR-->
   <br>
-  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-    <div class="form-group">
-      <input name="event-name" class="form-control" placeholder="Enter event name" type="text">
+
+  <div class="form-group">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <input name="event-name" [(ngModel)]="eventName" class="form-control" placeholder="Enter event name" type="text">
     </div>
-    <div class="form-group">
+
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
       <button type="submit" (click)="addDay()" class="btn btn-default">Add day</button></div>
   </div>
+
 </div>
 
 
-<div *ngFor="let day of days;let i= index">
-  <div class="stack-element">
-    <app-day-editor-form name="date-picker" (onDeleteDay)="removeDay(i)" [dayIdx]="i"></app-day-editor-form>
+<div class="row">
+
+  <div *ngFor="let day of event.eventDays;let i= index">
+    <div class="row stack-element">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <app-day-editor-form name="date-picker" (onDeleteDay)="removeDay(i)" [dayIdx]="i"></app-day-editor-form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="row">
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <button type="button" class="btn btn-primary" (click)="saveEvent()">Submit Event</button>
+
   </div>
 
 </div>
