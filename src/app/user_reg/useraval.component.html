@@ -11,17 +11,7 @@
             </select>
         </div>
         
-        <!-- <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-primary active">
-                <input type="checkbox" autocomplete="off" checked> Checkbox 1 (pre-checked)
-            </label>
-            <label class="btn btn-primary active">
-                <input type="checkbox" autocomplete="off"> Checkbox 2
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox" autocomplete="off"> Checkbox 3
-            </label>
-        </div> -->
+        
 
         <div class="container">
             <div class="row">
@@ -35,22 +25,14 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <!-- <div class="checkbox" *ngFor='let shift of day; let j = index'>
-                                <label><input type="checkbox" (CheckboxStateChange)='onChanged(i, j)'
-                                [checked]="eventData.avalHash[i][j]" value="{{j}}">Shift {{j + 1}}</label>
-                            </div> -->
+                            
                             <div class="btn-group" data-toggle="buttons">
                                 <button *ngFor='let shift of day; let j = index'
                                 class="btn btn-default  {{eventData.avalHash[i][j] ? 'btn-success' : ''}}"
                                 (click)="onChanged(i, j)"  id='check{{i}}{{j}}'>
                                     Shift {{i}} {{j}} ( {{eventData.event.eventDays[i].shifts[j].startDate}} - {{eventData.event.eventDays[i].shifts[j].endDate}} )
                                 </button>
-                                <!-- <label *ngFor='let shift of day; let j = index'
-                                class="btn btn-default  {{eventData.avalHash[i][j] ? 'btn-success' : ''}}"
-                                for='check{{i}}{{j}}'>
-                                    <button (click)="onChanged(i, j)"  id='check{{i}}{{j}}' autocomplete="off"> Shift {{i}} {{j}} ( {{eventData.event.eventDays[i].shifts[j].startDate}} - {{eventData.event.eventDays[i].shifts[j].number}} ) 
-                                    </button>
-                                </label> -->
+                                
                             </div>    
                         </div>    
                     </div>
