@@ -7,14 +7,11 @@ export class SessionInfo extends TimeDuration {
     notes: string = "";
     reporting: Member;
     publicRelations: Member;
-    shift: EventShift = new EventShift();
+    //shift: EventShift = new EventShift();
 
     public static validate(session: SessionInfo): boolean {
         if (!TimeDuration.validate(session))
         { return false; }
-        else if (session.shift && isNaN(session.shift.number) == false) {
-            return true;
-        }
-        return false;
+        return true;
     }
 }

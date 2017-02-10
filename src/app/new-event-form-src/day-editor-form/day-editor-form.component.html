@@ -1,93 +1,69 @@
 <accordion>
-  <accordion-group
-    #group>
-    <div
-      accordion-heading>
+  <accordion-group #group>
+    <div accordion-heading>
       <strong>
         <span class="glyphicon glyphicon-list-alt"></span>
         Day {{dayNumber+1}} {{eventDay.dayDate?.toDateString()}}</strong>
-      <i class="pull-right float-xs-right glyphicon"
-        [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
     </div>
 
 
     <!--Date picker-->
-    <div
-      class="row">
+    <div class="row">
 
-      <div
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <label
-          for="date-pick">Date </label>
-        <app-date-picker
-          name="date-pick"
-          (dateChanged)="onDateChanged($event)"></app-date-picker>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <label for="date-pick">Date </label>
+        <app-date-picker name="date-pick" (dateChanged)="onDateChanged($event)"></app-date-picker>
       </div>
 
     </div>
 
     <!--Shift/Session Editors-->
-    <div
-      class="row">
-      <div
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <tabset>
 
 
           <tab>
-            <template
-              tabHeading>
+            <template tabHeading>
           <!--glyphicon colors are set in the main css file styles.css-->
           <i class="glyphicon glyphicon-calendar"></i> Shifts
         </template>
-            <app-shift-editor-form
-              (onShiftRemoved)="updateSessions($event)"
-              [shifts]="this.eventDay.shifts"></app-shift-editor-form>
+            <app-shift-editor-form [shifts]="this.eventDay.shifts"></app-shift-editor-form>
           </tab>
 
 
           <tab>
-            <template
-              tabHeading>
+            <template tabHeading>
           <i class="glyphicon glyphicon-file"></i> Sessions
         </template>
-            <div
-              class="form-group">
-              <app-session-editor
-                [shifts]="this.eventDay.shifts"
-                [sessions]="this.eventDay.sessions"></app-session-editor>
+            <div class="form-group">
+              <app-session-editor (sessionsChanged)="sessionsChange($event)" [shifts]="this.eventDay.shifts"></app-session-editor>
             </div>
           </tab>
-          <!--End of tab-->
         </tabset>
       </div>
-
     </div>
 
 
     <!--Day Summary-->
     <hr>
-    <div
-      class="row">
+    <div class="row">
 
-      <div
-        class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
         <ul><b>Summary:</b>
-          <li>{{this.eventDay.shifts.length}}
-            Shift{{this.eventDay.shifts.length!=1?"s":""}}
+          <li>{{this.eventDay.shifts.length}} Shift{{this.eventDay.shifts.length!=1?"s":""}}
           </li>
-          <li>{{this.eventDay.sessions.length}}
-            Session{{this.eventDay.sessions.length!=1?"s":""}}
+          <li>{{sessionCount}} Session{{sessionCount!=1?"s":""}}
           </li>
         </ul>
       </div>
 
-      <div
-        class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <button
-          class="btn btn-success pull-right"
-          (click)="onSessionsSave()">Save Day (TODO:ALIGN-VER-MIDDLE) </button>
+
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <button class="btn btn-success pull-right" (click)="onSessionsSave()">Save Day (TODO:ALIGN-VER-MIDDLE) </button>
       </div>
+
     </div>
 
   </accordion-group>

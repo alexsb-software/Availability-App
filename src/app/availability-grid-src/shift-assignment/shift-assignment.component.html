@@ -1,8 +1,10 @@
 <accordion>
+  <ng-container *ngFor="let sessionItem of this.day.sessions">
+    <div class="stack-element">
+      <app-sessoin-member-input [session]="sessionItem" [publicRelMembers]="publicRelationMembers" [reportingsMembers]="reportingsMembers"></app-sessoin-member-input>
+    </div>
+  </ng-container>
 
-  <div class="stack-element">
-    <app-sessoin-member-input [session]="" [publicRelMembers]="" [reportingsMembers]=""></app-sessoin-member-input>
-  </div>
 
   <ng-container *ngFor="let comm of committees">
     <div class="stack-element">

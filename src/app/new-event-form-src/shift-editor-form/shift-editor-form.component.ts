@@ -12,7 +12,7 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
 export class ShiftEditor {
 
   @Input() shifts: EventShift[];
-  @Output() onShiftRemoved: EventEmitter<number> = new EventEmitter<number>();
+
   model: EventShift = new EventShift();
   hasError: boolean = false;
   pipe: DatePipe = new DatePipe("en-US");
@@ -39,17 +39,14 @@ export class ShiftEditor {
   }
 
   shiftRemoved(e: ArrayItemEventArgs): void {
+
     this.shifts.splice(e.index, 1);
 
-
-    const shiftNumber: number = (<EventShift>e.object).number;
-    this.onShiftRemoved.emit(shiftNumber);
-
+    let updatedShifts: EventShift[] = [];
     // Refresh shift numbers
     for (let i: number = 0; i < this.shifts.length; i++) {
       this.shifts[i].number = i + 1;
     }
   }
-
 } // ShiftEditor
 

@@ -8,5 +8,5 @@ import { SessionInfo } from './session-info';
 export class EventDay {
     dayDate: Date;
     shifts: EventShift[] = [];
-    sessions: SessionInfo[] = [];
+    
 }

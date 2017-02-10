@@ -58,7 +58,8 @@ export class Committee {
      * Finds a committee by a search string
      */
     private static getCommByKeyword(key: string): string {
-        let result: string = Committee.committees.find(s => s.includes(key));
+        let result: string = Committee.committees.find(s => 
+            s.toLowerCase().includes(key.toLocaleLowerCase()));
 
         if (result) return result;
         throw new Error("Committee not found");

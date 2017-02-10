@@ -14,6 +14,7 @@ export class DayEditorFormComponent {
   @Input() dayNumber: number;
 
   eventDay: EventDay = new EventDay();
+  sessionCount: number = 0;
   visible: boolean = false;
 
 
@@ -33,13 +34,9 @@ export class DayEditorFormComponent {
   onSessionsSave(): void {
     console.debug("Will save sessions");
   }
-  updateSessions(deletedShiftNum: number): void {
-    for (let i: number = 0; i < this.eventDay.sessions.length; i++) {
-      // Remove the items of the deleted shift
-      if (this.eventDay.sessions[i].shift.number == deletedShiftNum) {
-        this.eventDay.sessions.splice(i, 1);
-      }
 
-    }
+  sessionsChange(sessionCount: number) {
+    this.sessionCount = sessionCount;
   }
+
 }
