@@ -7,11 +7,11 @@
             </label>
             <select class="form-control" id="eventId" (change)='onEventSelected($event.target.value)'>
                 <option value='0' selected > -- select an option -- </option>
-                <option *ngFor='let event of eventsList' value="{{event.id}}">{{event.title}}</option>
+                <option *ngFor='let event of eventsList' value="{{event.id}}">{{event.event.eventName}}</option>
             </select>
         </div>
         
-        <div class="btn-group" data-toggle="buttons">
+        <!-- <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
                 <input type="checkbox" autocomplete="off" checked> Checkbox 1 (pre-checked)
             </label>
@@ -21,11 +21,11 @@
             <label class="btn btn-primary">
                 <input type="checkbox" autocomplete="off"> Checkbox 3
             </label>
-        </div>
+        </div> -->
 
         <div class="container">
             <div class="row">
-                    <h2 class="text-center"> {{eventData ? eventData.title : 'Please Select an Event'}} </h2>
+                    <h2 class="text-center"> {{eventData ? eventData.event.eventName : 'Please Select an Event'}} </h2>
             </div>
             <div class="container" *ngIf='eventData'>
             <div class="row">
@@ -40,11 +40,17 @@
                                 [checked]="eventData.avalHash[i][j]" value="{{j}}">Shift {{j + 1}}</label>
                             </div> -->
                             <div class="btn-group" data-toggle="buttons">
-                                <label *ngFor='let shify of day; let j = index'
-                                class="btn btn-primary {{eventData.avalHash[i][j] ? 'active' : ''}}"
+                                <button *ngFor='let shift of day; let j = index'
+                                class="btn btn-default  {{eventData.avalHash[i][j] ? 'btn-success' : ''}}"
+                                (click)="onChanged(i, j)"  id='check{{i}}{{j}}'>
+                                    Shift {{i}} {{j}} ( {{eventData.event.eventDays[i].shifts[j].startDate}} - {{eventData.event.eventDays[i].shifts[j].endDate}} )
+                                </button>
+                                <!-- <label *ngFor='let shift of day; let j = index'
+                                class="btn btn-default  {{eventData.avalHash[i][j] ? 'btn-success' : ''}}"
                                 for='check{{i}}{{j}}'>
-                                    <input (click)='onChanged(i, j)' type="checkbox" id='check{{i}}{{j}}' autocomplete="off"> Shift {{i}} {{j}}
-                                </label>
+                                    <button (click)="onChanged(i, j)"  id='check{{i}}{{j}}' autocomplete="off"> Shift {{i}} {{j}} ( {{eventData.event.eventDays[i].shifts[j].startDate}} - {{eventData.event.eventDays[i].shifts[j].number}} ) 
+                                    </button>
+                                </label> -->
                             </div>    
                         </div>    
                     </div>

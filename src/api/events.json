@@ -1,18 +1,51 @@
 [{
     "id": "1",
-    "title": "First Event",
-    "numOfDays": "3",
-    "numOfShifts": "5"
+    "event": {
+        "eventName": "First Event",
+        "eventDays": [
+            {"dayDate": "10/10/2017",
+            "shifts": [{
+                "number": 1,
+                "startDate": "12:00 10/10/2017",
+                "endDate": "13:00 10/10/2017",
+                "sessions": []
+            }]}
+        ]
+    }
 },
 {
     "id": "2",
-    "title": "Second Event",
-    "numOfDays": "5",
-    "numOfShifts": "3"
+    "event": {
+        "eventName": "Second Event",
+        "eventDays": [
+            {"dayDate": "12/10/2017",
+            "shifts": [{
+                "number": 1,
+                "startDate": "12:00 12/10/2017",
+                "endDate": "13:00 12/10/2017",
+                "sessions": []
+            },
+            {
+                "number": 2,
+                "startDate": "12:00 13/10/2017",
+                "endDate": "13:00 13/10/2017",
+                "sessions": []
+            }]}
+        ]
+    }
 },
 {
     "id": "3",
-    "title": "Third Event",
-    "numOfDays": "4",
-    "numOfShifts": "2"
+    "event": {
+        "eventName": "Third Event",
+        "eventDays": [
+            {"dayDate": "9/10/2017",
+            "shifts": [{
+                "number": 1,
+                "startDate": "12:00 9/10/2017",
+                "endDate": "13:00 9/10/2017",
+                "sessions": []
+            }]}
+        ]
+    }
 }]

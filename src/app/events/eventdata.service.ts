@@ -21,19 +21,37 @@ export class EventDataService {
 
     addAvalArray(eventslist: EventUser[]): EventUser[] {
         let avalArray: Array<Array<Boolean>>;
-        let insideArray: Array<Boolean>;
-        let insideForEach: Array<Boolean>;
-        eventslist.forEach((event: EventUser, index: number) => {
+        let insideArray: Array<Array<Object>>;
+        let insideForEach: Array<Object>;
+        // eventslist.forEach((event: EventUser, index: number) => {
+        //     avalArray = [];
+        //     insideArray = [];
+        //     for (let j = 0; j < event.numOfShifts; j++) {
+        //         insideArray.push(false);
+        //     }
+        //     for (let i = 0; i < event.numOfDays; i++) {
+        //         insideForEach = insideArray.slice()
+        //         avalArray.push(insideForEach);
+        //     }
+        //     event['avalHash'] = avalArray;
+        // })
+
+        eventslist.forEach((eventUser: EventUser, index: number) => {
             avalArray = [];
-            insideArray = [];
-            for (let j = 0; j < event.numOfShifts; j++) {
-                insideArray.push(false);
+            let event:Event = eventUser.event;
+            for (let day of event.eventDays) {
+                let insideForEach = [];
+                for (let shift of day.shifts) {
+                    // insideForEach.push({
+                    //     start: shift.startDate,
+                    //     end: shift.endDate,
+                    //     available: false
+                    // })
+                    insideForEach.push(false)
+                }
+                avalArray.push(insideForEach)
             }
-            for (let i = 0; i < event.numOfDays; i++) {
-                insideForEach = insideArray.slice()
-                avalArray.push(insideForEach);
-            }
-            event['avalHash'] = avalArray;
+            eventUser.avalHash = avalArray;
         })
 
         return eventslist;
