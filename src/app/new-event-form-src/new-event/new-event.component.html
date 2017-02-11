@@ -18,7 +18,7 @@
 <div class="row">
 
   <div *ngFor="let day of event.eventDays;let i= index">
-    <div class="row stack-element" [@leftFadeIn]="state">
+    <div class="row stack-element" [@leftFadeInOut]="state">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <app-day-editor-form name="date-picker" (onDeleteDay)="removeDay(i)" [dayIdx]="i"></app-day-editor-form>
       </div>

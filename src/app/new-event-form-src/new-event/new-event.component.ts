@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { EventDay } from '../../applogic-general/event-day';
 import { EventDataService } from '../../events/eventdata.service';
 import { Event } from '../../applogic-general/event';
-import {leftFadeIn } from '../../animation/animation'
+import {leftFadeInOut } from '../../animation/animation'
 @Component({
   selector: 'app-new-event',
   templateUrl: './new-event.component.html',
   styleUrls: ['./new-event.component.css'],
-  animations:[leftFadeIn()]
+  animations:[leftFadeInOut()]
 })
 export class NewEventComponent {
   eventName: string;

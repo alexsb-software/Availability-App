@@ -19,7 +19,7 @@
             </div>
             <div class="container" *ngIf='eventData'>
             <div class="row">
-                <div class="panel panel-default" *ngFor='let day of eventData.avalHash; let i = index'>
+                <div class="panel panel-default" *ngFor='let day of eventData.avalHash; let i = index' [@leftFadeIn]="state">
                     <div class="panel-heading">
                         <div class="panel-title">Day {{i+1}}</div>    
                     </div>

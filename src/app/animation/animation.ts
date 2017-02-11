@@ -1,8 +1,8 @@
 import {trigger, state, animate, style, transition} from '@angular/core';
 
 
-export function leftFadeIn(){
-    return trigger('leftFadeIn',[
+export function leftFadeInOut(){
+    return trigger('leftFadeInOut',[
         state('in',
             style({opacity:1,transform:'translateX(0)'})
         ),
@@ -17,16 +17,13 @@ export function leftFadeIn(){
     ])
 }
 
-export function fadeIn(){
-    return trigger('fadeIn',[
+export function leftFadeIn(){
+    return trigger('leftFadeIn',[
         state('in',style({opacity:1})),
-        state('out',style({opacity:0})),
-        transition('in => out',[
-            animate(400)
+        transition('void => *', [
+            style({transform: 'translateX(-100%)'}),
+            animate(300)
         ]),
-        transition('out => in',[
-            animate(400)
-        ])
     ])
 }
 
