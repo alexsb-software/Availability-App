@@ -6,21 +6,28 @@
   </ng-container>
 
 
-  <ng-container *ngFor="let comm of committees">
-    <div class="stack-element">
+
+  <div class="row-eq-height">
+    <ng-container *ngFor="let comm of committees">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <accordion-group #group>
         <div accordion-heading>
           {{comm}}
           <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
         </div>
         <div class="stack-element">
-          <app-committee-members [commShiftMembers]="shiftMembers"  [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
+          <!--<app-committee-members [commShiftMembers]="this.committeeMembers" [commName]="'act'" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>-->
+          <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="'act'" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
         </div>
       </accordion-group>
     </div>
-  </ng-container>
+    </ng-container>
+  </div>
+
 </accordion>
 
-<div class="stack-element">
-  <app-member-view [memberAvailabilities]="shiftMembersAvailability"></app-member-view>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <app-member-view [memberAvailabilities]="shiftMembersAvailability"></app-member-view>
+  </div>
 </div>

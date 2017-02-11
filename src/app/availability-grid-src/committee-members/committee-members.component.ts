@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +12,7 @@ import { Member } from '../../applogic-general/member';
   templateUrl: './committee-members.component.html',
   styleUrls: ['./committee-members.component.css']
 })
-export class CommitteeMembersComponent {
+export class CommitteeMembersComponent implements OnChanges {
   public selected: string;
 
   /**
@@ -57,6 +57,7 @@ export class CommitteeMembersComponent {
         return m.name === selected.name;
       }
     });
+
     if (index < 0) {
       console.error("Couldn't find selected");
       return;
@@ -82,5 +83,10 @@ export class CommitteeMembersComponent {
     const removed: Member = this.selectedMembers.splice(index, 1)[0];
     this.commShiftMembers.push(removed);
     this.memberReleased.emit(removed);
+  }
+
+  ngOnChanges() {
+    console.debug(this.commName);
+    console.log(this.commShiftMembers);
   }
 }

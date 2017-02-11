@@ -1,5 +1,4 @@
 import { Member } from './member';
-// import { Committee } from './committee.enum';
 import { EventShift } from './event-shift';
 
 export class MemberAvailability {
@@ -11,25 +10,27 @@ export class MemberAvailability {
      * as a "number" better or using the EventShift
      * object is better.
      */
-    shiftNumber: number;
-    private busy: boolean = false;
-    private owningCommittee: string;
 
-    public reserve(comm: string) {
-        this.busy = true;
-        this.owningCommittee = comm;
+    shiftNumbers: number[];
+    /**
+     * Shift Number <> Committee assignment mapping
+     */
+    private assignedTo: Map<number, string> = new Map<number, string>();
+
+
+    public reserve(shiftNum: number, comm: string) {
+        this.assignedTo[shiftNum] = comm;
     }
 
-    public release(): void {
-        this.busy = false;
-        this.owningCommittee = "";
+    public release(shiftNum: number): void {
+        this.assignedTo.delete(shiftNum);
     }
 
-    public isBusy(): boolean {
-        return this.busy;
+    public isBusy(shiftNum: number): boolean {
+        return this.assignedTo.has(shiftNum);
     }
 
-    public getOwningCommittee(): string {
-        return this.owningCommittee;
+    public getOwningCommittee(shiftNum: number): string {
+        return this.assignedTo[shiftNum];
     }
 }

@@ -10,7 +10,7 @@ export class ShiftFilterPipe implements PipeTransform {
   transform(memAvs: MemberAvailability[], shiftNumber: number): MemberAvailability[] {
     return memAvs.filter(
       (av: MemberAvailability) =>
-        av.shiftNumber === shiftNumber);
+        av.shiftNumbers.indexOf(shiftNumber) !== -1);
   }
 
 }
