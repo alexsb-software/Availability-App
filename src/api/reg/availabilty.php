@@ -1,4 +1,6 @@
 <?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
+{
 include '../auth/authenticate.php';
 
 $input = file_get_contents('php://input');
@@ -75,3 +77,6 @@ foreach ($requestParams->{'avalHash'} as $i => $day)
 }
 
 http_response_code(200);
+} else {
+    http_response_code(403);
+}
