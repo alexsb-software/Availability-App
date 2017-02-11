@@ -3,6 +3,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     include_once 'config.php';
+    include 'tokens.php';
 
     /*$email = $_POST['email'];
     $password = $_POST['password'];*/
@@ -10,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $input = file_get_contents('php://input');
     $requestParams = json_decode($input);
     if (!$requestParams) {
-        die("schisse");
+        die("invalid params");
     }
 
 //    echo $requestParams->{'email'};
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $auth_query = mysqli_prepare($conn, "SELECT id FROM `members` WHERE `auth_token` = ?");
         $token = "";
         do {
-            $token = bin2hex(random_bytes(30));
+            $token = generate_token();
             mysqli_stmt_bind_param($auth_query, 's', $token);
             $user_with_this_auth = $auth_query->execute();
             $user_with_this_auth = $auth_query->get_result();
