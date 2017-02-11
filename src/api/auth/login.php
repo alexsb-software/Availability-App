@@ -61,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             http_response_code(500);
             die('mysqli error: '.mysqli_error($conn));
         }
+    } else {
+        http_response_code(403);
     }
 } else {
     http_response_code(403);
