@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { MemberAvailability } from '../../applogic-general/member-availability';
 import { Member } from '../../applogic-general/member';
 import { Committee, CommiteeEnum } from '../../applogic-general/committee';
@@ -31,14 +31,19 @@ export class ShiftAssignmentComponent implements OnChanges {
    * this array will be used to generate the 
    * availability table.
    */
-  @Input() selectedShiftMembers: MemberAvailability[];
+  @Output() onShiftSave: EventEmitter<Map<Member, string>> = new EventEmitter<Map<Member, string>>();
+
   /**
    * Event day that this object is holding
    */
   @Input() shift: EventShift = new EventShift();
 
   committees: string[] = Committee.getAll();
+
+  // This is used to display the table contining all members in this shift  
   shiftMembers: Member[] = [];
+
+  selectedShiftMembers: Map<Member, string> = new Map<Member, string>();
 
   /**
    * This will be fed to the lower components, elements are 
@@ -89,17 +94,23 @@ export class ShiftAssignmentComponent implements OnChanges {
    * entry in the hash map
    */
   loadMemberTables(): void {
+    // Reset the tables
+    this.committeeMembers.clear();
+
     for (let mA of this.shiftMembersAvailability) {
+      if (mA.isBusy(this.shiftNumber)) {
+        // Don't add a busy member
+        console.debug("skip busy member");
+        continue;
+      }
+
       for (let c of mA.availabileCommittees) {
         // Add empty entries
         if (!this.committeeMembers.has(c)) {
           this.committeeMembers.set(c, []);
         }
 
-        if (mA.isBusy(this.shiftNumber)) {
-          // Don't add a busy member
-          continue;
-        }
+
 
         let oldVals = this.committeeMembers.get(c);
 
@@ -115,13 +126,12 @@ export class ShiftAssignmentComponent implements OnChanges {
         (m: MemberAvailability) => m.member.id === e.id);
 
     mem.reserve(this.shiftNumber, comm);
-    
+
     // For each item in the member's available committees
     // remove it from the bound array
-    
-    
-
-    console.log(this.shiftMembersAvailability);
+    // TODO improve this, it's an expensive operation with redundancy
+    this.selectedShiftMembers.set(e, comm);
+    this.loadMemberTables();
   }
 
   onMemberRelease(e: Member): void {

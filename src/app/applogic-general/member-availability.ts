@@ -19,7 +19,7 @@ export class MemberAvailability {
 
 
     public reserve(shiftNum: number, comm: string) {
-        this.assignedTo[shiftNum] = comm;
+        this.assignedTo.set(shiftNum, comm);
     }
 
     public release(shiftNum: number): void {

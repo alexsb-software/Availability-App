@@ -17,7 +17,7 @@
         </div>
         <div class="stack-element">
           <!--<app-committee-members [commShiftMembers]="this.committeeMembers" [commName]="'act'" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>-->
-          <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="'act'" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
+          <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
         </div>
       </accordion-group>
     </div>

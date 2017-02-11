@@ -86,7 +86,7 @@ export class CommitteeMembersComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.debug(this.commName);
+    console.log(this.commName + " Shift members:");
     console.log(this.commShiftMembers);
   }
 }
