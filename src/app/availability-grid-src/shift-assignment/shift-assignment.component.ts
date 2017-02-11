@@ -1,7 +1,7 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { MemberAvailability } from '../../applogic-general/member-availability';
 import { Member } from '../../applogic-general/member';
-import { Committee } from '../../applogic-general/committee';
+import { Committee, CommiteeEnum } from '../../applogic-general/committee';
 import { CommFilterPipe } from '../../applogic-general/member-view/comm-filter.pipe';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { EventShift } from '../../applogic-general/event-shift';
@@ -31,50 +31,35 @@ export class ShiftAssignmentComponent implements OnChanges {
    * this array will be used to generate the 
    * availability table.
    */
-  @Input() selectedShiftMembers: MemberAvailability[];
+  @Output() onShiftSave: EventEmitter<Map<Member, string>> = new EventEmitter<Map<Member, string>>();
+
   /**
    * Event day that this object is holding
    */
-  @Input() shift: EventShift= new EventShift();
+  @Input() shift: EventShift = new EventShift();
 
   committees: string[] = Committee.getAll();
-  shiftMembers: Member[] = [];
-  publicRelationMembers: Member[] = [];
-  reportingsMembers: Member[] = [];
 
+  // This is used to display the table contining all members in this shift  
+  shiftMembers: Member[] = [];
+
+  selectedShiftMembers: Map<Member, string> = new Map<Member, string>();
+
+  /**
+   * This will be fed to the lower components, elements are 
+   * fetched either by enum or committee name
+  **/
+  committeeMembers: Map<string, Member[]> = new Map<string, Member[]>();
   commPipe: CommFilterPipe = new CommFilterPipe();
 
-  ngOnChanges(e: SimpleChanges): void {
-
-    // Get the names of the commitees from the array
-    let prCommName: string = Committee.getCommittee("public");
-    let reportingCommName: string = Committee.getCommittee("reporting");
-
-    this.shiftMembers = [];
-
-    this.shiftMembersAvailability.forEach(mA => {
-      if (mA.isBusy()) return;
-
-      this.shiftMembers.push(mA.member);
-
-      /**
-       * This array will be displayed for the sesions
-       * component to assign the reportings and public 
-       * relations members
-       */
-      if (mA.availabileCommittees.indexOf(prCommName) != -1) {
-        this.publicRelationMembers.push(mA.member);
-      }
-      if (mA.availabileCommittees.indexOf(reportingCommName) != -1) {
-        this.reportingsMembers.push(mA.member);
-      }
-
-    });
-
-  }
-
   constructor() {
-    for (let i: number = 0; i < 5; i++) {
+
+    let t = this.committeeMembers.get("asds");
+
+    let prString = Committee.getCommittee(CommiteeEnum.PublicRelations);
+    let reportingsString = Committee.getCommittee(CommiteeEnum.Reportings);
+
+    for (let i: number = 0; i < 15; i++) {
       let m: Member = new Member();
       m.id = i;
       m.name = "ai" + i;
@@ -82,9 +67,56 @@ export class ShiftAssignmentComponent implements OnChanges {
 
       let memAv: MemberAvailability = new MemberAvailability();
       memAv.member = m;
-      memAv.shiftNumber = i % 3;
-      memAv.availabileCommittees = [Committee.getCommittee(i % Committee.commLength())];
+      memAv.shiftNumbers = [i % 3, i % 2];
+      memAv.availabileCommittees =
+        [Committee.getCommittee(i % Committee.commLength()), Committee.getCommittee(Committee.commLength() - i - 1)];
       this.shiftMembersAvailability.push(memAv);
+    }
+
+    this.loadMemberTables();
+
+  }
+
+
+  ngOnChanges(e: SimpleChanges): void {
+    /**
+     * This function is intended to run only once when the 
+     * applicants are retrieved from database, changing 
+     * the data that came from the 
+     * database ( which will trigger ngOnChanges )
+     * leaves the component in an undefined state
+     */
+
+  }
+
+  /**
+   * Adds the members available for a committee to the corresponding
+   * entry in the hash map
+   */
+  loadMemberTables(): void {
+    // Reset the tables
+    this.committeeMembers.clear();
+
+    for (let mA of this.shiftMembersAvailability) {
+      if (mA.isBusy(this.shiftNumber)) {
+        // Don't add a busy member
+        console.debug("skip busy member");
+        continue;
+      }
+
+      for (let c of mA.availabileCommittees) {
+        // Add empty entries
+        if (!this.committeeMembers.has(c)) {
+          this.committeeMembers.set(c, []);
+        }
+
+
+
+        let oldVals = this.committeeMembers.get(c);
+
+        oldVals.push(mA.member)
+        this.committeeMembers.set(c, oldVals);
+      }
     }
   }
 
@@ -93,8 +125,13 @@ export class ShiftAssignmentComponent implements OnChanges {
       this.shiftMembersAvailability.find(
         (m: MemberAvailability) => m.member.id === e.id);
 
-    mem.reserve(comm);
-    console.log(this.shiftMembersAvailability);
+    mem.reserve(this.shiftNumber, comm);
+
+    // For each item in the member's available committees
+    // remove it from the bound array
+    // TODO improve this, it's an expensive operation with redundancy
+    this.selectedShiftMembers.set(e, comm);
+    this.loadMemberTables();
   }
 
   onMemberRelease(e: Member): void {
@@ -102,7 +139,7 @@ export class ShiftAssignmentComponent implements OnChanges {
       this.shiftMembersAvailability.find(
         (m: MemberAvailability) => m.member.id === e.id);
 
-    mem.release();
+    mem.release(this.shiftNumber);
     console.log(this.shiftMembersAvailability);
   }
 }

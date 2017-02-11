@@ -14,6 +14,9 @@
  * elements at runtime and being bound by the 
  * existing committees of the day of creating 
  * this code (5 Februray, 2017)
+ * 
+ * Update: An enum is provided for the main committees
+ * now, the Committee class MUST be compatible with enum/string usage
  */
 export class Committee {
 
@@ -35,9 +38,12 @@ export class Committee {
      * The weird syntax is to provide function
      * overloads
      */
-    public static getCommittee(key: number | string): string {
+    public static getCommittee(key: number | string | CommiteeEnum): string {
         if (typeof key === "number") {
             return Committee.getCommByIndex(key);
+        }
+        if (typeof key === "CommiteeEnum") {
+            return Committee.getCommByEnum(key);
         }
         return Committee.getCommByKeyword(key);
     }
@@ -54,11 +60,17 @@ export class Committee {
         return Committee.committees[idx];
     }
 
+    private static getCommByEnum(key: CommiteeEnum): string {
+        // if committee name is 2 words, just use the first word
+        let firstWord: string = CommiteeEnum[key].split(" ")[0]
+        return Committee.getCommByKeyword(firstWord);
+    }
+
     /**
      * Finds a committee by a search string
      */
     private static getCommByKeyword(key: string): string {
-        let result: string = Committee.committees.find(s => 
+        let result: string = Committee.committees.find(s =>
             s.toLowerCase().includes(key.toLocaleLowerCase()));
 
         if (result) return result;
@@ -94,4 +106,19 @@ export class Committee {
         "Reportings and Publications",
         "Software",
     ];
+}
+
+export enum CommiteeEnum {
+    Activities = 0,
+    Graphics,
+    HumanResources,
+    Logistics,
+    Marketing,
+    Operations,
+    PublicRelations,
+    Presenters,
+    Registration,
+    Reportings,
+    Software
+
 }

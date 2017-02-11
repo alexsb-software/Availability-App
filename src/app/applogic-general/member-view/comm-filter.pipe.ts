@@ -7,12 +7,18 @@ import { Member } from '../member';
 })
 export class CommFilterPipe implements PipeTransform {
 
-  transform(memAvs: MemberAvailability[], comm: string): MemberAvailability[] {
-    if (!comm || comm.length === 0) return memAvs;
-
-    return memAvs.filter(
+  transform(memAvs: MemberAvailability[], comm: string): Member[] {
+    if (!comm || comm.length === 0) return memAvs.map(m => m.member);
+    console.log(comm);
+    console.log(memAvs);
+    // Returns findIndex undefined when not found, which
+    // will evaluate to false
+    let availabilities: MemberAvailability[] = memAvs.filter(
       (av: MemberAvailability) =>
         av.availabileCommittees.findIndex(c => c.includes(comm)));
+
+    let filteredMembers: Member[] = availabilities.map(av => av.member);
+    return filteredMembers;
   }
 
 }
