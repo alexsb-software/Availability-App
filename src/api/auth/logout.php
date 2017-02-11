@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     $token = generate_token();
     $update_token = mysqli_prepare($conn, "UPDATE `members` SET auth_token = ? WHERE `id` = ?");
-    
+
     mysqli_stmt_bind_param($update_token, "si", $token, $row['id']);
 
     if($update_token->execute())
