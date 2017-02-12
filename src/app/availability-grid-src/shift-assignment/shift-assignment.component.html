@@ -2,7 +2,12 @@
 
   <ng-container *ngFor="let sessionItem of this.shift.sessions">
     <div class="stack-element">
-      <app-sessoin-member-input [session]="sessionItem" [publicRelMembers]="publicRelationMembers" [reportingsMembers]="reportingsMembers"></app-sessoin-member-input>
+      <app-sessoin-member-input 
+      (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" 
+      (onPublicRelRelease)="onMemberRelease($event)" 
+      (onReportingsSelect)="onMemberSelect($event ,'Reportings')"
+      (onReportingsRelease)="onMemberRelease($event)" 
+      [session]="sessionItem" [publicRelMembers]="publicRels" [reportingsMembers]="reportings"></app-sessoin-member-input>
     </div>
   </ng-container>
 

@@ -47,7 +47,7 @@ export class ShiftAssignmentComponent implements OnChanges {
   // This is used to display the table contining all members in this shift  
   shiftMembers: Member[] = [];
 
-  selectedShiftMembers: Map<Member, string>;
+  selectedShiftMembers: Map<Member, string> = new Map<Member, string>();
 
   /**
    * This will be fed to the lower components, elements are 
@@ -55,7 +55,8 @@ export class ShiftAssignmentComponent implements OnChanges {
   **/
   committeeMembers: Map<string, Member[]>;
   commPipe: CommFilterPipe = new CommFilterPipe();
-
+  reportings: Member[] = [];
+  publicRels: Member[] = [];
   constructor() {
     //this.mockMembers();
     //this.loadMemberTables();
@@ -73,28 +74,7 @@ export class ShiftAssignmentComponent implements OnChanges {
     this.loadMemberTables();
   }
 
-  /**
-   * Adds the members available for a committee to the corresponding
-   * entry in the hash map. The shift number isn't checked
-   * as this is a job for a higher component
-   */
-  loadMemberTables(): void {
-    console.debug("laod tables");
-    // Reset the tables
-    this.committeeMembers = new Map<string, Member[]>();
 
-    for (let mA of this.shiftMembersAvailability) {
-
-      if (mA.isBusy(this.shiftNumber)) {
-        // Don't add a busy member
-        continue;
-      }
-      this.updateAvailability(mA);
-    }
-
-  }
-
-  
 
   /**
    * Marks the member as selected and removes
@@ -105,6 +85,13 @@ export class ShiftAssignmentComponent implements OnChanges {
       this.shiftMembersAvailability.find(
         (m: MemberAvailability) => m.member.id === e.id);
 
+    if (comm === 'Public Rel') {
+      // Add the relevant committee string
+      comm = Committee.getCommittee(CommiteeEnum.PublicRelations);
+    }
+    else if (comm === 'Reportings') {
+      comm = Committee.getCommittee(CommiteeEnum.Reportings);
+    }
 
     // For each item in the member's available committees
     // remove it from the bound array
@@ -124,8 +111,58 @@ export class ShiftAssignmentComponent implements OnChanges {
     this.loadMemberTables();
   }
 
+  /**
+    * Adds the members available for a committee to the corresponding
+    * entry in the hash map. The shift number isn't checked
+    * as this is a job for a higher component
+    */
+  loadMemberTables(): void {
+    console.debug("load tables");
+    // Reset the tables
+    this.committeeMembers = new Map<string, Member[]>();
+    this.publicRels = [];
+    this.reportings = [];
+
+    for (let mA of this.shiftMembersAvailability) {
+
+      if (mA.isBusy(this.shiftNumber)) {
+        // Don't add a busy member
+        continue;
+      }
+      this.updateAvailability(mA);
+    }
+
+  }
+
   private updateAvailability(memberAv: MemberAvailability) {
+
+
     for (let c of memberAv.availabileCommittees) {
+
+
+      let isPublicRelOrReportings: boolean = false;
+
+      if (c === Committee.getCommittee(CommiteeEnum.PublicRelations)) {
+        this.publicRels.push(memberAv.member);
+        console.debug("Push PR")
+        isPublicRelOrReportings = true;
+      }
+
+      if (c === Committee.getCommittee(CommiteeEnum.Reportings)) {
+        this.reportings.push(memberAv.member);
+        isPublicRelOrReportings = true;
+      }
+
+      // Don't add PR and RP memebers to shift availability
+      if (isPublicRelOrReportings) {
+        /**
+         * If a member is available in PR or R&P they will 
+         * be added to the session members, if they are also
+         * in say Activities, they'll be added to shift members
+         */
+        continue;
+      }
+
       // Add empty entries
       if (!this.committeeMembers.has(c)) {
         this.committeeMembers.set(c, []);
