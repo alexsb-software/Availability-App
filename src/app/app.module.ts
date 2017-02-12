@@ -12,6 +12,7 @@ import { ShiftViewerComponent } from './new-event-form-src/shift-viewer/shift-vi
 import { NewEventComponent } from './new-event-form-src/new-event/new-event.component';
 import { DayEditorFormComponent } from './new-event-form-src/day-editor-form/day-editor-form.component';
 import { DatePickerComponent } from './new-event-form-src/date-picker/date-picker.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 import { MyDatePickerModule } from 'mydatepicker';
 
@@ -68,6 +69,7 @@ import { MapKeysPipe } from './applogic-general/map-keys.pipe';
     DayAssignmentComponent,
     AvialabilityRootComponent,
     MapKeysPipe,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +85,7 @@ import { MapKeysPipe } from './applogic-general/map-keys.pipe';
     TabsModule.forRoot(),
     RouterModule.forRoot([
       { path: 'event/new', component: NewEventComponent },
+      { path: 'login', component: UserLoginComponent},
       { path: 'session', component: SessoinMemberInputComponent },
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },

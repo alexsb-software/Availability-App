@@ -3,6 +3,8 @@ import { EventUser } from '../events/event-user';
 import { EventDataService } from '../events/eventdata.service';  
 import { UserAvalability } from '../user_reg/user';
 import {leftFadeIn} from '../animation/animation';
+import { UserAuthService } from '../user-auth/user-auth.service';
+import {Router} from '@angular/router';
 
 @Component({
     templateUrl: './useraval.component.html',
@@ -12,7 +14,7 @@ import {leftFadeIn} from '../animation/animation';
 
 export class UserAvalComponent implements OnInit{
 
-    constructor(private _eventdata: EventDataService){}
+    constructor(private _eventdata: EventDataService, private userAuth: UserAuthService, private router:Router){}
 
     eventData: EventUser;
     eventsList: EventUser[];
@@ -20,6 +22,11 @@ export class UserAvalComponent implements OnInit{
     state = 'in';
 
     ngOnInit(): void {
+
+        if (!this.userAuth.loggedIn()) {
+            this.router.navigate(['login']);
+        }
+
         this._eventdata.getEventsList().subscribe(
             eventslist => this.eventsList = eventslist,
             error => console.log(error)

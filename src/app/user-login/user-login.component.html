@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+                  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+            </span>
+            <input type="text" class="form-control" placeholder="E-mail" aria-describedby="basic-addon1"
+            [(ngModel)]='email'>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+                <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+            </span>
+            <input type="text" class="form-control" placeholder="Password" type="password" aria-describedby="basic-addon1"
+            [(ngModel)]='password'>
+        </div>
+        <div class="input-group">
+            <button class="btn btn-default" type="button" (click)='onLoginClicked()'>Login!</button>
+        </div>
+    
+    </div>
+
+</div>
