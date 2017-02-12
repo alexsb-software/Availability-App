@@ -1,13 +1,16 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { DatePipe } from '@angular/common';
+import {fallIn} from '../../animation/animation';
+
 
 import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic-table.component';
 import { EventShift } from '../../applogic-general/event-shift';
 @Component({
   selector: 'app-session-editor',
   templateUrl: './session-editor.component.html',
-  styleUrls: ['./session-editor.component.css']
+  styleUrls: ['./session-editor.component.css'],
+  animations:[fallIn()]
 })
 export class SessionEditorComponent {
 
