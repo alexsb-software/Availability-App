@@ -1,8 +1,8 @@
 //import { ShortTimeDate } from './short-time-date';
 
 export abstract class TimeDuration {
-    endDate: Date = new Date("0");
-    startDate: Date = new Date("0");
+    endDate: Date = new Date("1/1/2000");
+    startDate: Date = new Date("1/1/2000");
 
     public static validate(duration: TimeDuration): boolean {
 

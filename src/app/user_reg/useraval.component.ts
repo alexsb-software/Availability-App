@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { EventUser } from '../events/event-user';
 import { EventDataService } from '../events/eventdata.service';  
 import { UserAvalability } from '../user_reg/user';
+import {leftFadeIn} from '../animation/animation';
 
 @Component({
     templateUrl: './useraval.component.html',
-    styleUrls: ['./useraval.component.css']
+    styleUrls: ['./useraval.component.css'],
+    animations:[leftFadeIn()]
 })
 
 export class UserAvalComponent implements OnInit{
@@ -15,6 +17,7 @@ export class UserAvalComponent implements OnInit{
     eventData: EventUser;
     eventsList: EventUser[];
     choosedEventId: number = 0;
+    state = 'in';
 
     ngOnInit(): void {
         this._eventdata.getEventsList().subscribe(
