@@ -38,7 +38,10 @@ import { NameSortPipe } from './applogic-general/member-view/name-sort.pipe';
 
 import { PaginationModule } from 'ng2-bootstrap/pagination';
 import { ShiftAssignmentComponent } from './availability-grid-src/shift-assignment/shift-assignment.component';
-import { DayComponentComponent } from './availability-grid-src/day-component/day-component.component';
+import { DayAssignmentComponent } from './availability-grid-src/day-assignment/day-assignment.component';
+import { AvialabilityRootComponent } from './availability-grid-src/avialability-root/avialability-root.component';
+import { MapKeysPipe } from './applogic-general/map-keys.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,11 +64,10 @@ import { DayComponentComponent } from './availability-grid-src/day-component/day
     ShiftFilterPipe,
     NameFilterPipe,
     NameSortPipe,
-
     ShiftAssignmentComponent,
-
-    DayComponentComponent,
-
+    DayAssignmentComponent,
+    AvialabilityRootComponent,
+    MapKeysPipe,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +88,8 @@ import { DayComponentComponent } from './availability-grid-src/day-component/day
       { path: 'aval', component: UserAvalComponent },
       { path: 'member', component: MemberViewComponent },
       { path: 'shift', component: ShiftAssignmentComponent },
-      { path: '', component: AppComponent },
+      { path: 'day', component: DayAssignmentComponent },
+      { path: '', component: DayAssignmentComponent },
       { path: '**', component: AppComponent }
     ])
   ],

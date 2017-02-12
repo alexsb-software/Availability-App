@@ -8,7 +8,11 @@ import { Member } from '../member';
 export class CommFilterPipe implements PipeTransform {
 
   transform(memAvs: MemberAvailability[], comm: string): Member[] {
-    if (!comm || comm.length === 0) return memAvs.map(m => m.member);
+    if (!comm || comm.length === 0) {
+      console.error("[CommFilterPipe] Undefined/Empty Array");
+      return memAvs.map(m => m.member);
+    }
+    
     console.log(comm);
     console.log(memAvs);
     // Returns findIndex undefined when not found, which

@@ -8,7 +8,10 @@ import { Member } from '../member';
 export class NameFilterPipe implements PipeTransform {
 
   transform(memAvs: MemberAvailability[], name: string): MemberAvailability[] {
-    if (!name || name.length === 0) return memAvs;
+    if (!name || name.length === 0) {
+      console.error("[NameFilterPipe] Undefined/Empty Array");
+      return memAvs;
+    }
 
     return memAvs.filter(
       (av: MemberAvailability) => av.member.name.includes(name));

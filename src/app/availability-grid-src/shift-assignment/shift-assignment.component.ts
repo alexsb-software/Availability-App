@@ -22,6 +22,11 @@ export class ShiftAssignmentComponent implements OnChanges {
   // memberTable: Map<number, Member>;  
   @Input() shiftNumber: number;
   /**
+   * Used to determine the sessoins of this shift
+   * to assign PR and reportings members
+   */
+  @Input() shift: EventShift;
+  /**
    * Availablility of all members who have filled
    * the online form
    */
@@ -30,32 +35,113 @@ export class ShiftAssignmentComponent implements OnChanges {
    * Contains the marked as selected members,
    * this array will be used to generate the 
    * availability table.
+   * 
+   * It's not marked as input to avoid making
+   * the code more complex when creating the upper
+   * components
    */
   @Output() onShiftSave: EventEmitter<Map<Member, string>> = new EventEmitter<Map<Member, string>>();
-
-  /**
-   * Event day that this object is holding
-   */
-  @Input() shift: EventShift = new EventShift();
 
   committees: string[] = Committee.getAll();
 
   // This is used to display the table contining all members in this shift  
   shiftMembers: Member[] = [];
 
-  selectedShiftMembers: Map<Member, string> = new Map<Member, string>();
+  selectedShiftMembers: Map<Member, string>;
 
   /**
    * This will be fed to the lower components, elements are 
    * fetched either by enum or committee name
   **/
-  committeeMembers: Map<string, Member[]> = new Map<string, Member[]>();
+  committeeMembers: Map<string, Member[]>;
   commPipe: CommFilterPipe = new CommFilterPipe();
 
   constructor() {
+    //this.mockMembers();
+    //this.loadMemberTables();
+  }
 
-    let t = this.committeeMembers.get("asds");
 
+  ngOnChanges(e: SimpleChanges): void {
+    /**
+     * This function is intended to run only once when the 
+     * applicants are retrieved from database, changing 
+     * the data that came from the 
+     * database ( which will trigger ngOnChanges )
+     * leaves the component in an undefined state
+     */
+    this.loadMemberTables();
+  }
+
+  /**
+   * Adds the members available for a committee to the corresponding
+   * entry in the hash map. The shift number isn't checked
+   * as this is a job for a higher component
+   */
+  loadMemberTables(): void {
+    console.debug("laod tables");
+    // Reset the tables
+    this.committeeMembers = new Map<string, Member[]>();
+
+    for (let mA of this.shiftMembersAvailability) {
+
+      if (mA.isBusy(this.shiftNumber)) {
+        // Don't add a busy member
+        continue;
+      }
+      this.updateAvailability(mA);
+    }
+
+  }
+
+  
+
+  /**
+   * Marks the member as selected and removes
+   * it from the other committees choices
+   */
+  onMemberSelect(e: Member, comm: string): void {
+    let mem: MemberAvailability =
+      this.shiftMembersAvailability.find(
+        (m: MemberAvailability) => m.member.id === e.id);
+
+
+    // For each item in the member's available committees
+    // remove it from the bound array
+    // TODO improve this, it's an expensive operation with redundancy
+    mem.reserve(this.shiftNumber, comm);
+    this.selectedShiftMembers.set(e, comm);
+    this.loadMemberTables();
+  }
+
+  onMemberRelease(e: Member): void {
+    let mem: MemberAvailability =
+      this.shiftMembersAvailability.find(
+        (m: MemberAvailability) => m.member.id === e.id);
+
+    mem.release(this.shiftNumber);
+    this.selectedShiftMembers.delete(e);
+    this.loadMemberTables();
+  }
+
+  private updateAvailability(memberAv: MemberAvailability) {
+    for (let c of memberAv.availabileCommittees) {
+      // Add empty entries
+      if (!this.committeeMembers.has(c)) {
+        this.committeeMembers.set(c, []);
+      }
+
+      let oldVals = this.committeeMembers.get(c);
+
+      oldVals.push(memberAv.member)
+      this.committeeMembers.set(c, oldVals);
+    }
+  }
+
+  /**
+   * Creates fake members for test purposes
+   */
+  private mockMembers(): void {
     let prString = Committee.getCommittee(CommiteeEnum.PublicRelations);
     let reportingsString = Committee.getCommittee(CommiteeEnum.Reportings);
 
@@ -72,74 +158,10 @@ export class ShiftAssignmentComponent implements OnChanges {
         [Committee.getCommittee(i % Committee.commLength()), Committee.getCommittee(Committee.commLength() - i - 1)];
       this.shiftMembersAvailability.push(memAv);
     }
-
-    this.loadMemberTables();
-
   }
 
-
-  ngOnChanges(e: SimpleChanges): void {
-    /**
-     * This function is intended to run only once when the 
-     * applicants are retrieved from database, changing 
-     * the data that came from the 
-     * database ( which will trigger ngOnChanges )
-     * leaves the component in an undefined state
-     */
-
-  }
-
-  /**
-   * Adds the members available for a committee to the corresponding
-   * entry in the hash map
-   */
-  loadMemberTables(): void {
-    // Reset the tables
-    this.committeeMembers.clear();
-
-    for (let mA of this.shiftMembersAvailability) {
-      if (mA.isBusy(this.shiftNumber)) {
-        // Don't add a busy member
-        console.debug("skip busy member");
-        continue;
-      }
-
-      for (let c of mA.availabileCommittees) {
-        // Add empty entries
-        if (!this.committeeMembers.has(c)) {
-          this.committeeMembers.set(c, []);
-        }
-
-
-
-        let oldVals = this.committeeMembers.get(c);
-
-        oldVals.push(mA.member)
-        this.committeeMembers.set(c, oldVals);
-      }
-    }
-  }
-
-  onMemberSelect(e: Member, comm: string): void {
-    let mem: MemberAvailability =
-      this.shiftMembersAvailability.find(
-        (m: MemberAvailability) => m.member.id === e.id);
-
-    mem.reserve(this.shiftNumber, comm);
-
-    // For each item in the member's available committees
-    // remove it from the bound array
-    // TODO improve this, it's an expensive operation with redundancy
-    this.selectedShiftMembers.set(e, comm);
-    this.loadMemberTables();
-  }
-
-  onMemberRelease(e: Member): void {
-    let mem: MemberAvailability =
-      this.shiftMembersAvailability.find(
-        (m: MemberAvailability) => m.member.id === e.id);
-
-    mem.release(this.shiftNumber);
-    console.log(this.shiftMembersAvailability);
+  saveShift(): void {
+    // TODO notify the parent component
+    this.onShiftSave.emit(this.selectedShiftMembers);
   }
 }

@@ -2,17 +2,25 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EventDay } from '../../applogic-general/event-day';
 
 @Component({
-  selector: 'app-day-component',
+  selector: 'app-day-assignment-component',
   templateUrl: './day-component.component.html',
   styleUrls: ['./day-component.component.css']
 })
-export class DayComponentComponent implements OnInit {
+export class DayAssignmentComponentComponent implements OnInit {
 
-  @Input() days: EventDay[];
+  days: EventDay[];
 
-  constructor() { }
+  constructor(/*Service*/) {
+
+  }
 
   ngOnInit() {
+    // Call the Service
+    // Update the views
+  }
+
+  updateShiftView(): void {
+
   }
 
 }
