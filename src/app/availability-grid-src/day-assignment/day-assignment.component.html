@@ -1,0 +1,10 @@
+<ng-container *ngIf="day && day.shifts && day.availabilities">
+
+</ng-container>
+<!--<ng-container *ngFor="let shift of ;let i=index">-->
+  
+  <ng-container *ngIf="day.availabilities">
+    <app-shift-assignment [shift]="day.shifts[0]" [shiftMembersAvailability]="day.availabilities | shiftFilter:0" [shiftNumber]="1"></app-shift-assignment>
+  <!--</ng-container>-->
+
+</ng-container>
