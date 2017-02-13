@@ -44,7 +44,7 @@ export class UserAvalComponent implements OnInit{
         }
         this._eventdata.postUserAval(useraval).subscribe(
             status => {
-                if (status = 200) {
+                if (status === 200) {
                     console.log("Success");
                 } else {
                     console.log("Fail");

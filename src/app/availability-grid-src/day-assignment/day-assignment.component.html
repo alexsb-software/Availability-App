@@ -1,10 +1,26 @@
-<ng-container *ngIf="day && day.shifts && day.availabilities">
+<accordion>
+  <ng-container *ngFor="let shift of this.day.shifts;let i=index">
+    <ng-container *ngIf="day.availabilities">
+      <accordion-group #group class="stack-element">
+        <div accordion-heading>
+          <b>Shift # {{i+1}}</b>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+        </div>
+        <app-shift-assignment (onShiftSave)="saveShift($event,i)" [shift]="day.shifts[i]" [shiftMembersAvailability]="day.availabilities | shiftFilter:i" [shiftIndex]="1"></app-shift-assignment>
+      </accordion-group>
+    </ng-container>
+  </ng-container>
 
-</ng-container>
-<!--<ng-container *ngFor="let shift of ;let i=index">-->
+  <hr>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <app-member-view [memberAvailabilities]="this.day.availabilities"></app-member-view>
+    </div>
+  </div>
+
+  <br>
+  <button type="button" (click)="saveDay()" class="btn btn-primary">Save Day</button>
+  <br>
   
-  <ng-container *ngIf="day.availabilities">
-    <app-shift-assignment [shift]="day.shifts[0]" [shiftMembersAvailability]="day.availabilities | shiftFilter:0" [shiftNumber]="1"></app-shift-assignment>
-  <!--</ng-container>-->
-
-</ng-container>
+  

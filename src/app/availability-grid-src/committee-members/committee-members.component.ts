@@ -35,7 +35,6 @@ export class CommitteeMembersComponent implements OnChanges {
   @Output() memberReleased: EventEmitter<Member> = new EventEmitter<Member>();
 
   typeaheadOnSelect(e: TypeaheadMatch) {
-    console.log('Selected value: ', e.item);
     let selected: Member = e.item;
 
     /**
@@ -63,11 +62,12 @@ export class CommitteeMembersComponent implements OnChanges {
       return;
     }
 
-    // Move the element to the selected array
-    this.memberSelected.emit(this.commShiftMembers[index]);
 
     this.commShiftMembers.splice(index, 1);
     this.selectedMembers.push(selected);
+
+    // Move the element to the selected array
+    this.memberSelected.emit(this.commShiftMembers[index]);
 
     this.selected = "";
   }
@@ -86,7 +86,5 @@ export class CommitteeMembersComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.commName + " Shift members:");
-    console.log(this.commShiftMembers);
   }
 }

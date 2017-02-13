@@ -13,8 +13,8 @@ export class CommFilterPipe implements PipeTransform {
       return memAvs.map(m => m.member);
     }
     
-    console.log(comm);
-    console.log(memAvs);
+    //console.log(comm);
+    //console.log(memAvs);
     // Returns findIndex undefined when not found, which
     // will evaluate to false
     let availabilities: MemberAvailability[] = memAvs.filter(

@@ -34,7 +34,6 @@ export class SessoinMemberInputComponent {
 
     if (comm === 'Reporting') {
       this.session.reporting = member;
-      console.log(member);
       this.onReportingsSelect.emit(member);
     }
 
@@ -50,6 +49,7 @@ export class SessoinMemberInputComponent {
   }
 
   onMemberRelease(comm: string): void {
+    // TODO using hardcoded string IS UGLY!!!
     if (comm === 'Reporting') {
       this.onReportingsRelease.emit(this.session.reporting);
       this.session.reporting = null;

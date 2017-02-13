@@ -5,10 +5,10 @@ import { Member } from './member';
 @Pipe({
   name: 'mapKeys'
 })
-export class MapKeysPipe implements PipeTransform {
+export class MapKeysPipe<K, V> implements PipeTransform {
 
-  transform(value: Map<string, MemberAvailability[]>): string[] {
-    let keyArray = [];
+  transform(value: Map<K, V>): K[] {
+    let keyArray: K[] = [];
 
     value.forEach((v, k) => {
       keyArray.push(k);

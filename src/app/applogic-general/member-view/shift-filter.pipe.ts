@@ -7,13 +7,13 @@ import { Member } from '../member';
 })
 export class ShiftFilterPipe implements PipeTransform {
 
-  transform(memAvs: MemberAvailability[], shiftNumber: number): MemberAvailability[] {
+  transform(memAvs: MemberAvailability[], shiftIndex: number): MemberAvailability[] {
     if (!memAvs) {
       console.error("[ShiftFilterPipe] Undefined/Empty Array");
       return memAvs;
     }
     return memAvs.filter(
       (av: MemberAvailability) =>
-        av.shiftNumbers.indexOf(shiftNumber) !== -1);
+        av.shiftIndexes.indexOf(shiftIndex) !== -1);
   }
 }

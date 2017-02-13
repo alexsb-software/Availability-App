@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { SingletonServicesModule } from './singleton-services/singleton-services.module';
 
 import { AppComponent } from './app.component';
 import { ShiftEditor } from './new-event-form-src/shift-editor-form/shift-editor-form.component';
@@ -21,10 +22,8 @@ import { AccordionModule } from 'ng2-bootstrap/accordion';
 import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
 import { TabsModule } from 'ng2-bootstrap/tabs';
 import { DropdownModule } from 'ng2-bootstrap/dropdown';
-
 import { InfoTextComponent } from './applogic-general/info-text/info-text.component';
 import { CommitteeMembersComponent } from './availability-grid-src/committee-members/committee-members.component';
-
 import { SessionEditorComponent } from "./new-event-form-src/session-editor/session-editor.component";
 import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-table.component';
 import { SessoinMemberInputComponent } from './availability-grid-src/sessoin-member-input/sessoin-member-input.component';
@@ -35,13 +34,16 @@ import { CommFilterPipe } from './applogic-general/member-view/comm-filter.pipe'
 import { ShiftFilterPipe } from './applogic-general/member-view/shift-filter.pipe';
 import { NameFilterPipe } from './applogic-general/member-view/name-filter.pipe';
 import { NameSortPipe } from './applogic-general/member-view/name-sort.pipe';
-
-
 import { PaginationModule } from 'ng2-bootstrap/pagination';
 import { ShiftAssignmentComponent } from './availability-grid-src/shift-assignment/shift-assignment.component';
 import { DayAssignmentComponent } from './availability-grid-src/day-assignment/day-assignment.component';
 import { AvialabilityRootComponent } from './availability-grid-src/avialability-root/avialability-root.component';
 import { MapKeysPipe } from './applogic-general/map-keys.pipe';
+import { MapValuesPipe } from './applogic-general/map-values.pipe';
+import { PrintComponent } from './availability-grid-src/print/print.component';
+
+import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from "@angular/router";
+import { StateSaverRouter } from './state-saver-router';
 
 @NgModule({
   declarations: [
@@ -70,13 +72,15 @@ import { MapKeysPipe } from './applogic-general/map-keys.pipe';
     AvialabilityRootComponent,
     MapKeysPipe,
     UserLoginComponent
+    MapValuesPipe,
+    PrintComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     MyDatePickerModule,
-
+    SingletonServicesModule,
     PaginationModule.forRoot(),
     TimepickerModule.forRoot(),
     AccordionModule.forRoot(),
@@ -92,11 +96,12 @@ import { MapKeysPipe } from './applogic-general/map-keys.pipe';
       { path: 'member', component: MemberViewComponent },
       { path: 'shift', component: ShiftAssignmentComponent },
       { path: 'day', component: DayAssignmentComponent },
-      { path: '', component: DayAssignmentComponent },
+      { path: 'print', component: PrintComponent },
+      { path: '', component: AvialabilityRootComponent },
       { path: '**', component: AppComponent }
     ])
   ],
-  providers: [],
+  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
