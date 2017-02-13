@@ -20,7 +20,7 @@ import { EventShift } from '../../applogic-general/event-shift';
 export class ShiftAssignmentComponent implements OnChanges {
   // TODO use a hashtable instead of a linear array
   // memberTable: Map<number, Member>;  
-  @Input() shiftNumber: number;
+  @Input() shiftIndex: number;
   /**
    * Used to determine the sessoins of this shift
    * to assign PR and reportings members
@@ -88,17 +88,32 @@ export class ShiftAssignmentComponent implements OnChanges {
     if (comm === 'Public Rel') {
       // Add the relevant committee string
       comm = Committee.getCommittee(CommiteeEnum.PublicRelations);
+      //console.log(this.shift.sessions);
     }
     else if (comm === 'Reportings') {
       comm = Committee.getCommittee(CommiteeEnum.Reportings);
+      //console.log(this.shift.sessions);
     }
 
     // For each item in the member's available committees
     // remove it from the bound array
     // TODO improve this, it's an expensive operation with redundancy
-    mem.reserve(this.shiftNumber, comm);
-    this.selectedShiftMembers.set(e, comm);
+    mem.reserve(this.shiftIndex, comm);
     this.loadMemberTables();
+
+    if (comm === Committee.getCommittee(CommiteeEnum.PublicRelations)
+      || comm === Committee.getCommittee(CommiteeEnum.Reportings)) {
+      /**
+       * Don't add PR and R&P members to the committe availability
+       * calling notify will make the parent save the session info
+       * in the ShiftAssignments[] object
+      **/
+      this.notifySaveShift();  // Autosave on modification 
+      return;
+    }
+
+    this.notifySaveShift();  // Autosave on modification
+    this.selectedShiftMembers.set(e, comm);
   }
 
   onMemberRelease(e: Member): void {
@@ -106,8 +121,9 @@ export class ShiftAssignmentComponent implements OnChanges {
       this.shiftMembersAvailability.find(
         (m: MemberAvailability) => m.member.id === e.id);
 
-    mem.release(this.shiftNumber);
+    mem.release(this.shiftIndex);
     this.selectedShiftMembers.delete(e);
+    this.notifySaveShift();  // Autosave on modification
     this.loadMemberTables();
   }
 
@@ -117,7 +133,6 @@ export class ShiftAssignmentComponent implements OnChanges {
     * as this is a job for a higher component
     */
   loadMemberTables(): void {
-    console.debug("load tables");
     // Reset the tables
     this.committeeMembers = new Map<string, Member[]>();
     this.publicRels = [];
@@ -125,7 +140,7 @@ export class ShiftAssignmentComponent implements OnChanges {
 
     for (let mA of this.shiftMembersAvailability) {
 
-      if (mA.isBusy(this.shiftNumber)) {
+      if (mA.isBusy(this.shiftIndex)) {
         // Don't add a busy member
         continue;
       }
@@ -144,7 +159,6 @@ export class ShiftAssignmentComponent implements OnChanges {
 
       if (c === Committee.getCommittee(CommiteeEnum.PublicRelations)) {
         this.publicRels.push(memberAv.member);
-        console.debug("Push PR")
         isPublicRelOrReportings = true;
       }
 
@@ -190,15 +204,14 @@ export class ShiftAssignmentComponent implements OnChanges {
 
       let memAv: MemberAvailability = new MemberAvailability();
       memAv.member = m;
-      memAv.shiftNumbers = [i % 3, i % 2];
+      memAv.shiftIndexes = [i % 3, i % 2];
       memAv.availabileCommittees =
         [Committee.getCommittee(i % Committee.commLength()), Committee.getCommittee(Committee.commLength() - i - 1)];
       this.shiftMembersAvailability.push(memAv);
     }
   }
 
-  saveShift(): void {
-    // TODO notify the parent component
+  notifySaveShift(): void {
     this.onShiftSave.emit(this.selectedShiftMembers);
   }
 }

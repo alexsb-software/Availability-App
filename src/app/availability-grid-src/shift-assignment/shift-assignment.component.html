@@ -1,33 +1,53 @@
 <accordion>
-
-  <ng-container *ngFor="let sessionItem of this.shift.sessions">
-    <div class="stack-element">
-      <app-sessoin-member-input (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" (onPublicRelRelease)="onMemberRelease($event)" (onReportingsSelect)="onMemberSelect($event ,'Reportings')" (onReportingsRelease)="onMemberRelease($event)" [session]="sessionItem"
-        [publicRelMembers]="publicRels" [reportingsMembers]="reportings"></app-sessoin-member-input>
+  <accordion-group #group class="stack-element">
+    <div accordion-heading>
+      ({{this.shift.sessions?.length}}) Session{{this.shift.sessions.length!=1?"s":""}}
+      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
     </div>
-  </ng-container>
 
-  <div class="row">
-    <ng-container *ngFor="let comm of committeeMembers|mapKeys">
-      <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 stack-element">
-        <accordion-group #group>
-          <div accordion-heading>
-            <b>{{comm}} ({{committeeMembers.get(comm).length}}) Available </b>
-            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ng-container *ngFor="let sessionItem of this.shift.sessions">
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <app-sessoin-member-input (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" (onPublicRelRelease)="onMemberRelease($event)" (onReportingsSelect)="onMemberSelect($event ,'Reportings')" (onReportingsRelease)="onMemberRelease($event)" [session]="sessionItem"
+              [publicRelMembers]="publicRels" [reportingsMembers]="reportings"></app-sessoin-member-input>
           </div>
-          <div class="stack-element">
-            <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
-          </div>
-        </accordion-group>
+        </ng-container>
       </div>
-    </ng-container>
-  </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <strong> TODO: All PR and R&P</strong>
+      </div>
+    </div>
+
+
+  </accordion-group>
+
+  <accordion-group #group class="stack-element">
+    <div accordion-heading>
+      Committees
+      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+    </div>
+
+    <div class="row">
+      <ng-container *ngFor="let comm of committeeMembers|mapKeys">
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 stack-element">
+          <accordion-group #group>
+            <div accordion-heading>
+              <b>{{comm}} ({{committeeMembers.get(comm).length}}) Available </b>
+              <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+            </div>
+            <div class="stack-element">
+              <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event)"></app-committee-members>
+            </div>
+          </accordion-group>
+        </div>
+      </ng-container>
+    </div>
+  </accordion-group>
 </accordion>
-
-<div class="stack-element">
-  <app-member-view [memberAvailabilities]="shiftMembersAvailability"></app-member-view>
-</div>
-
-<div class="stack-element">
-  <button type="button" class="btn btn-success" (click)="saveShift()">Save Shift</button>
-</div>

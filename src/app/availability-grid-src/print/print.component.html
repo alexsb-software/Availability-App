@@ -1,0 +1,31 @@
+<p>
+  print works!
+</p>
+<ng-container *ngIf="dayAssignments">
+  <ng-container *ngFor="let dayAssigment of dayAssignments">
+    <strong>Day #{{dayAssigment.dayNumber+1}}</strong>
+    <br>
+    <div class="row">
+      <ng-container *ngFor="let info of dayAssigment.shiftInfos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <strong>Shift #{{info.shiftIndex+1}}</strong>
+          <br>
+          <ng-container *ngFor="let se of info.sessionInfo">
+            <ng-container *ngIf="se.hasCompleteInfo()">
+              <strong>Title {{se.name}}</strong>
+              <strong>From {{se.startDate | date:'shortTime'}}</strong>
+              <strong>To {{se.endDate | date:'shortTime'}}</strong>
+              <p>
+                <b>Public Relations: </b>{{se.publicRelations.name}}
+                <br>
+                <b>Reportings: </b>{{se.reporting.name}}
+              </p>
+              <hr>
+            </ng-container>
+          </ng-container>
+        </div>
+
+
+      </ng-container>
+    </div>
+  </ng-container>
