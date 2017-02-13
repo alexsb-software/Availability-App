@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChange } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -38,7 +38,6 @@ export class CommitteeMembersComponent implements OnChanges {
   typeaheadOnSelect(e: TypeaheadMatch) {
     let selected: Member = e.item;
 
-    console.log(e);
     /**
      * Filter the member from the shiftMembers array
      * 
@@ -88,19 +87,17 @@ export class CommitteeMembersComponent implements OnChanges {
     // use the index to access the array, and splice
     // use the object itself to add its id back to the pool
 
-    console.log("remove index:");
-    console.log(e.index);
     const removed: Member = this.selectedMembers.splice(e.index, 1)[0];
-    console.log("removed:");
-    console.log(removed);
     this.commShiftMembers.push(removed);
     this.memberReleased.emit(removed);
   }
 
-  ngOnChanges() {
+  ngOnChanges(e: SimpleChanges) {
     // If no members are provided, create an empty array
     if (!this.commShiftMembers) {
       this.commShiftMembers = [];
     }
+    console.debug("CommitteeMembersComponent change, name: " + this.commName);
+    console.log(e);
   }
 }
