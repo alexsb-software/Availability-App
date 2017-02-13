@@ -1,3 +1,17 @@
-<p>
-  avialability-root works!
-</p>
+<h3>Day #{{this.currentPage}}</h3>
+<hr>
+<app-day-assignment (onSaveDay)="onSaveDay($event)" [day]="days[currentPage-1]"></app-day-assignment>
+<hr>
+
+
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12col-xs-12 col-md-12col-xs-12 col-lg-12col-xs-12">
+    <pager [totalItems]="this.days.length" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" pageBtnClass="btn" itemsPerPage="1"></pager>
+  </div>
+</div>
+
+<strong *ngIf="!isSaved">
+Save the day to be able to go to print page
+</strong>
+<a *ngIf="isSaved" (click)="isSaved=false" routerLink="print"><button class="btn btn-success pull-right" > Print </button></a>

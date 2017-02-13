@@ -1,16 +1,28 @@
-<div class="stack-element">
-  <strong>{{this.session.name}}</strong> leng:{{this.publicRelMembers?.length}}
-</div>
-<div class="stack-element">
-  <label for="public-rel-input">Public Relations</label>
-  <input [typeahead]="publicRelMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'PublicRel')" name="public-rel-input" class="form-control" placeholder="Name" [(ngModel)]="selectedPublicRelMember" class="form-control">
+<div class="row">
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4><b>{{this.session.name}}</b></h4>
+  </div>
 </div>
 
-<div class="stack-element">
-  <label for="report-input">Reportings</label>
-  <input [typeahead]="reportingsMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'Reporting')" name="report-input" class="form-control" placeholder="Name" [(ngModel)]="selectedReportingMember" class="form-control">
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12col-xs-12 col-md-12col-xs-12 col-lg-12col-xs-12">
+    <label for="public-rel-input">Public Relations</label>
+    <input [typeahead]="publicRelMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'PublicRel')" name="public-rel-input" class="form-control" placeholder="Name" [(ngModel)]="selectedPublicRelMember" class="form-control">
+  </div>
 </div>
-<div class="stack-element">
+
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <label for="report-input">Reportings</label>
+    <input [typeahead]="reportingsMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'Reporting')" name="report-input" class="form-control" placeholder="Name" [(ngModel)]="selectedReportingMember" class="form-control">
+  </div>
+</div>
+
+
+<div class="row">
   <ul>
     <ng-container *ngIf="this.session.publicRelations">
       <li>

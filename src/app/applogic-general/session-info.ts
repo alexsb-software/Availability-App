@@ -14,4 +14,11 @@ export class SessionInfo extends TimeDuration {
         { return false; }
         return true;
     }
+
+    public hasCompleteInfo(): boolean {
+        if (!this.name) return false;
+        if (!this.reporting) return false;
+        if (!this.publicRelations) return false;
+        return true;
+    }
 }

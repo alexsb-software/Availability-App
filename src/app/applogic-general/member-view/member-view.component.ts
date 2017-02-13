@@ -15,7 +15,7 @@ import { NameSortPipe } from './name-sort.pipe';
   styleUrls: ['./member-view.component.css']
 })
 export class MemberViewComponent implements OnChanges {
-  @Input() headerText: string = "All"
+  @Input() headerText: string = "All Members"
   @Input() memberAvailabilities: MemberAvailability[] = [];
 
   filteredMemberAvails: MemberAvailability[] = [];

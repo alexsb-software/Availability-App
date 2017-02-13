@@ -25,7 +25,7 @@ export class DayEditorFormComponent {
   }
 
   deleteDay(): void {
-    console.debug("Delete day");
+    //console.debug("Delete day");
     this.onDeleteDay.emit(this.dayIdx);
   }
 

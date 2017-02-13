@@ -35,7 +35,6 @@ export class CommitteeMembersComponent implements OnChanges {
   @Output() memberReleased: EventEmitter<Member> = new EventEmitter<Member>();
 
   typeaheadOnSelect(e: TypeaheadMatch) {
-    console.log('Selected value: ', e.item);
     let selected: Member = e.item;
 
     /**
@@ -86,7 +85,5 @@ export class CommitteeMembersComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.commName + " Shift members:");
-    console.log(this.commShiftMembers);
   }
 }

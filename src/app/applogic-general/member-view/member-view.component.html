@@ -15,7 +15,7 @@
         </div>
 
         <ng-container *ngIf="memberAvailabilities.length > 0">
-          <dynamic-table [properties]="['member.name','shiftNumbers','availabileCommittees']" [propertyDisplayNames]="['Name', 'Shift Number', 'Committees']" [items]="filteredMemberAvails" [canRemove]="false"></dynamic-table>
+          <dynamic-table [properties]="['member.name','shiftIndexes','availabileCommittees']" [propertyDisplayNames]="['Name', 'Shift Number', 'Committees']" [items]="filteredMemberAvails" [canRemove]="false"></dynamic-table>
         </ng-container>
       </accordion-group>
     </accordion>

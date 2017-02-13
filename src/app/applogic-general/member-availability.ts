@@ -11,7 +11,7 @@ export class MemberAvailability {
      * object is better. number is used now for the 
      * sake of simplicity
      */
-    shiftNumbers: number[];
+    shiftIndexes: number[];
     /**
      * Shift Number <> Committee assignment mapping
      */
