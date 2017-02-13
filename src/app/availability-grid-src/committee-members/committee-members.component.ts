@@ -6,6 +6,7 @@ import 'rxjs/add/observable/of';
 import { TypeaheadMatch } from 'ng2-bootstrap';
 
 import { Member } from '../../applogic-general/member';
+import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic-table.component';
 
 @Component({
   selector: 'app-committee-members',
@@ -70,14 +71,16 @@ export class CommitteeMembersComponent implements OnChanges {
      * Removing the member from the array first
      * causes its index to change
      */
-    this.memberSelected.emit(this.commShiftMembers[index]);
+
+    this.memberSelected.emit(selected);
     this.commShiftMembers.splice(index, 1);
     this.selectedMembers.push(selected);
 
     this.selected = "";
   }
 
-  removeMember(val: Member, index: number): void {
+  removeMember(e: ArrayItemEventArgs): void {
+
     // Remove a previously selected member
     // and return it back to the pool
     // todo use member id
@@ -85,9 +88,13 @@ export class CommitteeMembersComponent implements OnChanges {
     // use the index to access the array, and splice
     // use the object itself to add its id back to the pool
 
-    const removed: Member = this.selectedMembers.splice(index, 1)[0];
-    this.memberReleased.emit(removed);
+    console.log("remove index:");
+    console.log(e.index);
+    const removed: Member = this.selectedMembers.splice(e.index, 1)[0];
+    console.log("removed:");
+    console.log(removed);
     this.commShiftMembers.push(removed);
+    this.memberReleased.emit(removed);
   }
 
   ngOnChanges() {

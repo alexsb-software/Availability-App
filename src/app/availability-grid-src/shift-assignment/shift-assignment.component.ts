@@ -72,6 +72,7 @@ export class ShiftAssignmentComponent implements OnChanges {
 
 
   ngOnChanges(e: SimpleChanges): void {
+    console.debug("ShiftAssignmentComponent change #" + this.shift.number);
     /**
      * This function is intended to run only once when the 
      * applicants are retrieved from database, changing 
@@ -112,8 +113,8 @@ export class ShiftAssignmentComponent implements OnChanges {
       this.shiftMembersAvailability.find(
         (m: MemberAvailability) => m.member.id === e.id);
 
+    this.selectedShiftMembers.delete(e);
     mem.release(this.shiftIndex);
-    this.selectedShiftMembers.set(e);
     this.notifySaveShift();  // Autosave on modification
     this.loadMemberTables();
   }
