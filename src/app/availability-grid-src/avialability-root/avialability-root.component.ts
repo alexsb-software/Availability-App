@@ -23,7 +23,7 @@ export class AvialabilityRootComponent implements OnInit {
   isSaved: boolean = false;
   days: DayAvailability[] = [];
   eventAvailability: DayAssignmentInfo[] = [];
-
+  testId: number = 0;
   constructor(private holder: AvailabilityHolderService) {
   }
 
@@ -79,17 +79,17 @@ export class AvialabilityRootComponent implements OnInit {
       day.shifts.push(sh);
 
       // Populate members of the shift
-      for (let k = 0; k < 20; k++) {
+      for (let k = 0; k < 12; k++) {
         let av: MemberAvailability = new MemberAvailability();
         let m: Member = new Member();
         // Math.floor(Math.random() * (max - min + 1)) + min
         m.name = "w7oksh" + (k + j) * (idx + 1) + " " + (Math.floor(Math.random() * (100 - 2 + 1)) + 2);
-        m.id = k * j;
+        m.id = this.testId++;
         av.member = m;
         av.shiftIndexes = [sh.number];
         av.availabileCommittees =
           [Committee.getCommittee(k % Committee.getAll().length),
-          Committee.getCommittee((Committee.getAll().length - 1 - k) % Committee.getAll().length)];
+          Committee.getCommittee(Math.abs((Committee.getAll().length - 1 - k)) % Committee.getAll().length)];
 
         day.availabilities.push(av);
       }

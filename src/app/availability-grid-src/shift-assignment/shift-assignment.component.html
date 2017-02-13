@@ -35,11 +35,20 @@
     </div>
 
     <div class="row">
-      <ng-container *ngFor="let comm of committeeMembers|mapKeys">
+      <ng-container *ngFor="let comm of shiftMembersAvailability | getCommittee">
+
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 stack-element">
           <accordion-group #group>
             <div accordion-heading>
-              <b>{{comm}} ({{committeeMembers.get(comm).length}}) Available </b>
+
+              <ng-container *ngIf="committeeMembers.get(comm)">
+                <b>{{comm}} ({{committeeMembers.get(comm).length}}) Available </b>
+              </ng-container>
+
+              <ng-container *ngIf="!committeeMembers.get(comm)">
+                <b>{{comm}} (0) Available </b>
+              </ng-container>
+
               <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
             </div>
             <div class="stack-element">
@@ -47,6 +56,7 @@
             </div>
           </accordion-group>
         </div>
+
       </ng-container>
     </div>
   </accordion-group>

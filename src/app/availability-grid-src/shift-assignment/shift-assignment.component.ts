@@ -47,16 +47,24 @@ export class ShiftAssignmentComponent implements OnChanges {
   // This is used to display the table contining all members in this shift  
   shiftMembers: Member[] = [];
 
+  /**
+   * Used by sessions
+   */
+  publicRels: Member[];
+  reportings: Member[];
+
+  /**
+   * Passed to the upper component for committee assignments
+   */
   selectedShiftMembers: Map<Member, string> = new Map<Member, string>();
 
   /**
    * This will be fed to the lower components, elements are 
    * fetched either by enum or committee name
   **/
-  committeeMembers: Map<string, Member[]>;
+  committeeMembers: Map<string, Member[]> = new Map<string, Member[]>();
   commPipe: CommFilterPipe = new CommFilterPipe();
-  reportings: Member[] = [];
-  publicRels: Member[] = [];
+
   constructor() {
     //this.mockMembers();
     //this.loadMemberTables();
@@ -85,35 +93,18 @@ export class ShiftAssignmentComponent implements OnChanges {
       this.shiftMembersAvailability.find(
         (m: MemberAvailability) => m.member.id === e.id);
 
-    if (comm === 'Public Rel') {
-      // Add the relevant committee string
-      comm = Committee.getCommittee(CommiteeEnum.PublicRelations);
-      //console.log(this.shift.sessions);
-    }
-    else if (comm === 'Reportings') {
-      comm = Committee.getCommittee(CommiteeEnum.Reportings);
-      //console.log(this.shift.sessions);
+    if (!mem) {
+      throw new Error("Fatal error, selected member is not found");
     }
 
     // For each item in the member's available committees
     // remove it from the bound array
     // TODO improve this, it's an expensive operation with redundancy
+
     mem.reserve(this.shiftIndex, comm);
-    this.loadMemberTables();
-
-    if (comm === Committee.getCommittee(CommiteeEnum.PublicRelations)
-      || comm === Committee.getCommittee(CommiteeEnum.Reportings)) {
-      /**
-       * Don't add PR and R&P members to the committe availability
-       * calling notify will make the parent save the session info
-       * in the ShiftAssignments[] object
-      **/
-      this.notifySaveShift();  // Autosave on modification 
-      return;
-    }
-
-    this.notifySaveShift();  // Autosave on modification
     this.selectedShiftMembers.set(e, comm);
+    this.loadMemberTables();
+    this.notifySaveShift();  // Autosave on modification
   }
 
   onMemberRelease(e: Member): void {
@@ -122,7 +113,7 @@ export class ShiftAssignmentComponent implements OnChanges {
         (m: MemberAvailability) => m.member.id === e.id);
 
     mem.release(this.shiftIndex);
-    this.selectedShiftMembers.delete(e);
+    this.selectedShiftMembers.set(e);
     this.notifySaveShift();  // Autosave on modification
     this.loadMemberTables();
   }
@@ -142,6 +133,8 @@ export class ShiftAssignmentComponent implements OnChanges {
 
       if (mA.isBusy(this.shiftIndex)) {
         // Don't add a busy member
+        console.log("Busy member");
+        console.log(mA);
         continue;
       }
       this.updateAvailability(mA);
@@ -149,12 +142,24 @@ export class ShiftAssignmentComponent implements OnChanges {
 
   }
 
+  getAvailableCommitteess(): string[] {
+    // TODO this REALLY wants to change
+    let comms: Set<string> = new Set<string>();
+
+    this.shiftMembersAvailability.forEach(av => {
+      av.availabileCommittees.forEach(c => comms.add(c));
+    });
+
+    let retArr: string[] = [];
+    comms.forEach(entry => retArr.push(entry));
+
+    return retArr;
+  }
+
   private updateAvailability(memberAv: MemberAvailability) {
 
 
     for (let c of memberAv.availabileCommittees) {
-
-
       let isPublicRelOrReportings: boolean = false;
 
       if (c === Committee.getCommittee(CommiteeEnum.PublicRelations)) {

@@ -70,7 +70,7 @@ export class MemberViewComponent implements OnChanges {
   }
 
   onSearchClicked(e: string) {
-    if (e.length === 0) {
+    if (!e || e.length === 0) {
       this.resetFilter();
     }
     else {

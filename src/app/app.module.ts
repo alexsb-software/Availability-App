@@ -43,6 +43,7 @@ import { PrintComponent } from './availability-grid-src/print/print.component';
 
 import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from "@angular/router";
 import { StateSaverRouter } from './state-saver-router';
+import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { StateSaverRouter } from './state-saver-router';
     MapKeysPipe,
     MapValuesPipe,
     PrintComponent,
+    GetCommitteePipe,
   ],
   imports: [
     BrowserModule,

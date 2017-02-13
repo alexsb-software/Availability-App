@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChange } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -37,6 +37,7 @@ export class CommitteeMembersComponent implements OnChanges {
   typeaheadOnSelect(e: TypeaheadMatch) {
     let selected: Member = e.item;
 
+    console.log(e);
     /**
      * Filter the member from the shiftMembers array
      * 
@@ -62,12 +63,16 @@ export class CommitteeMembersComponent implements OnChanges {
       return;
     }
 
-
+    console.log("Splicing");
+    /**
+     * Mark the member as selected and notify the parent
+     * then do internal stuff
+     * Removing the member from the array first
+     * causes its index to change
+     */
+    this.memberSelected.emit(this.commShiftMembers[index]);
     this.commShiftMembers.splice(index, 1);
     this.selectedMembers.push(selected);
-
-    // Move the element to the selected array
-    this.memberSelected.emit(this.commShiftMembers[index]);
 
     this.selected = "";
   }
@@ -81,10 +86,14 @@ export class CommitteeMembersComponent implements OnChanges {
     // use the object itself to add its id back to the pool
 
     const removed: Member = this.selectedMembers.splice(index, 1)[0];
-    this.commShiftMembers.push(removed);
     this.memberReleased.emit(removed);
+    this.commShiftMembers.push(removed);
   }
 
   ngOnChanges() {
+    // If no members are provided, create an empty array
+    if (!this.commShiftMembers) {
+      this.commShiftMembers = [];
+    }
   }
 }
