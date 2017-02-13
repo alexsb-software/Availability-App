@@ -14,6 +14,7 @@ import { NewEventComponent } from './new-event-form-src/new-event/new-event.comp
 import { DayEditorFormComponent } from './new-event-form-src/day-editor-form/day-editor-form.component';
 import { DatePickerComponent } from './new-event-form-src/date-picker/date-picker.component';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { UserAuthService } from './user-auth/user-auth.service';
 
 import { MyDatePickerModule } from 'mydatepicker';
 
@@ -103,7 +104,7 @@ import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
       { path: '**', component: AppComponent }
     ])
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }],
+  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter },UserAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
