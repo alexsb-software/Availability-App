@@ -25,7 +25,6 @@ export class AvialabilityRootComponent implements OnInit {
   eventAvailability: DayAssignmentInfo[] = [];
 
   constructor(private holder: AvailabilityHolderService) {
-    //console.log(holder);
   }
 
   // Current page starts at 1 not 0 
@@ -64,14 +63,14 @@ export class AvialabilityRootComponent implements OnInit {
     day.day = eDay;
     day.shifts = [];
 
-
-    for (let j = 1; j < 3 + idx; j++) {
-      let sh: EventShift = new EventShift();
+    let sh: EventShift;
+    for (let j = 0; j < 3 + idx; j++) {
+      sh = new EventShift();
       sh.number = j;
       sh.sessions = [];
 
       // Add sessions to a shift
-      for (let k = 1; k < 4 + idx; k++) {
+      for (let k = 0; k < 4 + idx; k++) {
         let session: SessionInfo = new SessionInfo();
         session.name = "se" + k + " " + idx;
         sh.sessions.push(session);
@@ -83,18 +82,18 @@ export class AvialabilityRootComponent implements OnInit {
       for (let k = 0; k < 20; k++) {
         let av: MemberAvailability = new MemberAvailability();
         let m: Member = new Member();
-        m.name = "w7oksh" + k + " " + j;
+        // Math.floor(Math.random() * (max - min + 1)) + min
+        m.name = "w7oksh" + (k + j) * (idx + 1) + " " + (Math.floor(Math.random() * (100 - 2 + 1)) + 2);
         m.id = k * j;
         av.member = m;
-        av.shiftIndexes = [0, k + 1];
+        av.shiftIndexes = [sh.number];
         av.availabileCommittees =
           [Committee.getCommittee(k % Committee.getAll().length),
-          Committee.getCommittee(Committee.getAll().length - 1 - k)];
+          Committee.getCommittee((Committee.getAll().length - 1 - k) % Committee.getAll().length)];
 
         day.availabilities.push(av);
       }
     }
-    //console.log(day);
 
     return day;
   }

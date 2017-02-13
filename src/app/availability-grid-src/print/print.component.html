@@ -7,6 +7,7 @@
     <br>
     <div class="row">
       <ng-container *ngFor="let info of dayAssigment.shiftInfos">
+
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <strong>Shift #{{info.shiftIndex+1}}</strong>
           <br>
@@ -20,12 +21,9 @@
                 <br>
                 <b>Reportings: </b>{{se.reporting.name}}
               </p>
-              <hr>
             </ng-container>
           </ng-container>
         </div>
-
-
       </ng-container>
     </div>
   </ng-container>

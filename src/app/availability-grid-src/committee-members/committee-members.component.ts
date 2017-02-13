@@ -62,11 +62,12 @@ export class CommitteeMembersComponent implements OnChanges {
       return;
     }
 
-    // Move the element to the selected array
-    this.memberSelected.emit(this.commShiftMembers[index]);
 
     this.commShiftMembers.splice(index, 1);
     this.selectedMembers.push(selected);
+
+    // Move the element to the selected array
+    this.memberSelected.emit(this.commShiftMembers[index]);
 
     this.selected = "";
   }
