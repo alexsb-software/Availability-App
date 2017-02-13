@@ -46,7 +46,7 @@ import { PrintComponent } from './availability-grid-src/print/print.component';
 import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from "@angular/router";
 import { StateSaverRouter } from './state-saver-router';
 import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
-
+import { AuthGuard } from './auth-guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,20 +91,20 @@ import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
     TypeaheadModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot([
-      { path: 'event/new', component: NewEventComponent },
       { path: 'login', component: UserLoginComponent },
-      { path: 'session', component: SessoinMemberInputComponent },
-      { path: 'comm', component: CommitteeMembersComponent },
-      { path: 'aval', component: UserAvalComponent },
-      { path: 'member', component: MemberViewComponent },
-      { path: 'shift', component: ShiftAssignmentComponent },
-      { path: 'day/:id', component: DayAssignmentComponent },
-      { path: 'print', component: PrintComponent },
-      { path: '', component: AvialabilityRootComponent },
+      { path: 'event/new', component: NewEventComponent, canActivate: [AuthGuard] },
+      { path: 'session', component: SessoinMemberInputComponent, canActivate: [AuthGuard] },
+      { path: 'comm', component: CommitteeMembersComponent, canActivate: [AuthGuard] },
+      { path: 'aval', component: UserAvalComponent, canActivate: [AuthGuard] },
+      { path: 'member', component: MemberViewComponent, canActivate: [AuthGuard] },
+      { path: 'shift', component: ShiftAssignmentComponent, canActivate: [AuthGuard] },
+      { path: 'day/:id', component: DayAssignmentComponent, canActivate: [AuthGuard] },
+      { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
+      { path: '', component: AvialabilityRootComponent }, // TODO put auth guard on production
       { path: '**', component: AppComponent }
     ])
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter },UserAuthService],
+  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }, UserAuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

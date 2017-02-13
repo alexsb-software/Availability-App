@@ -21,8 +21,7 @@ export class EventDataService {
         // return this._http.get(this._apiurl)
         //     .map((response: Response) => this.addAvalArray(<EventUser[]>response.json()));
         return this.authedCommunication.authorizedGet(this._apiurl).map(
-            (response: Response) => this.addAvalArray(<EventUser[]>response.json())
-        );
+            (response: Response) => this.addAvalArray(<EventUser[]>response.json()));
     }
 
     addAvalArray(eventslist: EventUser[]): EventUser[] {
