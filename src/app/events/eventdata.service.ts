@@ -4,6 +4,8 @@ import { UserAvalability } from '../user_reg/user';
 import { Event } from '../applogic-general/event';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { UserAuthService } from '../user-auth/user-auth.service';
+
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -12,11 +14,15 @@ export class EventDataService {
     private _apiurl = '../api/events.json';
     private newEventAPI = 'https://avalapp-mahmoudmcd1.c9users.io/hello-world.php';
 
-    constructor(private _http: Http) { }
+    constructor(private _http: Http, private authedCommunication: UserAuthService) { }
 
     getEventsList(): Observable<EventUser[]> {
-        return this._http.get(this._apiurl)
-            .map((response: Response) => this.addAvalArray(<EventUser[]>response.json()));
+
+        // return this._http.get(this._apiurl)
+        //     .map((response: Response) => this.addAvalArray(<EventUser[]>response.json()));
+        return this.authedCommunication.authorizedGet(this._apiurl).map(
+            (response: Response) => this.addAvalArray(<EventUser[]>response.json())
+        );
     }
 
     addAvalArray(eventslist: EventUser[]): EventUser[] {
@@ -38,7 +44,7 @@ export class EventDataService {
 
         eventslist.forEach((eventUser: EventUser, index: number) => {
             avalArray = [];
-            let event:Event = eventUser.event;
+            let event: Event = eventUser.event;
             for (let day of event.eventDays) {
                 let insideForEach = [];
                 for (let shift of day.shifts) {
@@ -58,15 +64,19 @@ export class EventDataService {
     }
 
     postUserAval(userAval: UserAvalability): Observable<number> {
-        return this._http.post(this._apiurl, JSON.stringify(userAval))
-            .map((response: Response) => <number>response.status)
+        let body = JSON.stringify(userAval);
+        return this.authedCommunication.authorizedPost(body, this.newEventAPI);
+        // return this._http.post(this._apiurl, JSON.stringify(userAval))
+        //     .map((response: Response) => <number>response.status)
     }
 
     postEvent(event: Event): Observable<number> {
         console.log(this.parseToJson(event));
-        
-        return this._http.post(this.newEventAPI, JSON.stringify(this.parseToJson(event)))
-            .map((response: Response) => <number>response.status)
+        let body = JSON.stringify(this.parseToJson(event));
+        return this.authedCommunication.authorizedPost(body, this.newEventAPI);
+
+        // return this._http.post(this.newEventAPI, JSON.stringify(this.parseToJson(event)))
+        //     .map((response: Response) => <number>response.status)
     }
 
     private parseToJson(event: Event): Object {
