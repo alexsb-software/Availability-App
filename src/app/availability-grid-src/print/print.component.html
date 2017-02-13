@@ -1,18 +1,26 @@
-<p>
-  print works!
-</p>
 <ng-container *ngIf="dayAssignments">
-  <ng-container *ngFor="let dayAssigment of dayAssignments">
-    <strong>Day #{{dayAssigment.dayNumber+1}}</strong>
-    <br>
-    <div class="row">
-      <ng-container *ngFor="let info of dayAssigment.shiftInfos">
+  <ng-container *ngFor="let dayAssigment of dayAssignments;let dayIdx=index">
 
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <strong>Shift #{{info.shiftIndex+1}}</strong>
-          <br>
-          <ng-container *ngFor="let se of info.sessionInfo">
-            <ng-container *ngIf="se.hasCompleteInfo()">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Day #{{dayIdx+1}}</h2>
+      </div>
+    </div>
+
+
+    <ng-container *ngFor="let shiftInfo of dayAssigment.shiftInfos;let shiftIdx=index">
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <h3>Shift #{{shiftInfo.shiftIndex+1}}</h3>
+        </div>
+      </div>
+
+      <!--Info about sessions-->
+      <div class="row">
+        <ng-container *ngFor="let se of shiftInfo.sessionInfo">
+          <ng-container *ngIf="se.hasCompleteInfo()">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
               <strong>Title {{se.name}}</strong>
               <strong>From {{se.startDate | date:'shortTime'}}</strong>
               <strong>To {{se.endDate | date:'shortTime'}}</strong>
@@ -21,9 +29,39 @@
                 <br>
                 <b>Reportings: </b>{{se.reporting.name}}
               </p>
-            </ng-container>
+            </div>
           </ng-container>
+        </ng-container>
+      </div>
+      <!--Info about sessions-->
+      <ng-container *ngFor="let committeeName of committees">
+
+        <div class="row">
+
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <strong>{{committeeName}} </strong>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ng-container *ngFor="let member of extractCommitteeInfos(dayIdx,shiftIdx,committeeName)">
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    {{member.name}}
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+
+          </div>
         </div>
+        <br>
       </ng-container>
-    </div>
+      <br>
+    </ng-container>
+    <hr>
+
   </ng-container>
+</ng-container>

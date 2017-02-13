@@ -118,6 +118,10 @@ export class ShiftAssignmentComponent implements OnChanges {
     this.loadMemberTables();
   }
 
+  notifySaveShift(): void {
+    this.onShiftSave.emit(this.selectedShiftMembers);
+  }
+
   /**
     * Adds the members available for a committee to the corresponding
     * entry in the hash map. The shift number isn't checked
@@ -133,8 +137,8 @@ export class ShiftAssignmentComponent implements OnChanges {
 
       if (mA.isBusy(this.shiftIndex)) {
         // Don't add a busy member
-        console.log("Busy member");
-        console.log(mA);
+        //console.log("Busy member");
+        //console.log(mA);
         continue;
       }
       this.updateAvailability(mA);
@@ -142,19 +146,6 @@ export class ShiftAssignmentComponent implements OnChanges {
 
   }
 
-  getAvailableCommitteess(): string[] {
-    // TODO this REALLY wants to change
-    let comms: Set<string> = new Set<string>();
-
-    this.shiftMembersAvailability.forEach(av => {
-      av.availabileCommittees.forEach(c => comms.add(c));
-    });
-
-    let retArr: string[] = [];
-    comms.forEach(entry => retArr.push(entry));
-
-    return retArr;
-  }
 
   private updateAvailability(memberAv: MemberAvailability) {
 
@@ -216,7 +207,4 @@ export class ShiftAssignmentComponent implements OnChanges {
     }
   }
 
-  notifySaveShift(): void {
-    this.onShiftSave.emit(this.selectedShiftMembers);
-  }
 }

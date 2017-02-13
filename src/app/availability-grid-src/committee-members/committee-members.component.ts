@@ -63,7 +63,7 @@ export class CommitteeMembersComponent implements OnChanges {
       return;
     }
 
-    console.log("Splicing");
+    //console.log("Splicing");
     /**
      * Mark the member as selected and notify the parent
      * then do internal stuff

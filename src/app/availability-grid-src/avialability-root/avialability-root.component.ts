@@ -7,6 +7,8 @@ import { CommiteeEnum, Committee } from '../../applogic-general/committee';
 import { DayAvailability } from '../../applogic-general/day-availability';
 import { MemberAvailability } from '../../applogic-general/member-availability';
 import { AvailabilityHolderService } from '../../singleton-services/availability-holder.service';
+import { StateSaverService } from '../../singleton-services/state-saver.service';
+
 import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../../applogic-general/assignment-info';
 
 @Component({
@@ -20,19 +22,32 @@ import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../..
  */
 export class AvialabilityRootComponent implements OnInit {
 
-  isSaved: boolean = false;
   days: DayAvailability[] = [];
-  eventAvailability: DayAssignmentInfo[] = [];
   testId: number = 0;
-  constructor(private holder: AvailabilityHolderService) {
+  dayKey: string = "day";
+
+  constructor(
+    private holder: AvailabilityHolderService) {
   }
 
   // Current page starts at 1 not 0 
-  public currentPage: number = 1;
+  public currentPageIndex: number = 0;
 
-  public pageChanged(event: any): void {
-    this.isSaved = false;
-  }
+  // getNextPage(): void {
+  //   console.log("Current " + this.currentPageIndex);
+  //   let nextPageIndex: number = (this.currentPageIndex + 1) % this.days.length;
+  //   console.log("Next " + nextPageIndex);
+
+  //   let lastDayKey = (this.dayKey + this.currentPageIndex);
+  //   let nextDayKey = (this.dayKey + nextPageIndex);
+  //   this.saver.save(lastDayKey, this.days[this.currentPageIndex]);
+
+  //   if (this.saver.exists(nextDayKey)) {
+  //     this.days[nextPageIndex] = this.saver.get(nextDayKey);
+  //   }
+  //   console.log(nextPageIndex);
+  //   this.currentPageIndex = nextPageIndex;
+  // }
 
   ngOnInit() {
     let dayTemp: DayAvailability[] = [];
@@ -41,17 +56,13 @@ export class AvialabilityRootComponent implements OnInit {
       dayTemp.push(this.mockDay(i));
     }
     this.days = dayTemp;
+    this.holder.eventAvailability = this.days;
   }
 
-  onSaveDay(e: ShiftAssignmentInfo[]): void {
-    let dayIndex = this.currentPage - 1;
-
-    this.holder.eventAvailability[dayIndex] = new DayAssignmentInfo();
-    this.holder.eventAvailability[dayIndex].shiftInfos = e;
-    this.holder.eventAvailability[dayIndex].dayNumber = dayIndex;
-
-    this.isSaved = true;
-    console.log(this.holder);
+  onSaveDay(e: ShiftAssignmentInfo[], dayIdx: number): void {
+    this.holder.eventAssignmentInfo[dayIdx] = new DayAssignmentInfo();
+    this.holder.eventAssignmentInfo[dayIdx].shiftInfos = e;
+    this.holder.eventAssignmentInfo[dayIdx].dayNumber = dayIdx;
   }
 
   mockDay(idx: number): DayAvailability {
@@ -79,7 +90,7 @@ export class AvialabilityRootComponent implements OnInit {
       day.shifts.push(sh);
 
       // Populate members of the shift
-      for (let k = 0; k < 12; k++) {
+      for (let k = 0; k < 15; k++) {
         let av: MemberAvailability = new MemberAvailability();
         let m: Member = new Member();
         // Math.floor(Math.random() * (max - min + 1)) + min

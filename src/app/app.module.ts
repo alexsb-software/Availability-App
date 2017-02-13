@@ -72,7 +72,7 @@ import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
     DayAssignmentComponent,
     AvialabilityRootComponent,
     MapKeysPipe,
-    UserLoginComponent
+    UserLoginComponent,
     MapValuesPipe,
     PrintComponent,
     GetCommitteePipe,
@@ -91,13 +91,13 @@ import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
     TabsModule.forRoot(),
     RouterModule.forRoot([
       { path: 'event/new', component: NewEventComponent },
-      { path: 'login', component: UserLoginComponent},
+      { path: 'login', component: UserLoginComponent },
       { path: 'session', component: SessoinMemberInputComponent },
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
       { path: 'member', component: MemberViewComponent },
       { path: 'shift', component: ShiftAssignmentComponent },
-      { path: 'day', component: DayAssignmentComponent },
+      { path: 'day/:id', component: DayAssignmentComponent },
       { path: 'print', component: PrintComponent },
       { path: '', component: AvialabilityRootComponent },
       { path: '**', component: AppComponent }

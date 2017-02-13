@@ -1,17 +1,17 @@
-<h3>Day #{{this.currentPage}}</h3>
-<hr>
-<app-day-assignment (onSaveDay)="onSaveDay($event)" [day]="days[currentPage-1]"></app-day-assignment>
-<hr>
+<ng-container *ngFor="let day of days;let i=index">
+  <h3>Day #{{i+1}}</h3>
+  <br>
+  <app-day-assignment (onSaveDay)="onSaveDay($event,i)" [day]="day"></app-day-assignment>
+  <hr>
+</ng-container>
+<a routerLink="print"><button class="btn btn-success pull-right" > Print </button></a>
 
 
 
-<div class="row">
+
+<!--<div class="row">
   <div class="col-xs-12 col-sm-12col-xs-12 col-md-12col-xs-12 col-lg-12col-xs-12">
-    <pager [totalItems]="this.days.length" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" pageBtnClass="btn" itemsPerPage="1"></pager>
+    <pager [totalItems]="this.days.length" [(ngModel)]="currentPageIndex" (pageChanged)="pageChanged($event)" pageBtnClass="btn" itemsPerPage="1"></pager>
   </div>
-</div>
+</div>-->
 
-<strong *ngIf="!isSaved">
-Save the day to be able to go to print page
-</strong>
-<a *ngIf="isSaved" (click)="isSaved=false" routerLink="print"><button class="btn btn-success pull-right" > Print </button></a>

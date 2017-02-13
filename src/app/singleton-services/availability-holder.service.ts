@@ -10,11 +10,21 @@ export class AvailabilityHolderService {
 
   private _eventAssignmentInfo: DayAssignmentInfo[] = [];
 
-  public get eventAvailability(): DayAssignmentInfo[] {
+  public get eventAssignmentInfo(): DayAssignmentInfo[] {
     return this._eventAssignmentInfo;
   }
 
-  public set eventAvailability(v: DayAssignmentInfo[]) {
+  public set eventAssignmentInfo(v: DayAssignmentInfo[]) {
     this._eventAssignmentInfo = v;
   }
+
+
+  private _eventAvailability: DayAvailability[] = [];
+  public get eventAvailability(): DayAvailability[] {
+    return this._eventAvailability;
+  }
+  public set eventAvailability(v: DayAvailability[]) {
+    this._eventAvailability = v;
+  }
+
 }
