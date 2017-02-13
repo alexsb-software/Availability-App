@@ -28,12 +28,10 @@ export class DayAssignmentComponent {
 
     this.savedShifts[shiftIndex].shiftIndex = shiftIndex;
     this.savedShifts[shiftIndex].committeeMembers = e;
-    this.savedShifts[shiftIndex].sessionInfo =
-      Object.assign(this.day.shifts[shiftIndex].sessions);
-  }
+    this.savedShifts[shiftIndex].sessionInfo = this.day.shifts[shiftIndex].sessions;
 
-  saveDay(): void {
     this.onSaveDay.emit(this.savedShifts);
   }
+
 }
 
