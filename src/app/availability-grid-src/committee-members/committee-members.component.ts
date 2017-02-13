@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +13,7 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
   templateUrl: './committee-members.component.html',
   styleUrls: ['./committee-members.component.css']
 })
-export class CommitteeMembersComponent implements OnChanges {
+export class CommitteeMembersComponent implements OnChanges, DoCheck {
   public selected: string;
 
   /**
@@ -27,7 +27,7 @@ export class CommitteeMembersComponent implements OnChanges {
   @Input() commShiftMembers: Member[] = [];
   @Input() commName: string;
   selectedMembers: Member[] = [];
-
+  lastCount: number = 0;
   /**
    * Event emitters are used to notify the parent
    * component to modify the original data
@@ -97,7 +97,9 @@ export class CommitteeMembersComponent implements OnChanges {
     if (!this.commShiftMembers) {
       this.commShiftMembers = [];
     }
-    console.debug("CommitteeMembersComponent change, name: " + this.commName);
-    console.log(e);
+    console.log("CommitteeMembersComponent changed " + this.commName);
+  }
+
+  ngDoCheck(): void {
   }
 }

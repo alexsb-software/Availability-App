@@ -106,6 +106,11 @@ export class ShiftAssignmentComponent implements OnChanges {
     this.selectedShiftMembers.set(e, comm);
     this.loadMemberTables();
     this.notifySaveShift();  // Autosave on modification
+    // let oldMembers: Member[] = this.committeeMembers.get(comm);
+    // let removedMemberIdx: number = oldMembers.findIndex(m => m.id === e.id);
+    // if (!removedMemberIdx) throw new Error("Fatal, can't find deleted member");
+    // oldMembers.splice(removedMemberIdx, 1);
+    // this.committeeMembers.set(comm, oldMembers);
   }
 
   onMemberRelease(e: Member, comm: string): void {
@@ -118,12 +123,14 @@ export class ShiftAssignmentComponent implements OnChanges {
     this.notifySaveShift();  // Autosave on modification
     this.loadMemberTables();
     // let oldMembers: Member[] = this.committeeMembers.get(comm);
-    // let removedMemberIdx:number=oldMembers.findIndex(m => m.id === e.id);
-    // if(!removedMemberIdx)
-    // throw new Error("Fatal, can't find deleted member");
+    // let removedMemberIdx: number = oldMembers.findIndex(m => m.id === e.id);
+    // if (!removedMemberIdx) throw new Error("Fatal, can't find deleted member");
+    // oldMembers.splice(removedMemberIdx, 1);
+    // this.committeeMembers.set(comm, oldMembers);
   }
 
   notifySaveShift(): void {
+    
     this.onShiftSave.emit(this.selectedShiftMembers);
   }
 

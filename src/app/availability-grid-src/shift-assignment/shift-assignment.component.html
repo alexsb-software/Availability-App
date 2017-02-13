@@ -52,7 +52,7 @@
               <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
             </div>
             <div class="stack-element">
-              <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event,comm)"></app-committee-members>
+              <app-committee-members [commShiftMembers]="committeeMembers.get(comm)"  [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event,comm)"></app-committee-members>
             </div>
           </accordion-group>
         </div>
