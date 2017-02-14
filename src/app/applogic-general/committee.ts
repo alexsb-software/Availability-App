@@ -38,11 +38,11 @@ export class Committee {
      * The weird syntax is to provide function
      * overloads
      */
-    public static getCommittee(key: number | string | CommiteeEnum): string {
+    public static getCommittee(key: number | string | CommitteeEnum): string {
         if (typeof key === "number") {
             return Committee.getCommByIndex(key);
         }
-        if (typeof key === "CommiteeEnum") {
+        if (typeof key === "CommitteeEnum") {
             return Committee.getCommByEnum(key);
         }
         return Committee.getCommByKeyword(key);
@@ -60,9 +60,9 @@ export class Committee {
         return Committee.committees[idx];
     }
 
-    private static getCommByEnum(key: CommiteeEnum): string {
+    private static getCommByEnum(key: CommitteeEnum): string {
         // if committee name is 2 words, just use the first word
-        let firstWord: string = CommiteeEnum[key].split(" ")[0]
+        let firstWord: string = CommitteeEnum[key].split(" ")[0]
         return Committee.getCommByKeyword(firstWord);
     }
 
@@ -108,7 +108,7 @@ export class Committee {
     ];
 }
 
-export enum CommiteeEnum {
+export enum CommitteeEnum {
     Activities = 0,
     Graphics,
     HumanResources,
