@@ -100,7 +100,8 @@ import { AuthGuard } from './auth-guard';
       { path: 'shift', component: ShiftAssignmentComponent, canActivate: [AuthGuard] },
       { path: 'day/:id', component: DayAssignmentComponent, canActivate: [AuthGuard] },
       { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
-      { path: '', component: AvialabilityRootComponent }, // TODO put auth guard on production
+      { path: 'test', component: AvialabilityRootComponent },
+      { path: '', component: AvialabilityRootComponent, canActivate: [AuthGuard] },
       { path: '**', component: AppComponent }
     ])
   ],
