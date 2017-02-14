@@ -6,14 +6,29 @@
   <strong> >> {{0}} - {{selectedMembers.length}}</strong>
 </ng-container>
 
+
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <input [typeahead]="commShiftMembers" [(ngModel)]="selected" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event)" placeholder="Find" class="form-control">
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <dynamic-table [items]="selectedMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemRemoved)="removeMember($event)"></dynamic-table>
+
+<ng-container *ngIf="selectedMembers && selectedMembers.length">
+  <p>Committee <b>assigned</b> members</p>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <dynamic-table [items]="selectedMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemRemoved)="removeMember($event)"></dynamic-table>
+    </div>
   </div>
-</div>
+</ng-container>
+
+
+<ng-container *ngIf="commShiftMembers.length">
+  <p>Committee <b>available</b> members</p>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <dynamic-table [canRemove]='false' [items]="commShiftMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']"></dynamic-table>
+    </div>
+  </div>
+</ng-container>

@@ -47,6 +47,7 @@ import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from 
 import { StateSaverRouter } from './state-saver-router';
 import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
 import { AuthGuard } from './auth-guard';
+import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +78,7 @@ import { AuthGuard } from './auth-guard';
     MapValuesPipe,
     PrintComponent,
     GetCommitteePipe,
+    RemovePrRnpPipe,
   ],
   imports: [
     BrowserModule,
