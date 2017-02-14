@@ -47,6 +47,9 @@ import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from 
 import { StateSaverRouter } from './state-saver-router';
 import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
 import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
+import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
+
+import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -79,6 +82,8 @@ import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
     PrintComponent,
     GetCommitteePipe,
     RemovePrRnpPipe,
+    ExcelInterfaceComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,
@@ -102,6 +107,7 @@ import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
       { path: 'shift', component: ShiftAssignmentComponent },
       { path: 'day/:id', component: DayAssignmentComponent },
       { path: 'print', component: PrintComponent },
+      { path: 'excel', component: ExcelInterfaceComponent },
       { path: '', component: AvialabilityRootComponent },
       { path: '**', component: AppComponent }
     ])
