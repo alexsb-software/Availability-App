@@ -106,7 +106,7 @@ import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
       { path: '**', component: AppComponent }
     ])
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter },UserAuthService],
+  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }, UserAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
