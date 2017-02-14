@@ -3,7 +3,7 @@ import { ShiftFilterPipe } from '../../applogic-general/member-view/shift-filter
 import { DayAvailability } from '../../applogic-general/day-availability';
 import { Member } from '../../applogic-general/member';
 import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../../applogic-general/assignment-info';
-import { CommiteeEnum, Committee } from '../../applogic-general/committee';
+import { CommitteeEnum, Committee } from '../../applogic-general/committee';
 
 @Component({
   selector: 'app-day-assignment',

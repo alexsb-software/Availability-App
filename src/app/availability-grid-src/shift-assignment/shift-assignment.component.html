@@ -7,23 +7,33 @@
 
 
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ng-container *ngFor="let sessionItem of this.shift.sessions">
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <app-sessoin-member-input (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" (onPublicRelRelease)="onMemberRelease($event)" (onReportingsSelect)="onMemberSelect($event ,'Reportings')" (onReportingsRelease)="onMemberRelease($event)" [session]="sessionItem"
-              [publicRelMembers]="publicRels" [reportingsMembers]="reportings"></app-sessoin-member-input>
-          </div>
-        </ng-container>
-      </div>
+      <ng-container *ngFor="let sessionItem of this.shift.sessions;let j =index">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <app-sessoin-member-input (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" (onPublicRelRelease)="onMemberRelease($event)" (onReportingsSelect)="onMemberSelect($event ,'Reportings')" (onReportingsRelease)="onMemberRelease($event)" [session]="sessionItem"
+            [publicRelMembers]="publicRels" [reportingsMembers]="reportings"></app-sessoin-member-input>
+        </div>
+      </ng-container>
     </div>
 
     <hr>
 
+
+
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <strong> TODO: All PR and R&P</strong>
+        <ng-container *ngIf="publicRels.length>0">
+          <p>Available Public Relations Members</p>
+          <dynamic-table [items]="publicRels" [canRemove]='false' [properties]='["name"]' [propertyDisplayNames]="['Name']"></dynamic-table>
+          <br>
+        </ng-container>
+        <ng-container *ngIf="reportings.length>0">
+          <p>Available Reportings Members</p>
+          <dynamic-table [items]="reportings" [canRemove]='false' [properties]='["name"]' [propertyDisplayNames]="['Name']"></dynamic-table>
+        </ng-container>
       </div>
     </div>
+
+
 
 
   </accordion-group>
@@ -35,7 +45,7 @@
     </div>
 
     <div class="row">
-      <ng-container *ngFor="let comm of shiftMembersAvailability | getCommittee">
+      <ng-container *ngFor="let comm of shiftMembersAvailability | getCommittee | removePrRnp">
 
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 stack-element">
           <accordion-group #group>
@@ -52,7 +62,7 @@
               <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
             </div>
             <div class="stack-element">
-              <app-committee-members [commShiftMembers]="committeeMembers.get(comm)"  [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event,comm)"></app-committee-members>
+              <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event,comm)"></app-committee-members>
             </div>
           </accordion-group>
         </div>

@@ -3,7 +3,7 @@ import { Member } from '../../applogic-general/member';
 import { EventDay } from '../../applogic-general/event-day';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { EventShift } from '../../applogic-general/event-shift';
-import { CommiteeEnum, Committee } from '../../applogic-general/committee';
+import { CommitteeEnum, Committee } from '../../applogic-general/committee';
 import { DayAvailability } from '../../applogic-general/day-availability';
 import { MemberAvailability } from '../../applogic-general/member-availability';
 import { AvailabilityHolderService } from '../../singleton-services/availability-holder.service';

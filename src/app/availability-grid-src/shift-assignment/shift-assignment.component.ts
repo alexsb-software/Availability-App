@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { MemberAvailability } from '../../applogic-general/member-availability';
 import { Member } from '../../applogic-general/member';
-import { Committee, CommiteeEnum } from '../../applogic-general/committee';
+import { Committee, CommitteeEnum } from '../../applogic-general/committee';
 import { CommFilterPipe } from '../../applogic-general/member-view/comm-filter.pipe';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { EventShift } from '../../applogic-general/event-shift';
@@ -104,8 +104,8 @@ export class ShiftAssignmentComponent implements OnChanges {
 
     mem.reserve(this.shiftIndex, comm);
     this.selectedShiftMembers.set(e, comm);
-    this.loadMemberTables();
     this.notifySaveShift();  // Autosave on modification
+    this.loadMemberTables(); 
     // let oldMembers: Member[] = this.committeeMembers.get(comm);
     // let removedMemberIdx: number = oldMembers.findIndex(m => m.id === e.id);
     // if (!removedMemberIdx) throw new Error("Fatal, can't find deleted member");
@@ -130,7 +130,7 @@ export class ShiftAssignmentComponent implements OnChanges {
   }
 
   notifySaveShift(): void {
-    
+
     this.onShiftSave.emit(this.selectedShiftMembers);
   }
 
@@ -140,10 +140,26 @@ export class ShiftAssignmentComponent implements OnChanges {
     * as this is a job for a higher component
     */
   loadMemberTables(): void {
+    /**
+     * This loop is very ugly, but it's needed as angular binding doesn't
+     * notice changes on add/delete
+     * 
+     * ngDoCheck should be used with iterable differ?
+     */
     // Reset the tables
     this.committeeMembers = new Map<string, Member[]>();
     this.publicRels = [];
     this.reportings = [];
+
+    let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
+    let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
+
+    // Don't add availability slots for PR and R&P
+    // Add empty entries for other committees
+    for (let com of this.committees) {
+      if (com === publicRel || com === reportings) continue;
+      this.committeeMembers.set(com, []);
+    }
 
     for (let mA of this.shiftMembersAvailability) {
 
@@ -161,21 +177,50 @@ export class ShiftAssignmentComponent implements OnChanges {
 
   private updateAvailability(memberAv: MemberAvailability) {
 
+    // String to hold the name of the committee
+    let logistics: string = Committee.getCommittee(CommitteeEnum.Logistics);
+    let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
+    let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
+
 
     for (let c of memberAv.availabileCommittees) {
       let isPublicRelOrReportings: boolean = false;
 
-      if (c === Committee.getCommittee(CommiteeEnum.PublicRelations)) {
+
+
+
+      if (c === publicRel) {
         this.publicRels.push(memberAv.member);
         isPublicRelOrReportings = true;
       }
 
-      if (c === Committee.getCommittee(CommiteeEnum.Reportings)) {
+      if (c === reportings) {
         this.reportings.push(memberAv.member);
         isPublicRelOrReportings = true;
       }
 
-      // Don't add PR and RP memebers to shift availability
+      // TODO: if a member exists in PR and another committee they won't
+      // appear in logistics slot
+      // Prevent adding a member twice by other committee availablities
+      if (
+        this.committeeMembers.get(logistics).indexOf(memberAv.member) === -1
+        && memberAv.availabileCommittees.indexOf(publicRel) === -1
+        && memberAv.availabileCommittees.indexOf(reportings) === -1
+        && memberAv.availabileCommittees.indexOf(logistics) === -1) {
+        // Make all members available for logistics
+
+
+        if (!this.committeeMembers.has(logistics)) {
+          this.committeeMembers.set(logistics, []);
+        }
+        // Add all available members to logistics
+        let oldLogistics = this.committeeMembers.get(logistics);
+        oldLogistics.push(memberAv.member);
+        this.committeeMembers.set(logistics, oldLogistics);
+
+      }
+
+      //Don't add PR and RP memebers to shift availability
       if (isPublicRelOrReportings) {
         /**
          * If a member is available in PR or R&P they will 
@@ -185,10 +230,7 @@ export class ShiftAssignmentComponent implements OnChanges {
         continue;
       }
 
-      // Add empty entries
-      if (!this.committeeMembers.has(c)) {
-        this.committeeMembers.set(c, []);
-      }
+
 
       let oldVals = this.committeeMembers.get(c);
 
@@ -201,8 +243,8 @@ export class ShiftAssignmentComponent implements OnChanges {
    * Creates fake members for test purposes
    */
   private mockMembers(): void {
-    let prString = Committee.getCommittee(CommiteeEnum.PublicRelations);
-    let reportingsString = Committee.getCommittee(CommiteeEnum.Reportings);
+    let prString = Committee.getCommittee(CommitteeEnum.PublicRelations);
+    let reportingsString = Committee.getCommittee(CommitteeEnum.Reportings);
 
     for (let i: number = 0; i < 15; i++) {
       let m: Member = new Member();
