@@ -99,12 +99,14 @@ export class Committee {
         "Human Resources",
         "Logistics",
         "Marketing",
+        "Membership Developement",
         "Operations",
         "Public Relations",
         "Presrenters",
         "Registration",
-        "Reportings and Publications",
-        "Software",
+        "Reporting and Publications",
+        "Software Development",
+        "Technical"
     ];
 }
 

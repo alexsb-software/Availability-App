@@ -1,2 +1,6 @@
- Single
 <input type="file" ng2FileSelect [uploader]="uploader" />
+<a routerLink="/">Home</a>
+<hr>
+<ng-container *ngFor="let line of workSheetContent">
+  {{line}}<br>
+</ng-container>

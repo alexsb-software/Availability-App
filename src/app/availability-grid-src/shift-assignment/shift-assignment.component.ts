@@ -105,7 +105,7 @@ export class ShiftAssignmentComponent implements OnChanges {
     mem.reserve(this.shiftIndex, comm);
     this.selectedShiftMembers.set(e, comm);
     this.notifySaveShift();  // Autosave on modification
-    this.loadMemberTables(); 
+    this.loadMemberTables();
     // let oldMembers: Member[] = this.committeeMembers.get(comm);
     // let removedMemberIdx: number = oldMembers.findIndex(m => m.id === e.id);
     // if (!removedMemberIdx) throw new Error("Fatal, can't find deleted member");
@@ -190,11 +190,13 @@ export class ShiftAssignmentComponent implements OnChanges {
 
 
       if (c === publicRel) {
+        console.assert(this.publicRels !== null, "Public Relations fail");
         this.publicRels.push(memberAv.member);
         isPublicRelOrReportings = true;
       }
 
       if (c === reportings) {
+        console.assert(this.publicRels !== null, "Reportings fail");
         this.reportings.push(memberAv.member);
         isPublicRelOrReportings = true;
       }
@@ -215,6 +217,7 @@ export class ShiftAssignmentComponent implements OnChanges {
         }
         // Add all available members to logistics
         let oldLogistics = this.committeeMembers.get(logistics);
+        console.assert(oldLogistics !== null && oldLogistics, "old logistics fail");
         oldLogistics.push(memberAv.member);
         this.committeeMembers.set(logistics, oldLogistics);
 
@@ -233,7 +236,10 @@ export class ShiftAssignmentComponent implements OnChanges {
 
 
       let oldVals = this.committeeMembers.get(c);
-
+      if (!oldVals) {
+        oldVals = []; // Populate unknown committees members
+      }
+      console.assert(oldVals !== null && oldVals, "oldVals fail");
       oldVals.push(memberAv.member)
       this.committeeMembers.set(c, oldVals);
     }
@@ -250,6 +256,7 @@ export class ShiftAssignmentComponent implements OnChanges {
       let m: Member = new Member();
       m.id = i;
       m.name = "ai" + i;
+      console.assert(this.shiftMembers !== null && this.shiftMembers, "shiftMembers fail");
       this.shiftMembers.push(m);
 
       let memAv: MemberAvailability = new MemberAvailability();
@@ -257,6 +264,8 @@ export class ShiftAssignmentComponent implements OnChanges {
       memAv.shiftIndexes = [i % 3, i % 2];
       memAv.availabileCommittees =
         [Committee.getCommittee(i % Committee.commLength()), Committee.getCommittee(Committee.commLength() - i - 1)];
+      console.assert(this.shiftMembersAvailability !== null && this.shiftMembersAvailability, "shiftMembersAvailability fail");
+
       this.shiftMembersAvailability.push(memAv);
     }
   }
