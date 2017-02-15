@@ -50,6 +50,7 @@ import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
 
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { GroupByCommitteePipe } from './applogic-general/member-view/group-by-committee.pipe';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-u
     GetCommitteePipe,
     RemovePrRnpPipe,
     ExcelInterfaceComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    GroupByCommitteePipe
   ],
   imports: [
     BrowserModule,

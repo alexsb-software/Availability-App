@@ -110,24 +110,7 @@ export class AvialabilityRootComponent implements OnInit {
     eDay.dayDate = new Date("1/1/2000");
     day.day = eDay;
     day.shifts = [];
-
-    // let shift1 = new EventShift();
-    // shift1.number = 1;
-    // shift1.sessions = [];
-    // let shift2 = new EventShift();
-    // shift2.number = 2;
-    // shift2.sessions = [];
-
-    // day.shifts.push(shift1);
-    // day.shifts.push(shift2);
-
-    // for (let line of memberLines) {
-    //   let memAv: MemberAvailability = new MemberAvailability();
-    //   memAv.member = line.member;
-    //   memAv.availabileCommittees = line.committees;
-    //   memAv.shiftIndexes = line.shifts;
-    //   day.availabilities.push(memAv);
-    // }
+    
     //-----------------------------
     let sh: EventShift;
     for (let j = 0; j < 2; j++) {
@@ -135,34 +118,17 @@ export class AvialabilityRootComponent implements OnInit {
       sh.number = j;
       sh.sessions = [];
       day.shifts.push(sh);
-
-      for (let line of memberLines) {
-        console.log(line);
-        let memAv: MemberAvailability = new MemberAvailability();
-        memAv.member = Object.assign(line.member);
-        memAv.shiftIndexes = Object.assign(line.shifts);
-        memAv.availabileCommittees = line.committees;
-        day.availabilities.push(memAv);
-      }
-
-
-      // Populate members of the shift
-      // for (let k = 0; k < 15; k++) {
-      //   let av: MemberAvailability = new MemberAvailability();
-      //   let m: Member = new Member();
-      //   // Math.floor(Math.random() * (max - min + 1)) + min
-      //   m.name = "w7oksh" + (k + j) * (idx + 1) + " " + (Math.floor(Math.random() * (100 - 2 + 1)) + 2);
-      //   m.id = this.testId++;
-      //   av.member = m;
-      //   av.shiftIndexes = [sh.number];
-      //   av.availabileCommittees =
-      //     [Committee.getCommittee(k % Committee.getAll().length),
-      //     Committee.getCommittee(Math.abs((Committee.getAll().length - 1 - k)) % Committee.getAll().length)];
-
-      //   day.availabilities.push(av);
-      // }
     }
-    //-----------------------------    
+
+    for (let line of memberLines) {
+      console.log(line);
+      let memAv: MemberAvailability = new MemberAvailability();
+      memAv.member = Object.assign(line.member);
+      memAv.shiftIndexes = Object.assign(line.shifts);
+      memAv.availabileCommittees = line.committees;
+      day.availabilities.push(memAv);
+    }
+
     return day;
   }
 

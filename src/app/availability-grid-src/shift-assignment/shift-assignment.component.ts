@@ -31,6 +31,12 @@ export class ShiftAssignmentComponent implements OnChanges {
    * the online form
    */
   @Input() shiftMembersAvailability: MemberAvailability[] = [];
+
+  /**
+   * This array holds the committes registered in the form.
+   * It's calculated once from members availability
+   */
+  @Input() inputCommittees: string[] = [];
   /**
    * Contains the marked as selected members,
    * this array will be used to generate the 
@@ -151,6 +157,7 @@ export class ShiftAssignmentComponent implements OnChanges {
     this.publicRels = [];
     this.reportings = [];
 
+    let logistics: string = Committee.getCommittee(CommitteeEnum.Logistics);
     let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
     let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
 
@@ -169,6 +176,29 @@ export class ShiftAssignmentComponent implements OnChanges {
         //console.log(mA);
         continue;
       }
+
+
+
+      // TODO: if a member exists in PR and another committee they won't
+      // appear in logistics slot
+      // Prevent adding a member twice by other committee availablities
+      if (mA.availabileCommittees.indexOf(publicRel) === -1
+        && mA.availabileCommittees.indexOf(reportings) === -1) {
+        // Make all members available for logistics
+
+        console.log("Not PR not R&P");
+
+        if (!this.committeeMembers.has(logistics)) {
+          this.committeeMembers.set(logistics, []);
+        }
+        // Add all available members to logistics
+        let oldLogistics = this.committeeMembers.get(logistics);
+        console.assert(oldLogistics !== null && oldLogistics, "old logistics fail");
+        oldLogistics.push(mA.member);
+        this.committeeMembers.set(logistics, oldLogistics);
+
+      }
+
       this.updateAvailability(mA);
     }
 
@@ -178,15 +208,12 @@ export class ShiftAssignmentComponent implements OnChanges {
   private updateAvailability(memberAv: MemberAvailability) {
 
     // String to hold the name of the committee
-    let logistics: string = Committee.getCommittee(CommitteeEnum.Logistics);
     let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
     let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
 
 
     for (let c of memberAv.availabileCommittees) {
       let isPublicRelOrReportings: boolean = false;
-
-
 
 
       if (c === publicRel) {
@@ -201,27 +228,7 @@ export class ShiftAssignmentComponent implements OnChanges {
         isPublicRelOrReportings = true;
       }
 
-      // TODO: if a member exists in PR and another committee they won't
-      // appear in logistics slot
-      // Prevent adding a member twice by other committee availablities
-      if (
-        this.committeeMembers.get(logistics).indexOf(memberAv.member) === -1
-        && memberAv.availabileCommittees.indexOf(publicRel) === -1
-        && memberAv.availabileCommittees.indexOf(reportings) === -1
-        && memberAv.availabileCommittees.indexOf(logistics) === -1) {
-        // Make all members available for logistics
 
-
-        if (!this.committeeMembers.has(logistics)) {
-          this.committeeMembers.set(logistics, []);
-        }
-        // Add all available members to logistics
-        let oldLogistics = this.committeeMembers.get(logistics);
-        console.assert(oldLogistics !== null && oldLogistics, "old logistics fail");
-        oldLogistics.push(memberAv.member);
-        this.committeeMembers.set(logistics, oldLogistics);
-
-      }
 
       //Don't add PR and RP memebers to shift availability
       if (isPublicRelOrReportings) {
