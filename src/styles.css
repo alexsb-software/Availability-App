@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 .glyphicon{
-    color: #0D68A8
+    color: #2196f3
 }
 
 /*div{
@@ -10,7 +10,7 @@
 }*/
 
 .red{
-    color: #A30118;
+    color: #f44336 ;
     vertical-align: middle
 }
 
@@ -216,3 +216,106 @@
     }
 }
 /*       End of Menu Style and animation         */
+
+
+body{
+    font-family: "Roboto",sans-serif;
+    font-weight:200;
+     background: url("assets/background.jpg") fixed;
+     background-size: cover;
+     color:#fff;
+}
+.panel-default p,.panel-default h1,.panel-default h2,.panel-default h3,.panel-default h4,.panel-default h5,.panel-default h6,.panel-default a,.panel-default b,.panel-default strong,.panel-default li{
+     color:#000;
+}
+strong{
+    font-weight: 400;
+}
+/********** panels ****************/
+.panel-default > .panel-heading,.panel,.panel-group{
+    border:none;
+    border-radius: 0;
+}
+
+.panel.panel-default{
+    margin: 5px 0;
+    -webkit-transition: box-shadow 0.25s;
+    transition: box-shadow 0.25s;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.panel.panel-default:hover{
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+/************** inputs ***************/
+input[type="text"]{
+    border-radius: 0;
+    border:none;
+    border-bottom:2px solid #bdbdbd;
+    box-shadow: none;
+    -webkit-transition: box-shadow 0.25s;
+    transition: box-shadow 0.25s;
+}
+
+input[type=text]:focus{
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.btn:not(.btn-link){
+    border:none;
+    border-radius: 0;
+    color: #fff;
+    -webkit-transition: box-shadow 0.25s;
+    transition: box-shadow 0.25s;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.btn:not(.btn-link):hover{
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+.btn.btn-default{
+    background: #26a69a;
+    transition: 0.3s;
+}
+.btn.btn-default:active{
+    background: #2ab7a9;
+    color:#fff;
+}
+
+.btn.btn-primary {
+    background: #2196f3;
+}
+.btn.btn-success{
+  background: #4caf50;
+}
+/************ alert ***************/
+
+
+.alert{
+  border:none;
+  border-radius: 0;
+}
+.alert-danger{
+  color:#ffebee;
+  background: #ef5350 ;
+}
+.alert-danger p{
+  color:#ffebee;
+}
+.alert-info{
+  background: #b2ebf2 ;
+}
+
+/***********************************/
+.form-control{
+  border-radius: 0;
+}
+/**************** nav-tabs ***************/
+li.nav-item > a.nav-link{
+  border-radius: 0;
+}
+
+/************** table ****************/
+
+table{
+  color:#000;
+}
