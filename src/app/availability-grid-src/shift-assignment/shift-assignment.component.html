@@ -52,17 +52,18 @@
     </div>
 
     <div class="row">
-      <ng-container *ngFor="let comm of shiftMembersAvailability | getCommittee | removePrRnp">
+      <!--<ng-container *ngFor="let comm of shiftMembersAvailability | getCommittee | removePrRnp">-->
+      <ng-container *ngFor="let comm of availableCommitteeMembers | mapKeys | removePrRnp">
         {{comm}}
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 stack-element">
           <accordion-group #group>
             <div accordion-heading>
               <div class="row">
                 <div class="col-xs-10 col-sm-10col-xs-10 col-md-10col-xs-10 col-lg-10col-xs-10">
-                  <ng-container *ngIf="committeeMembers.get(comm)">
-                    <b>{{comm}} ({{committeeMembers.get(comm).length}}) Available </b>
+                  <ng-container *ngIf="availableCommitteeMembers.get(comm) && availableCommitteeMembers.get(comm).length>0">
+                    <b>{{comm}} ({{availableCommitteeMembers.get(comm).length}}) Available </b>
                   </ng-container>
-                  <ng-container *ngIf="!committeeMembers.get(comm)">
+                  <ng-container *ngIf="!availableCommitteeMembers.get(comm)">
                     <b>{{comm}} (0) Available </b>
                   </ng-container>
                 </div>
@@ -73,7 +74,7 @@
               </div>
             </div>
             <div class="stack-element">
-              <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event,comm)"></app-committee-members>
+              <app-committee-members [commShiftMembers]="availableCommitteeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event,comm)"></app-committee-members>
             </div>
           </accordion-group>
         </div>

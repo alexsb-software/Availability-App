@@ -11,15 +11,17 @@ import { Committee, CommitteeEnum } from '../committee';
  * 
  * and adds all members to logistics
  */
-export class GroupByCommitteePipe implements PipeTransform {
+export class FilterAvailbleMembersPipe implements PipeTransform {
 
-  transform(memberAvailabilities: MemberAvailability[], args?: any): Map<string, Member[]> {
+  transform(memberAvailabilities: MemberAvailability[], shiftIdx: number): Map<string, Member[]> {
     let result = new Map<string, Member[]>();
     let logistics: Member[] = [];
 
     // Each mA represents a single member
     for (let mA of memberAvailabilities) {
-
+      
+      if (mA.isBusy(shiftIdx)) continue;
+      
       // Add the member to logistics
       logistics.push(mA.member);
 

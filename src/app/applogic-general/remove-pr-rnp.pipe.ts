@@ -10,7 +10,10 @@ export class RemovePrRnpPipe implements PipeTransform {
     let publicRel = Committee.getCommittee(CommitteeEnum.PublicRelations);
     let result: string[] = [];
     // Select all that are not reportings or pr
-    result = commNames.filter(m => m !== reportings && m !== publicRel);
+    for (let comm of commNames) {
+      if (comm === reportings || comm === publicRel) continue;
+      result.push(comm);
+    }
     return result;
   }
 

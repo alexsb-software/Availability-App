@@ -3,13 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'ts-xlsx';
 import { utils, IWorkBook, IWorkSheet, IWorkSheetCell, IUtils } from 'ts-xlsx';
 import { EventShift } from '../applogic-general/event-shift';
-import { Committee } from '../applogic-general/committee';
 import { Member } from '../applogic-general/member';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { StateSaverService } from '../singleton-services/state-saver.service';
 
 // const URL = '/api/';
-const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+//const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
 
 @Component({
@@ -53,9 +52,10 @@ export class ExcelInterfaceComponent implements OnInit {
           let arr = this.fixdata(data);
           workbook = XLSX.read(btoa(arr), { type: 'base64' });
         }
-        console.log("Printing workbook")
-        console.log(workbook);
-        this.parseFile(workbook)
+        // console.log("Printing workbook")
+        // console.log(workbook);
+        this.parseFile(workbook);
+
       };
       if (this.rABS) this.reader.readAsBinaryString(fileItem._file);
       else this.reader.readAsArrayBuffer(fileItem._file);
@@ -72,19 +72,16 @@ export class ExcelInterfaceComponent implements OnInit {
       let contentBuff: string[] = [];
       let memberInfos: MemberLine[] = [];
       let memberInfo: MemberLine = null;
-
+      let idx: number = 0;
+      let xidx: number = 0;
       for (let cell in worksheet) {
         /* all keys that do not begin with "!" correspond to cell addresses */
         if (cell[0] === '!') continue;
+
         if (cell.startsWith('A')) {
 
-          if (memberInfo) {
-            // Don't add the first null
-            memberInfos.push(memberInfo);
-            console.log(memberInfo);
-          }
-
           memberInfo = new MemberLine();
+          idx++;
           continue;
         }
 
@@ -94,16 +91,20 @@ export class ExcelInterfaceComponent implements OnInit {
         if (cell.startsWith('B')) {
           memberInfo.member = new Member();
           memberInfo.member.name = cellContent;
+          xidx++;
         }
         else if (cell.startsWith('C')) {
           // committees
-          let committees: Committee[] = [];
+
           cellContent.split(',').forEach(str => {
             let trimmed: string = str.trim();
             //let commRaw: string = trimmed.split(' ')[0];
             //console.log(commRaw);
             //let committee: Committee = Committee.getCommittee(commRaw);
             memberInfo.committees.push(trimmed);
+            if (trimmed.startsWith('N')) {
+              console.log(memberInfo);
+            }
           });
         }
         else if (cell.startsWith('D')) {
@@ -112,13 +113,23 @@ export class ExcelInterfaceComponent implements OnInit {
             let shift: EventShift = this.parseShiftStr(shiftStr.trim());
             memberInfo.shifts.push(shift.number);
           });
+
+          // This is added here because if it's added above,
+          // the last cell doesn't get added as the loop
+          // breaks before reching the line
+          memberInfos.push(memberInfo);
         }
+
 
         contentBuff.push(cell + " : " + worksheet[cell].v);
       }
       // Parsing finished
-      this.workSheetContent = contentBuff;
+      console.log(contentBuff.length);
+      console.log("idx:" + idx);
+      console.log("xidx:" + xidx);
       this.stateHolder.save("excel", memberInfos);
+
+      this.workSheetContent = contentBuff;  // For printing content
     });
   }
 

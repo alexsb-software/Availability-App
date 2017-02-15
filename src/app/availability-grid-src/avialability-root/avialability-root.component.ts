@@ -28,23 +28,6 @@ export class AvialabilityRootComponent implements OnInit {
   testId: number = 0;
   dayKey: string = "day";
 
-  constructor(
-    private holder: AvailabilityHolderService,
-    private stateHolder: StateSaverService,
-    private router: Router) {
-
-    let excelKey: string = "excel";
-    if (stateHolder.exists(excelKey)) {
-      console.log("data exists");
-      let day: DayAvailability = this.transformExcelData(stateHolder.get(excelKey));
-      this.days.push(day)
-      console.log(day);
-    }
-    else {
-      console.log("data not found")
-    }
-  }
-
   // Current page starts at 1 not 0 
   public currentPageIndex: number = 0;
 
@@ -64,6 +47,8 @@ export class AvialabilityRootComponent implements OnInit {
   //   this.currentPageIndex = nextPageIndex;
   // }
 
+  constructor(private router: Router, private holder: AvailabilityHolderService, private stateHolder: StateSaverService) { }
+
   ngOnInit() {
     let excelKey: string = "excel";
 
@@ -72,13 +57,16 @@ export class AvialabilityRootComponent implements OnInit {
         console.log("navigated to home");
         if (this.stateHolder.exists("excel")) {
           console.log("data exists");
-          let day: DayAvailability = this.transformExcelData(this.stateHolder.get(excelKey));
+
+          let excelData = this.stateHolder.get(excelKey);
+          console.log(excelData.length);
+          let day: DayAvailability = this.transformExcelData(excelData);
+          // console.log(day..length);
           let daysTemp: DayAvailability[] = [];
           daysTemp.push(day);
           this.days = daysTemp;
           this.holder.eventAvailability = this.days;
-          console.clear();
-          console.log(day);
+          console.log(day.availabilities.length);
         }
         else {
           console.log("data not found");
@@ -110,7 +98,7 @@ export class AvialabilityRootComponent implements OnInit {
     eDay.dayDate = new Date("1/1/2000");
     day.day = eDay;
     day.shifts = [];
-    
+
     //-----------------------------
     let sh: EventShift;
     for (let j = 0; j < 2; j++) {
@@ -121,11 +109,17 @@ export class AvialabilityRootComponent implements OnInit {
     }
 
     for (let line of memberLines) {
-      console.log(line);
+      //console.log(line);
       let memAv: MemberAvailability = new MemberAvailability();
       memAv.member = Object.assign(line.member);
       memAv.shiftIndexes = Object.assign(line.shifts);
+
+      //console.log(line.committees);
       memAv.availabileCommittees = line.committees;
+      if (line.committees.indexOf('NPSS') !== -1) {
+        console.debug("NPSS found");
+        console.log(memAv);
+      }
       day.availabilities.push(memAv);
     }
 

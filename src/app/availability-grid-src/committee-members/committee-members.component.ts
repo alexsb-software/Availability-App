@@ -78,7 +78,7 @@ export class CommitteeMembersComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.debug("OnInit Committee-members," + this.commName);
+    //console.debug("OnInit Committee-members," + this.commName);
   }
 
   removeMember(e: ArrayItemEventArgs): void {
