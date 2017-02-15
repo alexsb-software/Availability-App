@@ -221,6 +221,12 @@
 body{
     font-family: "Roboto",sans-serif;
     font-weight:200;
+     background: url("assets/background.jpg") fixed;
+     background-size: cover;
+     color:#fff;
+}
+.panel-default p,.panel-default h1,.panel-default h2,.panel-default h3,.panel-default h4,.panel-default h5,.panel-default h6,.panel-default a,.panel-default b,.panel-default strong,.panel-default li{
+     color:#000;
 }
 strong{
     font-weight: 400;
@@ -292,6 +298,9 @@ input[type=text]:focus{
   color:#ffebee;
   background: #ef5350 ;
 }
+.alert-danger p{
+  color:#ffebee;
+}
 .alert-info{
   background: #b2ebf2 ;
 }
@@ -299,4 +308,14 @@ input[type=text]:focus{
 /***********************************/
 .form-control{
   border-radius: 0;
+}
+/**************** nav-tabs ***************/
+li.nav-item > a.nav-link{
+  border-radius: 0;
+}
+
+/************** table ****************/
+
+table{
+  color:#000;
 }
