@@ -68,27 +68,15 @@ export class ShiftAssignmentComponent implements OnChanges {
   commPipe: CommFilterPipe = new CommFilterPipe();
 
   constructor() {
-    //this.mockMembers();
-    //this.loadMemberTables();
   }
 
 
   ngOnChanges(e: SimpleChanges): void {
-    //console.debug("ShiftAssignmentComponent change #" + this.shift.number);
     if (e["shiftMembersAvailability"]) {
       console.debug("update shiftMembers");
       this.updateAvailabilityTable();
     }
-    /**
-     * This function is intended to run only once when the 
-     * applicants are retrieved from database, changing 
-     * the data that came from the 
-     * database ( which will trigger ngOnChanges )
-     * leaves the component in an undefined state
-     */
-    //this.loadMemberTables();
   }
-
 
   /**
    * Marks the member as selected and removes
@@ -114,12 +102,6 @@ export class ShiftAssignmentComponent implements OnChanges {
     this.selectedShiftMembers.set(e, comm);
     this.notifySaveShift();  // Autosave on modification
     this.updateAvailabilityTable();
-    //this.loadMemberTables();
-    // let oldMembers: Member[] = this.availableCommitteeMembers.get(comm);
-    // let removedMemberIdx: number = oldMembers.findIndex(m => m.id === e.id);
-    // if (!removedMemberIdx) throw new Error("Fatal, can't find deleted member");
-    // oldMembers.splice(removedMemberIdx, 1);
-    // this.availableCommitteeMembers.set(comm, oldMembers);
   }
 
   onMemberRelease(e: Member, comm: string): void {
@@ -135,16 +117,9 @@ export class ShiftAssignmentComponent implements OnChanges {
     mem.release(this.shiftIndex);
     this.notifySaveShift();  // Autosave on modification
     this.updateAvailabilityTable();
-    //this.loadMemberTables();
-    // let oldMembers: Member[] = this.availableCommitteeMembers.get(comm);
-    // let removedMemberIdx: number = oldMembers.findIndex(m => m.id === e.id);
-    // if (!removedMemberIdx) throw new Error("Fatal, can't find deleted member");
-    // oldMembers.splice(removedMemberIdx, 1);
-    // this.availableCommitteeMembers.set(comm, oldMembers);
   }
 
   notifySaveShift(): void {
-
     this.onShiftSave.emit(this.selectedShiftMembers);
   }
 
@@ -168,113 +143,8 @@ export class ShiftAssignmentComponent implements OnChanges {
     temp.delete(reportings);
     temp.delete(publicRel);
 
-    this.availableCommitteeMembers = Object.assign(temp);  // for binding state checks    
+    this.availableCommitteeMembers = temp;  // for binding state checks    
   }
-
-  // loadMemberTables(): void {
-  //   /**
-  //    * This loop is very ugly, but it's needed as angular binding doesn't
-  //    * notice changes on add/delete
-  //    * 
-  //    * ngDoCheck should be used with iterable differ?
-  //    */
-  //   // Reset the tables
-  //   this.availableCommitteeMembers = new Map<string, Member[]>();
-  //   this.publicRels = [];
-  //   this.reportings = [];
-
-  //   let logistics: string = Committee.getCommittee(CommitteeEnum.Logistics);
-  //   let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
-  //   let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
-
-  //   // Don't add availability slots for PR and R&P
-  //   // Add empty entries for other committees
-  //   for (let com of this.committees) {
-  //     if (com === publicRel || com === reportings) continue;
-  //     this.availableCommitteeMembers.set(com, []);
-  //   }
-
-  //   for (let mA of this.shiftMembersAvailability) {
-
-  //     if (mA.isBusy(this.shiftIndex)) {
-  //       // Don't add a busy member
-  //       //console.log("Busy member");
-  //       //console.log(mA);
-  //       continue;
-  //     }
-
-
-
-  //     // TODO: if a member exists in PR and another committee they won't
-  //     // appear in logistics slot
-  //     // Prevent adding a member twice by other committee availablities
-  //     if (mA.availabileCommittees.indexOf(publicRel) === -1
-  //       && mA.availabileCommittees.indexOf(reportings) === -1) {
-  //       // Make all members available for logistics
-
-  //       if (!this.availableCommitteeMembers.has(logistics)) {
-  //         this.availableCommitteeMembers.set(logistics, []);
-  //       }
-  //       // Add all available members to logistics
-  //       let oldLogistics = this.availableCommitteeMembers.get(logistics);
-  //       console.assert(oldLogistics !== null && oldLogistics, "old logistics fail");
-  //       oldLogistics.push(mA.member);
-  //       this.availableCommitteeMembers.set(logistics, oldLogistics);
-
-  //     }
-
-  //     this.updateAvailability(mA);
-  //   }
-
-  // }
-
-
-  // private updateAvailability(memberAv: MemberAvailability) {
-
-  //   // String to hold the name of the committee
-  //   let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
-  //   let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
-
-
-  //   for (let c of memberAv.availabileCommittees) {
-  //     let isPublicRelOrReportings: boolean = false;
-
-
-  //     if (c === publicRel) {
-  //       console.assert(this.publicRels !== null, "Public Relations fail");
-  //       this.publicRels.push(memberAv.member);
-  //       isPublicRelOrReportings = true;
-  //     }
-
-  //     if (c === reportings) {
-  //       console.assert(this.publicRels !== null, "Reportings fail");
-  //       this.reportings.push(memberAv.member);
-  //       isPublicRelOrReportings = true;
-  //     }
-
-
-
-  //     //Don't add PR and RP memebers to shift availability
-  //     if (isPublicRelOrReportings) {
-  //       /**
-  //        * If a member is available in PR or R&P they will 
-  //        * be added to the session members, if they are also
-  //        * in say Activities, they'll be added to shift members
-  //        */
-  //       continue;
-  //     }
-
-
-
-  //     let oldVals = this.availableCommitteeMembers.get(c);
-  //     if (!oldVals) {
-  //       oldVals = []; // Populate unknown committees members
-  //     }
-  //     console.assert(oldVals !== null && oldVals, "oldVals fail");
-  //     oldVals.push(memberAv.member)
-  //     this.availableCommitteeMembers.set(c, oldVals);
-  //   }
-  // }
 
   /**
    * Creates fake members for test purposes

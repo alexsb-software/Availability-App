@@ -31,22 +31,6 @@ export class AvialabilityRootComponent implements OnInit {
   // Current page starts at 1 not 0 
   public currentPageIndex: number = 0;
 
-  // getNextPage(): void {
-  //   console.log("Current " + this.currentPageIndex);
-  //   let nextPageIndex: number = (this.currentPageIndex + 1) % this.days.length;
-  //   console.log("Next " + nextPageIndex);
-
-  //   let lastDayKey = (this.dayKey + this.currentPageIndex);
-  //   let nextDayKey = (this.dayKey + nextPageIndex);
-  //   this.saver.save(lastDayKey, this.days[this.currentPageIndex]);
-
-  //   if (this.saver.exists(nextDayKey)) {
-  //     this.days[nextPageIndex] = this.saver.get(nextDayKey);
-  //   }
-  //   console.log(nextPageIndex);
-  //   this.currentPageIndex = nextPageIndex;
-  // }
-
   constructor(private router: Router, private holder: AvailabilityHolderService, private stateHolder: StateSaverService) { }
 
   ngOnInit() {
@@ -61,7 +45,6 @@ export class AvialabilityRootComponent implements OnInit {
           let excelData = this.stateHolder.get(excelKey);
           console.log(excelData.length);
           let day: DayAvailability = this.transformExcelData(excelData);
-          // console.log(day..length);
           let daysTemp: DayAvailability[] = [];
           daysTemp.push(day);
           this.days = daysTemp;
@@ -109,13 +92,11 @@ export class AvialabilityRootComponent implements OnInit {
     }
 
     for (let line of memberLines) {
-      //console.log(line);
       let memAv: MemberAvailability = new MemberAvailability();
       memAv.member = line.member;
       memAv.member.id = id++;
       memAv.shiftIndexes = line.shifts;
 
-      //console.log(line.committees);
       memAv.availabileCommittees = line.committees;
       // Insert all unknown committees
       line.committees.forEach(c => Committee.insertCommittee(c));
