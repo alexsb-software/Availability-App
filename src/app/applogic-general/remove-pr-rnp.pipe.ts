@@ -8,22 +8,21 @@ export class RemovePrRnpPipe implements PipeTransform {
   transform(commNames: string[], args?: any): string[] {
     let reportings = Committee.getCommittee(CommitteeEnum.Reporting);
     let publicRel = Committee.getCommittee(CommitteeEnum.PublicRelations);
-    console.log("Reporting:" + reportings);
-    console.log("Public Rel:" + publicRel)
+    
     let result: string[] = [];
-    // Select all that are not reportings or pr
-    console.log(commNames);
+    
+    // Select all that are not reportings or pr,
+    // don't use foreach and match with committee names as we just
+    // want to execulde some given data, using committee names
+    // means that we take an amount of data, which might not
+    // match the form
     for (let comm of commNames) {
-      console.log("Inspect" + comm);
+      
       if (comm === reportings || comm === publicRel) {
-        console.log("comm === reportings:" + comm === reportings);
-        console.log("comm === publicRel:" + comm === publicRel);
         continue;
       }
-      console.log("Push:" + comm);
       result.push(comm);
     }
-    console.log(result);
     return result;
   }
 

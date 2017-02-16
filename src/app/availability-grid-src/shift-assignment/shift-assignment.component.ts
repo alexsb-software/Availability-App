@@ -133,24 +133,12 @@ export class ShiftAssignmentComponent implements OnChanges {
     let reportings: string = Committee.getCommittee(CommitteeEnum.Reporting);
     let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
     let marketing: string = Committee.getCommittee(CommitteeEnum.Marketing);
-
-    //console.log(this.mapKeys.transform(this.availableCommitteeMembers));
-    //console.log(this.shiftMembersAvailability);
-    //console.log(Committee.getAll());
     let temp = filterAvailable.transform(this.shiftMembersAvailability, this.shiftIndex);
 
-    //console.log(this.mapKeys.transform(temp));
     console.log(temp.get("NPSS"));
     this.publicRels = temp.get(publicRel) || [];
     this.reportings = temp.get(reportings) || [];
-    
-    console.log(temp.get("NPSS"));
-    // Don't list reporting and PR members ( they are in sessions only )
-    //temp.delete(reportings);
-    //temp.delete(publicRel);
 
-    console.log(temp);
-    
     this.availableCommitteeMembers = temp;  // for binding state checks    
   }
 
