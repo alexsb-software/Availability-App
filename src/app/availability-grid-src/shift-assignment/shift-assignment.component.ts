@@ -96,7 +96,6 @@ export class ShiftAssignmentComponent implements OnChanges {
 
     // For each item in the member's available committees
     // remove it from the bound array
-    // TODO improve this, it's an expensive operation with redundancy
     mem.reserve(this.shiftIndex, comm);
     this.selectedShiftMembers.set(e, comm);
     this.notifySaveShift();  // Autosave on modification
