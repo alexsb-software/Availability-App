@@ -46,7 +46,7 @@
     </div>
 
     <div class="row">
-      <ng-container *ngFor="let comm of availableCommitteeMembers | mapKeys | removePrRnp">
+      <ng-container *ngFor="let comm of shiftMembersAvailability | getCommittee | removePrRnp">
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 stack-element">
           <accordion-group #group>
             <div accordion-heading>
@@ -58,7 +58,7 @@
                     ({{availableCommitteeMembers.get(comm).length}}) Available
                   </ng-container>
                   <ng-container *ngIf="!availableCommitteeMembers.get(comm)">
-                    {{comm}} (0) Available
+                    (0) Available
                   </ng-container>
                 </div>
 

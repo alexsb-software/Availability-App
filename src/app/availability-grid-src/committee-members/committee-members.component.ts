@@ -13,7 +13,7 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
   templateUrl: './committee-members.component.html',
   styleUrls: ['./committee-members.component.css']
 })
-export class CommitteeMembersComponent implements OnInit {
+export class CommitteeMembersComponent implements OnInit,OnChanges {
   public selected: string;
 
   /**
@@ -95,14 +95,11 @@ export class CommitteeMembersComponent implements OnInit {
     this.memberReleased.emit(removed);
   }
 
-  // ngOnChanges(e: SimpleChanges) {
-  //   // If no members are provided, create an empty array
-  //   if (!this.commShiftMembers) {
-  //     this.commShiftMembers = [];
-  //   }
-  //   //console.log("CommitteeMembersComponent changed " + this.commName);
-  // }
-
-  // ngDoCheck(): void {
-  // }
+  ngOnChanges(e: SimpleChanges) {
+    // If no members are provided, create an empty array
+    if (!this.commShiftMembers) {
+      this.commShiftMembers = [];
+    }
+    //console.log("CommitteeMembersComponent changed " + this.commName);
+  }
 }

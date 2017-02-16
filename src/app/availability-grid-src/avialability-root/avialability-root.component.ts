@@ -39,14 +39,17 @@ export class AvialabilityRootComponent implements OnInit {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         console.log("navigated to home");
-        if (this.stateHolder.exists("excel")) {
+        if (this.stateHolder.exists(excelKey)) {
           console.log("data exists");
 
           let excelData = this.stateHolder.get(excelKey);
-          console.log(excelData.length);
           let day: DayAvailability = this.transformExcelData(excelData);
           let daysTemp: DayAvailability[] = [];
+          
+
           daysTemp.push(day);
+          this.stateHolder.delete(excelKey)
+
           this.days = daysTemp;
           this.holder.eventAvailability = this.days;
           console.log(day.availabilities.length);

@@ -3,7 +3,7 @@
   <br>
   <app-day-assignment (onSaveDay)="onSaveDay($event,i)" [day]="day"></app-day-assignment>
   <hr>
-  <a routerLink="print"><button class="btn btn-success pull-right" > Print </button></a>
+  <a routerLink="print"><button disabled=true class="btn btn-success pull-right" > Print </button></a>
 </ng-container>
 
 <ng-container *ngIf="!days || !days.length">
