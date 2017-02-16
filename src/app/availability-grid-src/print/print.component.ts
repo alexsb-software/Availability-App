@@ -18,7 +18,7 @@ import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../..
 export class PrintComponent implements OnInit {
   dayAssignments: DayAssignmentInfo[];
   committeeMember: Map<string, Member[]> = new Map<string, Member[]>();
-  committees: string[] = Committee.getAll();
+  // committees: string[] = Committee.getAll();
 
   constructor(private holder: AvailabilityHolderService, private router: Router) {
     this.router.events.subscribe(v => {

@@ -1,4 +1,4 @@
-import { Component, DoCheck, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { OnInit, Component, DoCheck, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +13,7 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
   templateUrl: './committee-members.component.html',
   styleUrls: ['./committee-members.component.css']
 })
-export class CommitteeMembersComponent {
+export class CommitteeMembersComponent implements OnInit {
   public selected: string;
 
   /**
@@ -62,7 +62,6 @@ export class CommitteeMembersComponent {
       console.error("Couldn't find selected");
       return;
     }
-
     //console.log("Splicing");
     /**
      * Mark the member as selected and notify the parent
@@ -76,6 +75,10 @@ export class CommitteeMembersComponent {
     this.selectedMembers.push(selected);
 
     this.selected = "";
+  }
+
+  ngOnInit() {
+    //console.debug("OnInit Committee-members," + this.commName);
   }
 
   removeMember(e: ArrayItemEventArgs): void {

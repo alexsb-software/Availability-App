@@ -9,7 +9,6 @@ export class MapKeysPipe<K, V> implements PipeTransform {
 
   transform(value: Map<K, V>): K[] {
     let keyArray: K[] = [];
-
     value.forEach((v, k) => {
       keyArray.push(k);
     });

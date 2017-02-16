@@ -28,7 +28,6 @@ export class MemberViewComponent implements OnChanges {
   commPipe: CommFilterPipe = new CommFilterPipe();
 
   constructor() {
-
     this.filteredMemberAvails = this.memberAvailabilities;
   }
 

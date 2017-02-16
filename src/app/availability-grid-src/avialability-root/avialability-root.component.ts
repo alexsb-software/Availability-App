@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { Member } from '../../applogic-general/member';
 import { EventDay } from '../../applogic-general/event-day';
 import { SessionInfo } from '../../applogic-general/session-info';
@@ -8,6 +9,7 @@ import { DayAvailability } from '../../applogic-general/day-availability';
 import { MemberAvailability } from '../../applogic-general/member-availability';
 import { AvailabilityHolderService } from '../../singleton-services/availability-holder.service';
 import { StateSaverService } from '../../singleton-services/state-saver.service';
+import { MemberLine } from '../../excel-interface/excel-interface.component';
 
 import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../../applogic-general/assignment-info';
 
@@ -26,44 +28,88 @@ export class AvialabilityRootComponent implements OnInit {
   testId: number = 0;
   dayKey: string = "day";
 
-  constructor(
-    private holder: AvailabilityHolderService) {
-  }
-
   // Current page starts at 1 not 0 
   public currentPageIndex: number = 0;
 
-  // getNextPage(): void {
-  //   console.log("Current " + this.currentPageIndex);
-  //   let nextPageIndex: number = (this.currentPageIndex + 1) % this.days.length;
-  //   console.log("Next " + nextPageIndex);
-
-  //   let lastDayKey = (this.dayKey + this.currentPageIndex);
-  //   let nextDayKey = (this.dayKey + nextPageIndex);
-  //   this.saver.save(lastDayKey, this.days[this.currentPageIndex]);
-
-  //   if (this.saver.exists(nextDayKey)) {
-  //     this.days[nextPageIndex] = this.saver.get(nextDayKey);
-  //   }
-  //   console.log(nextPageIndex);
-  //   this.currentPageIndex = nextPageIndex;
-  // }
+  constructor(private router: Router, private holder: AvailabilityHolderService, private stateHolder: StateSaverService) { }
 
   ngOnInit() {
-    let dayTemp: DayAvailability[] = [];
-    // Call service
-    for (let i: number = 0; i < 3; i++) {
-      dayTemp.push(this.mockDay(i));
-    }
-    this.days = dayTemp;
-    this.holder.eventAvailability = this.days;
+    let excelKey: string = "excel";
+
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        console.log("navigated to home");
+        if (this.stateHolder.exists("excel")) {
+          console.log("data exists");
+
+          let excelData = this.stateHolder.get(excelKey);
+          console.log(excelData.length);
+          let day: DayAvailability = this.transformExcelData(excelData);
+          let daysTemp: DayAvailability[] = [];
+          daysTemp.push(day);
+          this.days = daysTemp;
+          this.holder.eventAvailability = this.days;
+          console.log(day.availabilities.length);
+        }
+        else {
+          console.log("data not found");
+          // Create fake data
+          let dayTemp: DayAvailability[] = [];
+          // Call service
+          for (let i: number = 0; i < 2; i++) {
+            dayTemp.push(this.mockDay(i));
+          }
+          this.days = dayTemp;
+          this.holder.eventAvailability = this.days;
+        }
+      }
+    });
   }
+
 
   onSaveDay(e: ShiftAssignmentInfo[], dayIdx: number): void {
     this.holder.eventAssignmentInfo[dayIdx] = new DayAssignmentInfo();
     this.holder.eventAssignmentInfo[dayIdx].shiftInfos = e;
     this.holder.eventAssignmentInfo[dayIdx].dayNumber = dayIdx;
   }
+
+  transformExcelData(memberLines: MemberLine[]): DayAvailability {
+    let day = new DayAvailability();
+    day.availabilities = [];
+    let eDay: EventDay = new EventDay();
+    eDay.shifts = [];
+    eDay.dayDate = new Date("1/1/2000");
+    day.day = eDay;
+    day.shifts = [];
+    let id = 0;
+    //-----------------------------
+    let sh: EventShift;
+    for (let j = 0; j < 2; j++) {
+      sh = new EventShift();
+      sh.number = j;
+      sh.sessions = [];
+      day.shifts.push(sh);
+    }
+
+    for (let line of memberLines) {
+      let memAv: MemberAvailability = new MemberAvailability();
+      memAv.member = line.member;
+      memAv.member.id = id++;
+      memAv.shiftIndexes = line.shifts;
+
+      memAv.availabileCommittees = line.committees;
+      // Insert all unknown committees
+      line.committees.forEach(c => Committee.insertCommittee(c));
+      if (line.committees.indexOf('NPSS') !== -1) {
+        console.debug("NPSS found");
+        console.log(memAv);
+      }
+      day.availabilities.push(memAv);
+    }
+
+    return day;
+  }
+
 
   mockDay(idx: number): DayAvailability {
     let day = new DayAvailability();

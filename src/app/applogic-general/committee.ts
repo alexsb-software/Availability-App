@@ -22,7 +22,7 @@ export class Committee {
 
     public static insertCommittee(com: string): void {
         // Cehck if this item already existed
-        if (Committee.committees.indexOf(com) != -1)
+        if (Committee.committees.indexOf(com) !== -1)
             return;
 
         // Add it
@@ -38,26 +38,12 @@ export class Committee {
      * The weird syntax is to provide function
      * overloads
      */
-    public static getCommittee(key: number | string | CommitteeEnum): string {
-        if (typeof key === "number") {
-            return Committee.getCommByIndex(key);
-        }
-        if (typeof key === "CommitteeEnum") {
-            return Committee.getCommByEnum(key);
-        }
-        return Committee.getCommByKeyword(key);
-    }
-
-    /**
-     * Finds a committee by index
-     */
-    private static getCommByIndex(idx: number): string {
-        // Cehck array bounds
-        if (idx >= Committee.committees.length)
-            throw new Error("Committee array is smaller than the requested index");
-
-        // Get the value
-        return Committee.committees[idx];
+    public static getCommittee(key: CommitteeEnum): string {
+        /**
+         * Don't use get byIndex, this converts the enum to a number
+         * and use it to access the array, which is false
+         */
+        return Committee.getCommByEnum(key);
     }
 
     private static getCommByEnum(key: CommitteeEnum): string {
@@ -70,11 +56,22 @@ export class Committee {
      * Finds a committee by a search string
      */
     private static getCommByKeyword(key: string): string {
+
+        // Match with pascal cased words from the enum
+        let regexMatchOnKey: RegExpMatchArray = key.match(/([A-Z][a-z0-9]+)/);
+
+        if (!regexMatchOnKey || !regexMatchOnKey.length) {
+            // Nothing found
+            throw new Error("Committee" + " \"" + key + "\"" + "not found");
+        }
+        // Make the key lower case for comparison
+        let searchKey: string = regexMatchOnKey[0].toLowerCase();
+
         let result: string = Committee.committees.find(s =>
-            s.toLowerCase().includes(key.toLocaleLowerCase()));
+            s.toLowerCase().includes(searchKey));
 
         if (result) return result;
-        throw new Error("Committee not found");
+        throw new Error("Committee" + " \"" + key + "\"" + "not found");
     }
 
     /**
@@ -94,22 +91,23 @@ export class Committee {
 
     private static committees: string[] =
     [
-        "Activities",
-        "Graphics",
-        "Human Resources",
+        /**
+         * Other committes should be added from the form 
+         * data, Logistics is listed here temporarily and 
+         * as it doesn't exist as a committee,
+         * until a search by committee is implemented and
+         * committe filling form is more dynamic
+         */
         "Logistics",
-        "Marketing",
-        "Operations",
-        "Public Relations",
-        "Presrenters",
-        "Registration",
-        "Reportings and Publications",
-        "Software",
     ];
 }
-
+/**
+ * The shorter the name, the better, as findCommittee uses
+ * "includes" function, and names might vary according to the
+ * form, so the safe choice is to use small names
+ */
 export enum CommitteeEnum {
-    Activities = 0,
+    Activities,
     Graphics,
     HumanResources,
     Logistics,
@@ -118,7 +116,7 @@ export enum CommitteeEnum {
     PublicRelations,
     Presenters,
     Registration,
-    Reportings,
+    Reporting,
     Software
 
 }
