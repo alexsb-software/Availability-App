@@ -5,7 +5,15 @@
       <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
     </div>
 
-    <input-search class="stack-element" (searchRequest)="onSearchClicked($event)" [placeholder]="'Search by shift'"></input-search>
+
+    <input-search class="stack-element" (searchRequest)="onSearchClicked($event)" [placeholder]="'Search by...'"></input-search>
+    <!--<input type="radio" name="radiogroup" [value]="" (change)="onSelectionChange(entry)">-->
+    <p>Please fix text color in input</p>
+    <form #f="ngForm">
+      <input type="radio" value=1 name="searchType" [(ngModel)]="searchType" checked>Name
+      <input type="radio" value=2 name="searchType" [(ngModel)]="searchType"> Committee
+      <input type="radio" value=3 name="searchType" [(ngModel)]="searchType"> Shift
+    </form>
 
     <accordion>
       <accordion-group #group>
