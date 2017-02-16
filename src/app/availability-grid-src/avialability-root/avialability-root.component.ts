@@ -51,17 +51,6 @@ export class AvialabilityRootComponent implements OnInit {
           this.holder.eventAvailability = this.days;
           console.log(day.availabilities.length);
         }
-        else {
-          console.log("data not found");
-          // Create fake data
-          let dayTemp: DayAvailability[] = [];
-          // Call service
-          for (let i: number = 0; i < 2; i++) {
-            dayTemp.push(this.mockDay(i));
-          }
-          this.days = dayTemp;
-          this.holder.eventAvailability = this.days;
-        }
       }
     });
   }

@@ -118,10 +118,8 @@ export class ExcelInterfaceComponent implements OnInit {
           // the last cell doesn't get added as the loop
           // breaks before reching the line
           memberInfos.push(memberInfo);
+          contentBuff.push(memberInfo.toString());
         }
-
-
-        contentBuff.push(cell + " : " + worksheet[cell].v);
       }
       // Parsing finished
       console.log(contentBuff.length);
@@ -144,10 +142,6 @@ export class ExcelInterfaceComponent implements OnInit {
     result.number = parseInt(parts[1]) - 1;
     return result;
   }
-  // upload(input) {
-  //   let file = input.files[0];
-  //   console.log(file);
-  // }
 }
 
 
@@ -155,15 +149,8 @@ export class MemberLine {
   member: Member;
   shifts: number[] = [];
   committees: string[] = [];
+
+  toString(): string {
+    return this.member.name + " " + this.shifts + " " + this.committees;
+  }
 }
-
-//let range = { s: { c: 0, r: 1 }, e: { c: 3, r: 100 } };
-
-      // for (let R = range.s.r; R <= range.e.r; ++R) {
-      //   for (let C = range.s.c; C <= range.e.c; ++C) {
-      //     let cell_address = { c: C, r: R };
-      //     let cell = worksheet[utils.encode_cell(cell_address)];
-      //     if (!cell) continue;
-      //     console.log(cell.v);
-      //   }
-      // }
