@@ -1,3 +1,7 @@
+<ng-container *ngIf="dayAssignments.length===0">
+  <h3>Mmm... this is an empty desert</h3>
+  <button class="btn btn-default" routerLink="/">Go Back Home</button>
+</ng-container>
 <ng-container *ngIf="dayAssignments">
   <ng-container *ngFor="let dayAssigment of dayAssignments;let dayIdx=index">
 
@@ -41,12 +45,17 @@
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <strong>{{committeeName}} </strong>
+                <h4>{{committeeName}} </h4>
               </div>
             </div>
 
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <ng-container *ngIf="extractCommitteeInfos(dayIdx,shiftIdx,committeeName).length===0">
+                  <b>Nobody is here :\</b>
+                </ng-container>
+
                 <ng-container *ngFor="let member of extractCommitteeInfos(dayIdx,shiftIdx,committeeName)">
                   <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     {{member.name}}

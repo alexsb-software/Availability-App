@@ -60,6 +60,7 @@ export class AvialabilityRootComponent implements OnInit {
 
 
   onSaveDay(e: ShiftAssignmentInfo[], dayIdx: number): void {
+    console.log("Save day");
     this.holder.eventAssignmentInfo[dayIdx] = new DayAssignmentInfo();
     this.holder.eventAssignmentInfo[dayIdx].shiftInfos = e;
     this.holder.eventAssignmentInfo[dayIdx].dayNumber = dayIdx;
