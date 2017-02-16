@@ -64,8 +64,9 @@ export class Committee {
             // Nothing found
             throw new Error("Committee" + " \"" + key + "\"" + "not found");
         }
-
+        // Make the key lower case for comparison
         let searchKey: string = regexMatchOnKey[0].toLowerCase();
+
         let result: string = Committee.committees.find(s =>
             s.toLowerCase().includes(searchKey));
 
@@ -90,19 +91,14 @@ export class Committee {
 
     private static committees: string[] =
     [
-        // "Activities",
-        // "Graphics",
-        // "Human Resources",
+        /**
+         * Other committes should be added from the form 
+         * data, Logistics is listed here temporarily and 
+         * as it doesn't exist as a committee,
+         * until a search by committee is implemented and
+         * committe filling form is more dynamic
+         */
         "Logistics",
-        // "Marketing",
-        // "Membership Developement",
-        // "Operations",
-        // "Public Relations",
-        // "Presrenters",
-        // "Registration",
-        // "Reporting and Publications",
-        // "Software Development",
-        // "Technical"
     ];
 }
 /**
