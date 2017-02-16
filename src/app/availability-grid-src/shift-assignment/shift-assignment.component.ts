@@ -6,7 +6,7 @@ import { CommFilterPipe, } from '../../applogic-general/member-view/comm-filter.
 import { FilterAvailbleMembersPipe } from '../../applogic-general/member-view/group-by-committee.pipe';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { EventShift } from '../../applogic-general/event-shift';
-
+import { MapKeysPipe } from '../../applogic-general/map-keys.pipe';
 
 @Component({
   selector: 'app-shift-assignment',
@@ -66,7 +66,7 @@ export class ShiftAssignmentComponent implements OnChanges {
   **/
   availableCommitteeMembers: Map<string, Member[]> = new Map<string, Member[]>();
   commPipe: CommFilterPipe = new CommFilterPipe();
-
+  mapKeys: MapKeysPipe<string, Member[]> = new MapKeysPipe<string, Member[]>();
   constructor() {
   }
 
@@ -97,7 +97,6 @@ export class ShiftAssignmentComponent implements OnChanges {
     // For each item in the member's available committees
     // remove it from the bound array
     // TODO improve this, it's an expensive operation with redundancy
-    console.assert(mem, "Member not found");
     mem.reserve(this.shiftIndex, comm);
     this.selectedShiftMembers.set(e, comm);
     this.notifySaveShift();  // Autosave on modification
@@ -131,18 +130,27 @@ export class ShiftAssignmentComponent implements OnChanges {
   updateAvailabilityTable(): void {
     let filterAvailable: FilterAvailbleMembersPipe = new FilterAvailbleMembersPipe();
 
-    let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
+    let reportings: string = Committee.getCommittee(CommitteeEnum.Reporting);
     let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
     let marketing: string = Committee.getCommittee(CommitteeEnum.Marketing);
 
+    //console.log(this.mapKeys.transform(this.availableCommitteeMembers));
+    //console.log(this.shiftMembersAvailability);
+    //console.log(Committee.getAll());
     let temp = filterAvailable.transform(this.shiftMembersAvailability, this.shiftIndex);
+
+    //console.log(this.mapKeys.transform(temp));
+    console.log(temp.get("NPSS"));
     this.publicRels = temp.get(publicRel) || [];
     this.reportings = temp.get(reportings) || [];
-
+    
+    console.log(temp.get("NPSS"));
     // Don't list reporting and PR members ( they are in sessions only )
-    temp.delete(reportings);
-    temp.delete(publicRel);
+    //temp.delete(reportings);
+    //temp.delete(publicRel);
 
+    console.log(temp);
+    
     this.availableCommitteeMembers = temp;  // for binding state checks    
   }
 
@@ -151,7 +159,7 @@ export class ShiftAssignmentComponent implements OnChanges {
    */
   private mockMembers(): void {
     let prString = Committee.getCommittee(CommitteeEnum.PublicRelations);
-    let reportingsString = Committee.getCommittee(CommitteeEnum.Reportings);
+    let reportingsString = Committee.getCommittee(CommitteeEnum.Reporting);
 
     for (let i: number = 0; i < 15; i++) {
       let m: Member = new Member();

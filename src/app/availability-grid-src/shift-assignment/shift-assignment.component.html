@@ -9,7 +9,7 @@
     <div class="row">
       <ng-container *ngFor="let sessionItem of this.shift.sessions;let j =index">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <app-sessoin-member-input (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" (onPublicRelRelease)="onMemberRelease($event)" (onReportingsSelect)="onMemberSelect($event ,'Reportings')" (onReportingsRelease)="onMemberRelease($event)" [session]="sessionItem"
+          <app-sessoin-member-input (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" (onPublicRelRelease)="onMemberRelease($event)" (onReportingSelect)="onMemberSelect($event ,'Reporting')" (onReportingRelease)="onMemberRelease($event)" [session]="sessionItem"
             [publicRelMembers]="publicRels" [reportingsMembers]="reportings"></app-sessoin-member-input>
         </div>
       </ng-container>
@@ -27,7 +27,7 @@
           <br>
         </ng-container>
         <ng-container *ngIf="reportings.length>0">
-          <p>Available Reportings Members</p>
+          <p>Available Reporting Members</p>
           <dynamic-table [items]="reportings" [canRemove]='false' [properties]='["name"]' [propertyDisplayNames]="['Name']"></dynamic-table>
         </ng-container>
       </div>
@@ -52,15 +52,18 @@
     </div>
 
     <div class="row">
+      eee{{availableCommitteeMembers | mapKeys | removePrRnp}}aaa
       <!--<ng-container *ngFor="let comm of shiftMembersAvailability | getCommittee | removePrRnp">-->
-      <ng-container *ngFor="let comm of availableCommitteeMembers | mapKeys | removePrRnp">
+      <ng-container *ngFor="let comm of availableCommitteeMembers | mapKeys | removePrRnp">       
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 stack-element">
           <accordion-group #group>
             <div accordion-heading>
+              {{comm}}
               <div class="row">
                 <div class="col-xs-10 col-sm-10col-xs-10 col-md-10col-xs-10 col-lg-10col-xs-10">
+                  <!--<ng-container *ngIf=" typeof availableCommitteeMembers.get(comm) !== 'undefined' && availableCommitteeMembers.get(comm)">-->
                   <ng-container *ngIf="availableCommitteeMembers.get(comm) && availableCommitteeMembers.get(comm).length>0">
-                    <b>{{comm}} ({{availableCommitteeMembers.get(comm).length}}) Available </b>
+                    <b>({{availableCommitteeMembers.get(comm).length}}) Available </b>
                   </ng-container>
                   <ng-container *ngIf="!availableCommitteeMembers.get(comm)">
                     <b>{{comm}} (0) Available </b>
