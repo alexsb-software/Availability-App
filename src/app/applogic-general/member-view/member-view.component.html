@@ -1,7 +1,7 @@
 <accordion>
   <accordion-group #group>
     <div accordion-heading>
-      {{headerText}}
+      <strong>{{headerText}}</strong>
       <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
     </div>
 

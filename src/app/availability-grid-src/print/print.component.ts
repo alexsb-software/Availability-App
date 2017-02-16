@@ -16,9 +16,9 @@ import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../..
   styleUrls: ['./print.component.css']
 })
 export class PrintComponent implements OnInit {
-  dayAssignments: DayAssignmentInfo[];
+  dayAssignments: DayAssignmentInfo[]=[];
   committeeMember: Map<string, Member[]> = new Map<string, Member[]>();
-  // committees: string[] = Committee.getAll();
+  committees: string[] = Committee.getAll();
 
   constructor(private holder: AvailabilityHolderService, private router: Router) {
     this.router.events.subscribe(v => {
@@ -26,6 +26,7 @@ export class PrintComponent implements OnInit {
         //console.log(this.holder);
         this.dayAssignments = this.holder.eventAssignmentInfo;
         console.log("Day count: " + this.dayAssignments.length);
+        console.log(this.dayAssignments);
       }
     });
   }
