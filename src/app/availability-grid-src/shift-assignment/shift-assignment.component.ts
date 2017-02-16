@@ -74,8 +74,7 @@ export class ShiftAssignmentComponent implements OnChanges {
 
 
   ngOnChanges(e: SimpleChanges): void {
-    console.debug("ShiftAssignmentComponent change #" + this.shift.number);
-
+    //console.debug("ShiftAssignmentComponent change #" + this.shift.number);
     if (e["shiftMembersAvailability"]) {
       console.debug("update shiftMembers");
       this.updateAvailabilityTable();
@@ -91,22 +90,6 @@ export class ShiftAssignmentComponent implements OnChanges {
   }
 
 
-  updateAvailabilityTable(): void {
-    let filterAvailable: FilterAvailbleMembersPipe = new FilterAvailbleMembersPipe();
-
-    let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
-    let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
-
-    this.availableCommitteeMembers = filterAvailable.transform(this.shiftMembersAvailability, this.shiftIndex);
-    this.publicRels = this.availableCommitteeMembers.get(publicRel) || [];
-    this.reportings = this.availableCommitteeMembers.get(reportings) || [];
-
-    // Don't list reporting and PR members ( they are in sessions only )
-    this.availableCommitteeMembers.delete(reportings);
-    this.availableCommitteeMembers.delete(publicRel);
-    console.log(this.publicRels);
-  }
-
   /**
    * Marks the member as selected and removes
    * it from the other committees choices
@@ -114,16 +97,19 @@ export class ShiftAssignmentComponent implements OnChanges {
   onMemberSelect(e: Member, comm: string): void {
     let mem: MemberAvailability =
       this.shiftMembersAvailability.find(
-        (m: MemberAvailability) => m.member.id === e.id);
 
-    if (!mem) {
-      throw new Error("Fatal error, selected member is not found");
+        (m: MemberAvailability) => {
+          return m.member.id === e.id;
+        });
+
+    if (typeof mem.member.id === "undefined" || !mem) {
+      throw new Error("Fatal error, member didn't declare an ID");
     }
 
     // For each item in the member's available committees
     // remove it from the bound array
     // TODO improve this, it's an expensive operation with redundancy
-
+    console.assert(mem, "Member not found");
     mem.reserve(this.shiftIndex, comm);
     this.selectedShiftMembers.set(e, comm);
     this.notifySaveShift();  // Autosave on modification
@@ -140,6 +126,10 @@ export class ShiftAssignmentComponent implements OnChanges {
     let mem: MemberAvailability =
       this.shiftMembersAvailability.find(
         (m: MemberAvailability) => m.member.id === e.id);
+
+    if (typeof mem.member.id === "undefined" || !mem) {
+      throw new Error("Fatal error, member didn't declare an ID");
+    }
 
     this.selectedShiftMembers.delete(e);
     mem.release(this.shiftIndex);
@@ -163,112 +153,128 @@ export class ShiftAssignmentComponent implements OnChanges {
     * entry in the hash map. The shift number isn't checked
     * as this is a job for a higher component
     */
-  loadMemberTables(): void {
-    /**
-     * This loop is very ugly, but it's needed as angular binding doesn't
-     * notice changes on add/delete
-     * 
-     * ngDoCheck should be used with iterable differ?
-     */
-    // Reset the tables
-    this.availableCommitteeMembers = new Map<string, Member[]>();
-    this.publicRels = [];
-    this.reportings = [];
+  updateAvailabilityTable(): void {
+    let filterAvailable: FilterAvailbleMembersPipe = new FilterAvailbleMembersPipe();
 
-    let logistics: string = Committee.getCommittee(CommitteeEnum.Logistics);
-    let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
     let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
+    let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
+    let marketing: string = Committee.getCommittee(CommitteeEnum.Marketing);
 
-    // Don't add availability slots for PR and R&P
-    // Add empty entries for other committees
-    for (let com of this.committees) {
-      if (com === publicRel || com === reportings) continue;
-      this.availableCommitteeMembers.set(com, []);
-    }
+    let temp = filterAvailable.transform(this.shiftMembersAvailability, this.shiftIndex);
+    this.publicRels = temp.get(publicRel) || [];
+    this.reportings = temp.get(reportings) || [];
 
-    for (let mA of this.shiftMembersAvailability) {
+    // Don't list reporting and PR members ( they are in sessions only )
+    temp.delete(reportings);
+    temp.delete(publicRel);
 
-      if (mA.isBusy(this.shiftIndex)) {
-        // Don't add a busy member
-        //console.log("Busy member");
-        //console.log(mA);
-        continue;
-      }
-
-
-
-      // TODO: if a member exists in PR and another committee they won't
-      // appear in logistics slot
-      // Prevent adding a member twice by other committee availablities
-      if (mA.availabileCommittees.indexOf(publicRel) === -1
-        && mA.availabileCommittees.indexOf(reportings) === -1) {
-        // Make all members available for logistics
-
-        console.log("Not PR not R&P");
-
-        if (!this.availableCommitteeMembers.has(logistics)) {
-          this.availableCommitteeMembers.set(logistics, []);
-        }
-        // Add all available members to logistics
-        let oldLogistics = this.availableCommitteeMembers.get(logistics);
-        console.assert(oldLogistics !== null && oldLogistics, "old logistics fail");
-        oldLogistics.push(mA.member);
-        this.availableCommitteeMembers.set(logistics, oldLogistics);
-
-      }
-
-      this.updateAvailability(mA);
-    }
-
+    this.availableCommitteeMembers = Object.assign(temp);  // for binding state checks    
   }
 
+  // loadMemberTables(): void {
+  //   /**
+  //    * This loop is very ugly, but it's needed as angular binding doesn't
+  //    * notice changes on add/delete
+  //    * 
+  //    * ngDoCheck should be used with iterable differ?
+  //    */
+  //   // Reset the tables
+  //   this.availableCommitteeMembers = new Map<string, Member[]>();
+  //   this.publicRels = [];
+  //   this.reportings = [];
 
-  private updateAvailability(memberAv: MemberAvailability) {
+  //   let logistics: string = Committee.getCommittee(CommitteeEnum.Logistics);
+  //   let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
+  //   let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
 
-    // String to hold the name of the committee
-    let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
-    let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
+  //   // Don't add availability slots for PR and R&P
+  //   // Add empty entries for other committees
+  //   for (let com of this.committees) {
+  //     if (com === publicRel || com === reportings) continue;
+  //     this.availableCommitteeMembers.set(com, []);
+  //   }
 
+  //   for (let mA of this.shiftMembersAvailability) {
 
-    for (let c of memberAv.availabileCommittees) {
-      let isPublicRelOrReportings: boolean = false;
-
-
-      if (c === publicRel) {
-        console.assert(this.publicRels !== null, "Public Relations fail");
-        this.publicRels.push(memberAv.member);
-        isPublicRelOrReportings = true;
-      }
-
-      if (c === reportings) {
-        console.assert(this.publicRels !== null, "Reportings fail");
-        this.reportings.push(memberAv.member);
-        isPublicRelOrReportings = true;
-      }
-
-
-
-      //Don't add PR and RP memebers to shift availability
-      if (isPublicRelOrReportings) {
-        /**
-         * If a member is available in PR or R&P they will 
-         * be added to the session members, if they are also
-         * in say Activities, they'll be added to shift members
-         */
-        continue;
-      }
+  //     if (mA.isBusy(this.shiftIndex)) {
+  //       // Don't add a busy member
+  //       //console.log("Busy member");
+  //       //console.log(mA);
+  //       continue;
+  //     }
 
 
 
-      let oldVals = this.availableCommitteeMembers.get(c);
-      if (!oldVals) {
-        oldVals = []; // Populate unknown committees members
-      }
-      console.assert(oldVals !== null && oldVals, "oldVals fail");
-      oldVals.push(memberAv.member)
-      this.availableCommitteeMembers.set(c, oldVals);
-    }
-  }
+  //     // TODO: if a member exists in PR and another committee they won't
+  //     // appear in logistics slot
+  //     // Prevent adding a member twice by other committee availablities
+  //     if (mA.availabileCommittees.indexOf(publicRel) === -1
+  //       && mA.availabileCommittees.indexOf(reportings) === -1) {
+  //       // Make all members available for logistics
+
+  //       if (!this.availableCommitteeMembers.has(logistics)) {
+  //         this.availableCommitteeMembers.set(logistics, []);
+  //       }
+  //       // Add all available members to logistics
+  //       let oldLogistics = this.availableCommitteeMembers.get(logistics);
+  //       console.assert(oldLogistics !== null && oldLogistics, "old logistics fail");
+  //       oldLogistics.push(mA.member);
+  //       this.availableCommitteeMembers.set(logistics, oldLogistics);
+
+  //     }
+
+  //     this.updateAvailability(mA);
+  //   }
+
+  // }
+
+
+  // private updateAvailability(memberAv: MemberAvailability) {
+
+  //   // String to hold the name of the committee
+  //   let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
+  //   let reportings: string = Committee.getCommittee(CommitteeEnum.Reportings);
+
+
+  //   for (let c of memberAv.availabileCommittees) {
+  //     let isPublicRelOrReportings: boolean = false;
+
+
+  //     if (c === publicRel) {
+  //       console.assert(this.publicRels !== null, "Public Relations fail");
+  //       this.publicRels.push(memberAv.member);
+  //       isPublicRelOrReportings = true;
+  //     }
+
+  //     if (c === reportings) {
+  //       console.assert(this.publicRels !== null, "Reportings fail");
+  //       this.reportings.push(memberAv.member);
+  //       isPublicRelOrReportings = true;
+  //     }
+
+
+
+  //     //Don't add PR and RP memebers to shift availability
+  //     if (isPublicRelOrReportings) {
+  //       /**
+  //        * If a member is available in PR or R&P they will 
+  //        * be added to the session members, if they are also
+  //        * in say Activities, they'll be added to shift members
+  //        */
+  //       continue;
+  //     }
+
+
+
+  //     let oldVals = this.availableCommitteeMembers.get(c);
+  //     if (!oldVals) {
+  //       oldVals = []; // Populate unknown committees members
+  //     }
+  //     console.assert(oldVals !== null && oldVals, "oldVals fail");
+  //     oldVals.push(memberAv.member)
+  //     this.availableCommitteeMembers.set(c, oldVals);
+  //   }
+  // }
 
   /**
    * Creates fake members for test purposes

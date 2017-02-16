@@ -98,7 +98,7 @@ export class AvialabilityRootComponent implements OnInit {
     eDay.dayDate = new Date("1/1/2000");
     day.day = eDay;
     day.shifts = [];
-
+    let id = 0;
     //-----------------------------
     let sh: EventShift;
     for (let j = 0; j < 2; j++) {
@@ -111,11 +111,14 @@ export class AvialabilityRootComponent implements OnInit {
     for (let line of memberLines) {
       //console.log(line);
       let memAv: MemberAvailability = new MemberAvailability();
-      memAv.member = Object.assign(line.member);
-      memAv.shiftIndexes = Object.assign(line.shifts);
+      memAv.member = line.member;
+      memAv.member.id = id++;
+      memAv.shiftIndexes = line.shifts;
 
       //console.log(line.committees);
       memAv.availabileCommittees = line.committees;
+      // Insert all unknown committees
+      line.committees.forEach(c => Committee.insertCommittee(c));
       if (line.committees.indexOf('NPSS') !== -1) {
         console.debug("NPSS found");
         console.log(memAv);

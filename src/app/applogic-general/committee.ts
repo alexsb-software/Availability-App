@@ -22,7 +22,7 @@ export class Committee {
 
     public static insertCommittee(com: string): void {
         // Cehck if this item already existed
-        if (Committee.committees.indexOf(com) != -1)
+        if (Committee.committees.indexOf(com) !== -1)
             return;
 
         // Add it

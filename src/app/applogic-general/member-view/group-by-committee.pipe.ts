@@ -16,12 +16,16 @@ export class FilterAvailbleMembersPipe implements PipeTransform {
   transform(memberAvailabilities: MemberAvailability[], shiftIdx: number): Map<string, Member[]> {
     let result = new Map<string, Member[]>();
     let logistics: Member[] = [];
+    let marketing: string = Committee.getCommittee(CommitteeEnum.Marketing);
+    let count: number = 0;
 
     // Each mA represents a single member
     for (let mA of memberAvailabilities) {
-      
-      if (mA.isBusy(shiftIdx)) continue;
-      
+
+      if (mA.isBusy(shiftIdx)) {
+        continue;
+      }
+
       // Add the member to logistics
       logistics.push(mA.member);
 
@@ -40,7 +44,6 @@ export class FilterAvailbleMembersPipe implements PipeTransform {
     }
     // Add the logistics entry
     result.set(Committee.getCommittee(CommitteeEnum.Logistics), logistics);
-
     return result;
   }
 }
