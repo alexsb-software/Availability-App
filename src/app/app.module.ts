@@ -48,8 +48,8 @@ import { StateSaverRouter } from './state-saver-router';
 import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
 import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
-
-import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+//import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FilterAvailbleMembersPipe } from './applogic-general/member-view/group-by-committee.pipe';
 
 @NgModule({
@@ -84,7 +84,7 @@ import { FilterAvailbleMembersPipe } from './applogic-general/member-view/group-
     GetCommitteePipe,
     RemovePrRnpPipe,
     ExcelInterfaceComponent,
-    FileSelectDirective,
+    //FileSelectDirective,
     FilterAvailbleMembersPipe
   ],
   imports: [
@@ -93,6 +93,7 @@ import { FilterAvailbleMembersPipe } from './applogic-general/member-view/group-
     HttpModule,
     MyDatePickerModule,
     SingletonServicesModule,
+    FileUploadModule,
     PaginationModule.forRoot(),
     TimepickerModule.forRoot(),
     AccordionModule.forRoot(),
