@@ -12,7 +12,7 @@ export class CommFilterPipe implements PipeTransform {
       console.error("[CommFilterPipe] Undefined/Empty Array");
       return memAvs;
     }
-    console.log(comm);
+    
     //console.log(comm);
     //console.log(memAvs);
     // Returns findIndex undefined when not found, which
@@ -21,8 +21,6 @@ export class CommFilterPipe implements PipeTransform {
       (av: MemberAvailability) =>
         av.availabileCommittees.findIndex(c => c.includes(comm)) !== -1);
 
-    console.log(availabilities);
-    //let filteredMembers: Member[] = availabilities.map(av => av.member);
     return availabilities;
   }
 

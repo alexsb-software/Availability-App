@@ -16,7 +16,7 @@ import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../..
   styleUrls: ['./print.component.css']
 })
 export class PrintComponent implements OnInit {
-  dayAssignments: DayAssignmentInfo[]=[];
+  dayAssignments: DayAssignmentInfo[] = [];
   committeeMember: Map<string, Member[]> = new Map<string, Member[]>();
   committees: string[] = Committee.getAll();
 
@@ -25,8 +25,8 @@ export class PrintComponent implements OnInit {
       if (v instanceof NavigationEnd) {
         //console.log(this.holder);
         this.dayAssignments = this.holder.eventAssignmentInfo;
-        console.log("Day count: " + this.dayAssignments.length);
-        console.log(this.dayAssignments);
+        //console.log("Day count: " + this.dayAssignments.length);
+        //console.log(this.dayAssignments);
       }
     });
   }

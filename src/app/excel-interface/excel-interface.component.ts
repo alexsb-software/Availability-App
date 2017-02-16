@@ -40,7 +40,7 @@ export class ExcelInterfaceComponent implements OnInit {
       //this.reader.readAsText(fileItem._file);
       //console.log("Read")
       this.reader.onload = (e: any) => {
-        console.log(e.target.result);
+        //console.log(e.target.result);
         let data = e.target.result;
 
         let workbook: IWorkBook;
@@ -72,8 +72,7 @@ export class ExcelInterfaceComponent implements OnInit {
       let contentBuff: string[] = [];
       let memberInfos: MemberLine[] = [];
       let memberInfo: MemberLine = null;
-      let idx: number = 0;
-      let xidx: number = 0;
+      
       for (let cell in worksheet) {
         /* all keys that do not begin with "!" correspond to cell addresses */
         if (cell[0] === '!') continue;
@@ -81,7 +80,6 @@ export class ExcelInterfaceComponent implements OnInit {
         if (cell.startsWith('A')) {
 
           memberInfo = new MemberLine();
-          idx++;
           continue;
         }
 
@@ -91,7 +89,7 @@ export class ExcelInterfaceComponent implements OnInit {
         if (cell.startsWith('B')) {
           memberInfo.member = new Member();
           memberInfo.member.name = cellContent;
-          xidx++;
+
         }
         else if (cell.startsWith('C')) {
           // committees
@@ -102,9 +100,6 @@ export class ExcelInterfaceComponent implements OnInit {
             //console.log(commRaw);
             //let committee: Committee = Committee.getCommittee(commRaw);
             memberInfo.committees.push(trimmed);
-            if (trimmed.startsWith('N')) {
-              console.log(memberInfo);
-            }
           });
         }
         else if (cell.startsWith('D')) {
@@ -122,9 +117,6 @@ export class ExcelInterfaceComponent implements OnInit {
         }
       }
       // Parsing finished
-      console.log(contentBuff.length);
-      console.log("idx:" + idx);
-      console.log("xidx:" + xidx);
       this.stateHolder.save("excel", memberInfos);
 
       this.workSheetContent = contentBuff;  // For printing content

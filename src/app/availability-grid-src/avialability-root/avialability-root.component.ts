@@ -38,21 +38,21 @@ export class AvialabilityRootComponent implements OnInit {
 
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
-        console.log("navigated to home");
+        //console.debug("navigated to home");
         if (this.stateHolder.exists(excelKey)) {
-          console.log("data exists");
+          //console.debug("data exists");
 
           let excelData = this.stateHolder.get(excelKey);
           let day: DayAvailability = this.transformExcelData(excelData);
           let daysTemp: DayAvailability[] = [];
-          
+
 
           daysTemp.push(day);
           this.stateHolder.delete(excelKey)
 
           this.days = daysTemp;
           this.holder.eventAvailability = this.days;
-          console.log(day.availabilities.length);
+          //console.debug(day.availabilities.length);
         }
       }
     });
@@ -93,10 +93,6 @@ export class AvialabilityRootComponent implements OnInit {
       memAv.availabileCommittees = line.committees;
       // Insert all unknown committees
       line.committees.forEach(c => Committee.insertCommittee(c));
-      if (line.committees.indexOf('NPSS') !== -1) {
-        console.debug("NPSS found");
-        console.log(memAv);
-      }
       day.availabilities.push(memAv);
     }
 

@@ -49,7 +49,7 @@ export class MemberViewComponent implements OnChanges {
 
     if (searchType == 1) {
       filtered = this.filterByName(filter);
-      console.log(filtered);
+      //console.log(filtered);
     }
     else if (searchType == 2) {
       filtered=this.filterByComm(filter);

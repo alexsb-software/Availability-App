@@ -16,7 +16,7 @@ export class ShiftViewerComponent {
     let index: number = this.shifts.indexOf(shift);
     if (index !== -1) {
       this.shifts.splice(index, 1);
-      console.log("Deleted");
+      console.debug("Deleted");
     } else {
       console.error("Failed to delete");
     }

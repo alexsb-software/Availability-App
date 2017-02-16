@@ -3,7 +3,7 @@ import { MemberAvailability } from '../../applogic-general/member-availability';
 import { Member } from '../../applogic-general/member';
 import { Committee, CommitteeEnum } from '../../applogic-general/committee';
 import { CommFilterPipe, } from '../../applogic-general/member-view/comm-filter.pipe';
-import { FilterAvailbleMembersPipe } from '../../applogic-general/member-view/group-by-committee.pipe';
+//import { FilterAvailbleMembersPipe } from '../../applogic-general/member-view/group-by-committee.pipe';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { EventShift } from '../../applogic-general/event-shift';
 import { MapKeysPipe } from '../../applogic-general/map-keys.pipe';
@@ -74,6 +74,8 @@ export class ShiftAssignmentComponent implements OnChanges {
   ngOnChanges(e: SimpleChanges): void {
     if (e["shiftMembersAvailability"]) {
       console.debug("update shiftMembers");
+
+      this.committees = Committee.getAll();
       this.updateAvailabilityTable();
     }
   }
@@ -127,18 +129,52 @@ export class ShiftAssignmentComponent implements OnChanges {
     * as this is a job for a higher component
     */
   updateAvailabilityTable(): void {
-    let filterAvailable: FilterAvailbleMembersPipe = new FilterAvailbleMembersPipe();
+
 
     let reportings: string = Committee.getCommittee(CommitteeEnum.Reporting);
     let publicRel: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
     let marketing: string = Committee.getCommittee(CommitteeEnum.Marketing);
-    let temp = filterAvailable.transform(this.shiftMembersAvailability, this.shiftIndex);
+    let temp = this.transformByCommittee(this.shiftMembersAvailability, this.shiftIndex);
 
-    console.log(temp.get("NPSS"));
     this.publicRels = temp.get(publicRel) || [];
     this.reportings = temp.get(reportings) || [];
 
     this.availableCommitteeMembers = temp;  // for binding state checks    
+    //console.debug(this.availableCommitteeMembers.get(Committee.getCommittee(CommitteeEnum.Logistics)));
+  }
+
+  transformByCommittee(memberAvailabilities: MemberAvailability[], shiftIdx: number): Map<string, Member[]> {
+    let result = new Map<string, Member[]>();
+    let logistics: Member[] = [];
+    let marketing: string = Committee.getCommittee(CommitteeEnum.Marketing);
+    let count: number = 0;
+
+    // Each mA represents a single member
+    for (let mA of memberAvailabilities) {
+
+      if (mA.isBusy(shiftIdx)) {
+        continue;
+      }
+
+      // Add the member to logistics
+      logistics.push(mA.member);
+
+      // Place the member in the corresponding committee
+      for (let com of mA.availabileCommittees) {
+
+        // Define the entry if it doesn't exist
+        if (!result.has(com)) result.set(com, []);
+
+        // Add the member to the corresponding committee
+        let commMembers: Member[] = result.get(com);
+        commMembers.push(mA.member);
+        result.set(com, commMembers);
+      }
+
+    }
+    // Add the logistics entry
+    result.set(Committee.getCommittee(CommitteeEnum.Logistics), logistics);
+    return result;
   }
 
   /**
