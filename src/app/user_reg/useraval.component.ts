@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { EventUser } from '../events/event-user';
-import { EventDataService } from '../events/eventdata.service';  
+import { EventDataService } from '../events/eventdata.service';
 import { UserAvalability } from '../user_reg/user';
-import {leftFadeIn} from '../animation/animation';
+import { leftFadeIn } from '../animation/animation';
 import { UserAuthService } from '../user-auth/user-auth.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: './useraval.component.html',
     styleUrls: ['./useraval.component.css'],
-    animations:[leftFadeIn()]
+    animations: [leftFadeIn()]
 })
 
-export class UserAvalComponent implements OnInit{
+export class UserAvalComponent implements OnInit {
 
-    constructor(private _eventdata: EventDataService, private userAuth: UserAuthService, private router:Router){}
+    constructor(private _eventdata: EventDataService, private userAuth: UserAuthService, private router: Router) { }
 
     eventData: EventUser;
     eventsList: EventUser[];
@@ -29,14 +29,14 @@ export class UserAvalComponent implements OnInit{
 
         this._eventdata.getEventsList().subscribe(
             eventslist => this.eventsList = eventslist,
-            error => console.log(error)
+            error => console.error(error)
         );
-        
+
     }
-    
+
     onSaveClicked(): void {
         console.log(this.eventData.avalHash);
-        
+
         let useraval: UserAvalability = {
             eventId: this.choosedEventId,
             userId: 0, // TODO
@@ -45,13 +45,13 @@ export class UserAvalComponent implements OnInit{
         this._eventdata.postUserAval(useraval).subscribe(
             status => {
                 if (status === 200) {
-                    console.log("Success");
+                    console.debug("Success");
                 } else {
-                    console.log("Fail");
+                    console.debug("Fail");
                 }
-            }, 
+            },
             error => {
-                console.log("Something went wrong");
+                console.debug("Something went wrong");
             }
         );
     }
@@ -61,14 +61,14 @@ export class UserAvalComponent implements OnInit{
     }
 
     onEventSelected(id: number): void {
-        if (id == 0)    this.eventData = null;
+        if (id == 0) this.eventData = null;
         this.eventData = this.eventsList[this.getEventIndex(id)];
     }
 
     getEventIndex(id: number): number {
         let eventIndex = -1;
         this.eventsList.forEach((event: EventUser, index: number) => {
-            if(event.id == id) eventIndex = index;
+            if (event.id == id) eventIndex = index;
         })
         return eventIndex;
     }

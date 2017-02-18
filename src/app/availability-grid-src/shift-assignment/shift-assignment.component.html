@@ -1,68 +1,73 @@
 <accordion>
+  <ng-container *ngIf="shift.sessions && shift.sessions.length >0">
+    <accordion-group #group class="stack-element">
+      <div accordion-heading>
+        ({{this.shift.sessions?.length}}) Session{{this.shift.sessions.length!=1?"s":""}}
+        <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+      </div>
+      <div class="row">
+        <ng-container *ngFor="let sessionItem of this.shift.sessions;let j =index">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <app-sessoin-member-input (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" (onPublicRelRelease)="onMemberRelease($event)" (onReportingSelect)="onMemberSelect($event ,'Reporting')" (onReportingRelease)="onMemberRelease($event)" [session]="sessionItem"
+              [publicRelMembers]="publicRels" [reportingsMembers]="reportings"></app-sessoin-member-input>
+          </div>
+        </ng-container>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ng-container *ngIf="publicRels.length>0">
+            <p>Available Public Relations Members</p>
+            <dynamic-table [items]="publicRels" [canRemove]='false' [properties]='["name"]' [propertyDisplayNames]="['Name']"></dynamic-table>
+            <br>
+          </ng-container>
+          <ng-container *ngIf="reportings.length>0">
+            <p>Available Reporting Members</p>
+            <dynamic-table [items]="reportings" [canRemove]='false' [properties]='["name"]' [propertyDisplayNames]="['Name']"></dynamic-table>
+          </ng-container>
+        </div>
+      </div>
+    </accordion-group>
+  </ng-container>
+
   <accordion-group #group class="stack-element">
     <div accordion-heading>
-      ({{this.shift.sessions?.length}}) Session{{this.shift.sessions.length!=1?"s":""}}
-      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
-    </div>
+      <div class="row">
 
-
-    <div class="row">
-      <ng-container *ngFor="let sessionItem of this.shift.sessions;let j =index">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <app-sessoin-member-input (onPublicRelSelect)="onMemberSelect($event,'Public Rel')" (onPublicRelRelease)="onMemberRelease($event)" (onReportingsSelect)="onMemberSelect($event ,'Reportings')" (onReportingsRelease)="onMemberRelease($event)" [session]="sessionItem"
-            [publicRelMembers]="publicRels" [reportingsMembers]="reportings"></app-sessoin-member-input>
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+          <strong>Committees</strong>
         </div>
-      </ng-container>
-    </div>
-
-    <hr>
-
-
-
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ng-container *ngIf="publicRels.length>0">
-          <p>Available Public Relations Members</p>
-          <dynamic-table [items]="publicRels" [canRemove]='false' [properties]='["name"]' [propertyDisplayNames]="['Name']"></dynamic-table>
-          <br>
-        </ng-container>
-        <ng-container *ngIf="reportings.length>0">
-          <p>Available Reportings Members</p>
-          <dynamic-table [items]="reportings" [canRemove]='false' [properties]='["name"]' [propertyDisplayNames]="['Name']"></dynamic-table>
-        </ng-container>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+        </div>
       </div>
     </div>
 
 
 
-
-  </accordion-group>
-
-  <accordion-group #group class="stack-element">
-    <div accordion-heading>
-      Committees
-      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
-    </div>
-
     <div class="row">
-      <ng-container *ngFor="let comm of shiftMembersAvailability | getCommittee | removePrRnp">
-
+      <ng-container *ngFor="let comm of committees | removePrRnp">
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 stack-element">
           <accordion-group #group>
             <div accordion-heading>
+              <b>{{comm}}</b>
+              <div class="row">
+                <div class="col-xs-10 col-sm-10col-xs-10 col-md-10col-xs-10 col-lg-10col-xs-10">
+                  <ng-container *ngIf="availableCommitteeMembers.get(comm) && availableCommitteeMembers.get(comm).length>0">
+                    ({{availableCommitteeMembers.get(comm).length}}) Available
+                  </ng-container>
+                  <ng-container *ngIf="!availableCommitteeMembers.get(comm)">
+                    (0) Available
+                  </ng-container>
+                </div>
 
-              <ng-container *ngIf="committeeMembers.get(comm)">
-                <b>{{comm}} ({{committeeMembers.get(comm).length}}) Available </b>
-              </ng-container>
-
-              <ng-container *ngIf="!committeeMembers.get(comm)">
-                <b>{{comm}} (0) Available </b>
-              </ng-container>
-
-              <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+                </div>
+              </div>
             </div>
             <div class="stack-element">
-              <app-committee-members [commShiftMembers]="committeeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event,comm)"></app-committee-members>
+              <app-committee-members [commShiftMembers]="availableCommitteeMembers.get(comm)" [commName]="comm" (memberSelected)="onMemberSelect($event,comm)" (memberReleased)="onMemberRelease($event,comm)"></app-committee-members>
             </div>
           </accordion-group>
         </div>

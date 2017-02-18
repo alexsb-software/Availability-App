@@ -13,4 +13,8 @@ export class StateSaverService {
   exists(key: string): boolean {
     return this.states.has(key);
   }
+  delete(key: string): void {
+    if (!this.exists(key)) return;
+    this.states.delete(key);
+  }
 }

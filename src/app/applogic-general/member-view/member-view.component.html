@@ -1,11 +1,18 @@
 <accordion>
   <accordion-group #group>
     <div accordion-heading>
-      {{headerText}}
+      <strong>{{headerText}}</strong>
       <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
     </div>
 
-    <input-search class="stack-element" (searchRequest)="onSearchClicked($event)" [placeholder]="'Search by shift'"></input-search>
+
+    <input-search class="stack-element" (searchRequest)="onSearchClicked($event)" [placeholder]="'Search by...'"></input-search>
+    <!--<input type="radio" name="radiogroup" [value]="" (change)="onSelectionChange(entry)">-->
+    <form #f="ngForm">
+      <input type="radio" value=1 name="searchType" [(ngModel)]="searchType" checked><span style="color: #000">Name</span>
+      <input type="radio" value=2 name="searchType" [(ngModel)]="searchType"> <span style="color: #000">Committee</span>
+      <input type="radio" value=3 name="searchType" [(ngModel)]="searchType"> <span style="color: #000">Shift</span>
+    </form>
 
     <accordion>
       <accordion-group #group>
@@ -15,7 +22,7 @@
         </div>
 
         <ng-container *ngIf="memberAvailabilities.length > 0">
-          <dynamic-table [properties]="['member.name','shiftIndexes','availabileCommittees']" [propertyDisplayNames]="['Name', 'Shift Number', 'Committees']" [items]="filteredMemberAvails" [canRemove]="false"></dynamic-table>
+          <dynamic-table [properties]="['member.name','shiftIndexes','availabileCommittees']" [propertyDisplayNames]="['Name', 'Shift Number (0-indexed)', 'Committees']" [items]="filteredMemberAvails" [canRemove]="false"></dynamic-table>
         </ng-container>
       </accordion-group>
     </accordion>

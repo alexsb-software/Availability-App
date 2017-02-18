@@ -7,10 +7,10 @@ import { Member } from '../member';
 })
 export class CommFilterPipe implements PipeTransform {
 
-  transform(memAvs: MemberAvailability[], comm: string): Member[] {
+  transform(memAvs: MemberAvailability[], comm: string): MemberAvailability[] {
     if (!comm || comm.length === 0) {
       console.error("[CommFilterPipe] Undefined/Empty Array");
-      return memAvs.map(m => m.member);
+      return memAvs;
     }
     
     //console.log(comm);
@@ -19,10 +19,9 @@ export class CommFilterPipe implements PipeTransform {
     // will evaluate to false
     let availabilities: MemberAvailability[] = memAvs.filter(
       (av: MemberAvailability) =>
-        av.availabileCommittees.findIndex(c => c.includes(comm)));
+        av.availabileCommittees.findIndex(c => c.includes(comm)) !== -1);
 
-    let filteredMembers: Member[] = availabilities.map(av => av.member);
-    return filteredMembers;
+    return availabilities;
   }
 
 }

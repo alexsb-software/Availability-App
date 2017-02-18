@@ -16,10 +16,10 @@ export class SessoinMemberInputComponent {
 
   // TODO create events for PR and R&P selection
   @Output() onPublicRelSelect: EventEmitter<Member> = new EventEmitter<Member>();
-  @Output() onReportingsSelect: EventEmitter<Member> = new EventEmitter<Member>();
+  @Output() onReportingSelect: EventEmitter<Member> = new EventEmitter<Member>();
 
   @Output() onPublicRelRelease: EventEmitter<Member> = new EventEmitter<Member>();
-  @Output() onReportingsRelease: EventEmitter<Member> = new EventEmitter<Member>();
+  @Output() onReportingRelease: EventEmitter<Member> = new EventEmitter<Member>();
 
 
   selectedPublicRelMember: Member;
@@ -34,7 +34,7 @@ export class SessoinMemberInputComponent {
 
     if (comm === 'Reporting') {
       this.session.reporting = member;
-      this.onReportingsSelect.emit(member);
+      this.onReportingSelect.emit(member);
     }
 
     if (comm === 'PublicRel') {
@@ -51,7 +51,7 @@ export class SessoinMemberInputComponent {
   onMemberRelease(comm: string): void {
     // TODO using hardcoded string IS UGLY!!!
     if (comm === 'Reporting') {
-      this.onReportingsRelease.emit(this.session.reporting);
+      this.onReportingRelease.emit(this.session.reporting);
       this.session.reporting = null;
     }
 

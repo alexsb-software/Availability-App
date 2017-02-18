@@ -20,15 +20,13 @@ export class MemberViewComponent implements OnChanges {
 
   filteredMemberAvails: MemberAvailability[] = [];
 
+  searchType: number = 1;
   shiftPipe: ShiftFilterPipe = new ShiftFilterPipe();
-
   namePipe: NameFilterPipe = new NameFilterPipe();
   nameSortPipe: NameSortPipe = new NameSortPipe();
-
   commPipe: CommFilterPipe = new CommFilterPipe();
 
   constructor() {
-
     this.filteredMemberAvails = this.memberAvailabilities;
   }
 
@@ -38,35 +36,53 @@ export class MemberViewComponent implements OnChanges {
     }
   }
 
-  filterMembers(filter: string): void {
+  filterMembers(filter: string, searchType: number): void {
+
+    // Return all if nothing was types
     if (filter.length === 0) {
       this.filteredMemberAvails = this.memberAvailabilities;
       return;
     }
+    let filtered: MemberAvailability[] = [];
 
-    let shiftFiltered = this.shiftPipe.transform(this.memberAvailabilities, parseInt(filter));
-    shiftFiltered = this.nameSortPipe.transform(shiftFiltered);
+
+
+    if (searchType == 1) {
+      filtered = this.filterByName(filter);
+      //console.log(filtered);
+    }
+    else if (searchType == 2) {
+      filtered=this.filterByComm(filter);
+    }
+    else if (searchType == 3) {
+      filtered = this.filterByShift(parseInt(filter));
+    }
+
+
 
     // TODO Committee pipe
     // TODO Name sort
 
-    this.filteredMemberAvails = shiftFiltered;
+    this.filteredMemberAvails = filtered;
   }
 
   resetFilter(): void {
     this.filteredMemberAvails = this.memberAvailabilities;
   }
 
-  filterByName(name: string): void {
-    // TODO 
+  filterByName(name: string): MemberAvailability[] {
+    return this.namePipe.transform(this.memberAvailabilities, name);
   }
 
-  filterByShift(shift: number): void {
-    // TODO 
+  filterByShift(shift: number): MemberAvailability[] {
+    let shiftFiltered = this.shiftPipe.transform(this.memberAvailabilities, shift);
+    shiftFiltered = this.nameSortPipe.transform(shiftFiltered);
+    return shiftFiltered;
   }
 
-  filterByComm(commName: string): void {
-    // TODO 
+  filterByComm(commName: string): MemberAvailability[] {
+    
+    return this.commPipe.transform(this.memberAvailabilities,commName);
   }
 
   onSearchClicked(e: string) {
@@ -74,7 +90,9 @@ export class MemberViewComponent implements OnChanges {
       this.resetFilter();
     }
     else {
-      this.filterMembers(e);
+      this.filterMembers(e, this.searchType);
     }
   }
+
+
 }

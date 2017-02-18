@@ -16,7 +16,7 @@
 
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <label for="report-input">Reportings</label>
+    <label for="report-input">Reporting</label>
     <input [typeahead]="reportingsMembers" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event,'Reporting')" name="report-input" class="form-control" placeholder="Name" [(ngModel)]="selectedReportingMember" class="form-control">
   </div>
 </div>

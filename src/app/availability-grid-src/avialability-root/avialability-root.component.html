@@ -3,10 +3,14 @@
   <br>
   <app-day-assignment (onSaveDay)="onSaveDay($event,i)" [day]="day"></app-day-assignment>
   <hr>
+  <a routerLink="print"><button class="btn btn-success pull-right" > Print </button></a>
 </ng-container>
-<a routerLink="print"><button class="btn btn-success pull-right" > Print </button></a>
 
-
+<ng-container *ngIf="!days || !days.length">
+  <h3>Mmm... nothing seems to be here</h3>
+  <button routerLink='event/new' class="btn btn-default">Create Event</button>
+  <button routerLink='excel' class="btn btn-default">Import from Excel</button>
+</ng-container>
 
 
 <!--<div class="row">
@@ -14,4 +18,3 @@
     <pager [totalItems]="this.days.length" [(ngModel)]="currentPageIndex" (pageChanged)="pageChanged($event)" pageBtnClass="btn" itemsPerPage="1"></pager>
   </div>
 </div>-->
-

@@ -6,7 +6,7 @@
           <b>Shift # {{i+1}}</b>
           <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
         </div>
-        <app-shift-assignment (onShiftSave)="saveShift($event,i)" [shift]="day.shifts[i]" [shiftMembersAvailability]="day.availabilities | shiftFilter:i" [shiftIndex]="1"></app-shift-assignment>
+        <app-shift-assignment  [shiftMembersAvailability]="day.availabilities | shiftFilter:i" [shift]="day.shifts[i]" [shiftIndex]="i" (onShiftSave)="saveShift($event,i)"></app-shift-assignment>
       </accordion-group>
     </ng-container>
   </ng-container>

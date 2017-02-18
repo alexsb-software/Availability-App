@@ -1,6 +1,9 @@
 import { Member } from './member';
 import { EventShift } from './event-shift';
-
+/**
+ * @summary Availability sheet for 1 member
+ * 
+ **/
 export class MemberAvailability {
     member: Member;
     availabileCommittees: string[];
