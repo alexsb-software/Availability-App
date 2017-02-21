@@ -25,8 +25,8 @@ $days_query = "SELECT * FROM `day` WHERE `event_id` = $event_id";
 // }
 // mysqli_stmt_bind_param($days_query, 'i', $event_id);
 // $days_query->execute();
-$result = execute_query($days_query);
-$days = $result->fetch_all();
+$result = execute_query_ret_arr($days_query);
+$days = $result;
 
 // $shift_query = "SELECT * FROM `shift` WHERE `day_id` = $event_id";
 // if (!$shift_query) {
@@ -45,33 +45,36 @@ $event_days = [];
 foreach ($days as $day) 
 {
 	$day_hash = array();
-	$day_hash['id'] = $day[0];
-	$day_hash['dayDate'] = $day[1];
+	// var_dump($day);
+	$day_hash['id'] = $day->{'id'};
+	$day_hash['dayDate'] = $day->{'dayDate'};
 
-	$shift_query = "SELECT * FROM `shift` WHERE `day_id` = $day[0]";
+	$shift_query = "SELECT * FROM `shift` WHERE `day_id` = " . $day->{'id'};
 	// mysqli_stmt_bind_param($shift_query, 'i', $day[0]);
 	// $shift_query->execute();
-	$result = execute_query($shift_query);
-	$shifts = $result->fetch_all();
+	$result = execute_query_ret_arr($shift_query);
+	$shifts = $result;
 
 	$shifts_array = [];
 	foreach ($shifts as $shift){
 		$shift_hash = array();
-		$shift_hash['number'] = $shift[4];
+		// var_dump($shift);
+		$shift_hash['number'] = $shift->{'shift_number'};
 
-		$session_query = "SELECT * FROM `session` WHERE `shift_id` = $shift[0]";
+		$session_query = "SELECT * FROM `session` WHERE `shift_id` = " . $shift->{'shift_id'};
 		// mysqli_stmt_bind_param($session_query, 'i', $shift[0]);
 		// $session_query->execute();
-		$result = execute_query($session_query);
-		$sessions = $result->fetch_all();
+		$result = execute_query_ret_arr($session_query);
+		$sessions = $result;
 
 		$session_array = [];
 		foreach ($sessions as $session) {
 			$session_hash = array();
-			$session_hash['name'] = $session[1];
-			$session_hash['notes'] = $session[2];
-			$session_hash['reporting'] = $session[3];
-			$session_hash['pr'] = $session[4];
+			// var_dump($session);
+			$session_hash['name'] = $session->{'name'};
+			$session_hash['notes'] = $session->{'notes'};
+			$session_hash['reporting'] = $session->{'reporting'};
+			$session_hash['pr'] = $session->{'pr'};
 			array_push($session_array, $session_hash);	
 		}
 		$shift_hash['sessions'] = $session_array;
@@ -97,13 +100,14 @@ if ($get_users) {
 
 	// mysqli_stmt_bind_param($member_query, 'i', $event_id);
 	// $member_query->execute();
-	$result = execute_query($member_query);
-	$member_avail = $result->fetch_all();
+	$result = execute_query_ret_arr($member_query);
+	$member_avail = $result;
 
 	$member_array = [];
 	foreach ($member_avail as $member)
 	{
 		$member_hash = array();
+		// var_dump($member);
 		$member_hash['member_id'] = $member[0];
 		$member_hash['member_name'] = $member[1];
 		$member_hash['day_id'] = $member[2];
