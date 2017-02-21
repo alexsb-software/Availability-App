@@ -1,7 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    include_once 'config.php';
+//    include_once 'config.php';
+    include '../db.php';
     include 'tokens.php';
 
     $header = getallheaders();
@@ -9,37 +10,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     {
         die("Invalid Request");
     }
+//
+//    $sql = mysqli_prepare($conn, "SELECT id  FROM `members` WHERE `auth_token` = ?");
+//
+//    if ( !$sql ) {
+//        http_response_code(500);
+//        die('mysqli error: '.mysqli_error($conn));
+//    }
+////    //$sql->bind_params('s', $email);
+//    mysqli_stmt_bind_param($sql, "s", $header['Authorization']);
+//
+//    $sql->execute();
+//    $result = $sql->get_result();
+//    $row = $result->fetch_assoc();
 
-    $sql = mysqli_prepare($conn, "SELECT id  FROM `members` WHERE `auth_token` = ?");
+//    $user = execute_query_ret_arr($get_user_query);
+//
+//    if (!$row)
+//    {
+//        http_response_code(404);
+//        die("Invalid Auth Token");
+//    }
 
-    if ( !$sql ) {
-        http_response_code(500);
-        die('mysqli error: '.mysqli_error($conn));
-    }
-//    //$sql->bind_params('s', $email);
-    mysqli_stmt_bind_param($sql, "s", $header['Authorization']);
+    $given_token = $header['Authorization'];
+    $user_query = "SELECT `id` FROM `members` WHERE `auth_token` = '$given_token'";
+    $user = execute_query_ret_arr($user_query);
 
-    $sql->execute();
-    $result = $sql->get_result();
-    $row = $result->fetch_assoc();
-
-    if (!$row)
-    {
+    if (!count($user)) {
         http_response_code(404);
         die("Invalid Auth Token");
     }
 
     $token = generate_token();
-    $update_token = mysqli_prepare($conn, "UPDATE `members` SET auth_token = ? WHERE `id` = ?");
+//    $update_token = mysqli_prepare($conn, "UPDATE `members` SET auth_token = ? WHERE `id` = ?");
+//
+//    mysqli_stmt_bind_param($update_token, "si", $token, $row['id']);
+//
+//    if($update_token->execute())
+//    {
+//        http_response_code(200);
+//    } else {
+//        http_response_code(500);
+//        die('mysqli error: '.mysqli_error($conn));
+//    }
 
-    mysqli_stmt_bind_param($update_token, "si", $token, $row['id']);
-
-    if($update_token->execute())
-    {
+    $user_id = $user[0]->{'id'};
+    $update_token = "UPDATE `members` SET auth_token = '$token' WHERE `id` = '$user_id'";
+    if (execute_query($update_token)) {
         http_response_code(200);
     } else {
         http_response_code(500);
-        die('mysqli error: '.mysqli_error($conn));
     }
 }
 else
