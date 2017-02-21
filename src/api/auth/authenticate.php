@@ -19,9 +19,9 @@ $auth_token = $header['Authorization'];
 
 // TODO Add parameter escaping
 $get_user_query = "SELECT `id`, `name` FROM `members` WHERE `auth_token` = '$auth_token'";
-$user = execute_query($get_user_query);
+$user = execute_query($get_user_query)->fetch_object();
 
-if (!$user->{'num_rows'})
+if (!$user)
 {
     http_response_code(403);
     die("Invalid authentication token");

@@ -26,16 +26,16 @@ if (!$event) {
     die("Invalid Event ID");
 }
 
-$days_query = "SELECT id FROM `day` WHERE `event_id` = ?";
+$days_query = "SELECT id FROM `day` WHERE `event_id` = $event[event_id]";
 
 // mysqli_stmt_bind_param($days_query, 'i', $event['event_id']);
 
 // $days_query->execute();
-$result = execute_query($days_query);
-$days = $result->fetch_all();
+$result = execute_query_ret_arr($days_query);
+$days = $result;
 
-$add_avail_query = "INSERT INTO `member_shift_committee`(`member_id`,`shift_id`,`day_id`, `event_id`) VALUES (?,?,?,?)";
-$get_shifts_query = "SELECT `shift_id` FROM `shift` WHERE `day_id` = ?";
+// $add_avail_query = "INSERT INTO `member_shift_committee`(`member_id`,`shift_id`,`day_id`, `event_id`) VALUES (?,?,?,?)";
+// $get_shifts_query = "SELECT `shift_id` FROM `shift` WHERE `day_id` = ?";
 
 // if (!$add_avail_query or !$get_shifts_query) {
 //     http_response_code(500);
@@ -47,24 +47,27 @@ foreach ($requestParams->{'avalHash'} as $i => $day)
     foreach ($day as $j => $shift)
     {
         $day = $days[$i];
+        // var_dump($day);
 
-        $get_shifts_query = "SELECT `shift_id` FROM `shift` WHERE `day_id` = $day[0]";
+        $get_shifts_query = "SELECT `shift_id` FROM `shift` WHERE `day_id` = " . $day->{'id'};
         // mysqli_stmt_bind_param($get_shifts_query, 'i', $day[0]);
         // $get_shifts_query->execute();
-        $result = execute_query($get_shifts_query);
+        $result = execute_query_ret_arr($get_shifts_query);
         if (!$result) {
             die("No Shifts for this day");
         }
-        $shifts = $result->fetch_all();
+        $shifts = $result;
 
-        print_r($shifts);
-        echo $event['event_id'];
+        // print_r($shifts);
+        echo $event['event_id'] . "\n";
 
         if($shift)
         {
             $shift = $shifts[$j];
+            // var_dump($shift);
+            // var_dump($user);
 
-            $add_avail_query = "INSERT INTO `member_shift_committee`(`member_id`,`shift_id`,`day_id`, `event_id`) VALUES ($user['id'], $shift[0], $day[0], $event['event_id'])";
+            $add_avail_query = "INSERT INTO `member_shift_committee`(`member_id`,`shift_id`,`day_id`, `event_id`) VALUES (" . $user->{'id'} . " , " . $shift->{'shift_id'} . ", " . $day->{'id'} . ", $event[event_id])";
             // mysqli_stmt_bind_param($add_avail_query, 'iiii', $user['id'], $shift[0], $day[0], $event['event_id']);
             // if(!$add_avail_query->execute()) {
             //     http_response_code(500);
