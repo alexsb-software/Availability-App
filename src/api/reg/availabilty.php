@@ -1,5 +1,10 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST')
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    http_response_code(204);
+}
+
+else if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
 include '../auth/authenticate.php';
 
