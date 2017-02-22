@@ -7,7 +7,7 @@
 import { Event } from '../applogic-general/event';
 
 export interface EventUser{
-    id: number;
+    // id: number;
     event: Event;
     avalHash: Array<Array<Boolean>>;
 }

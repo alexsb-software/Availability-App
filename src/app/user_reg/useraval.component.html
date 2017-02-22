@@ -7,7 +7,7 @@
             </label>
             <select class="form-control" id="eventId" (change)='onEventSelected($event.target.value)'>
                 <option value='0' selected > -- select an option -- </option>
-                <option *ngFor='let event of eventsList' value="{{event.id}}">{{event.event.eventName}}</option>
+                <option *ngFor='let eventuser of eventsList' value="{{eventuser.event.eventId}}">{{eventuser.event.eventName}}</option>
             </select>
         </div>
         

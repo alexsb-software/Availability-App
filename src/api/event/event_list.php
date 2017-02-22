@@ -6,6 +6,7 @@
  * Time: 12:41 AM
  */
 // include '../db.php';
+
 include 'get_event.php';
 
 $get_event_ids_query = "SELECT `event_id` FROM `eventt` ORDER BY `event_id` DESC";
@@ -26,4 +27,6 @@ foreach ($event_ids as $id) {
     array_push($event_list, $event);
 }
 
+header('Content-Type: application/json');
+http_response_code(200);
 echo json_encode($event_list);

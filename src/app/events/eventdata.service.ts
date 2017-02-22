@@ -2,24 +2,30 @@ import { Injectable } from '@angular/core';
 import { EventUser } from './event-user';
 import { UserAvalability } from '../user_reg/user';
 import { Event } from '../applogic-general/event';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { UserAuthService } from '../user-auth/user-auth.service';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class EventDataService {
 
     private _apiurl = '../api/events.json';
+    private _eventapi = "http://localhost/api/event/";
+    private _availapi = "http://localhost/api/reg/availabilty.php";
     private newEventAPI = 'https://avalapp-mahmoudmcd1.c9users.io/hello-world.php';
 
-    constructor(private _http: Http) { }
+    constructor(private _http: Http, private _userauth: UserAuthService) { }
 
     getEventsList(): Observable<EventUser[]> {
-        return this._http.get(this._apiurl)
-            .map((response: Response) => this.addAvalArray(<EventUser[]>response.json()));
+    //     return this._http.get(this._eventapi + "event_list.php")
+    //         .map((response: Response) => this.addAvalArray(response.json()));
+        return this._http.get(this._eventapi + "event_list.php")
+            .map((response: Response) => (response.json()));
     }
 
     addAvalArray(eventslist: EventUser[]): EventUser[] {
+        // console.log(eventslist);
         let avalArray: Array<Array<Boolean>>;
         let insideArray: Array<Array<Object>>;
         let insideForEach: Array<Object>;
@@ -36,6 +42,8 @@ export class EventDataService {
         //     event['avalHash'] = avalArray;
         // })
 
+        // console.log("This fucking function with called with ")
+        
         eventslist.forEach((eventUser: EventUser, index: number) => {
             avalArray = [];
             let event:Event = eventUser.event;
@@ -58,14 +66,18 @@ export class EventDataService {
     }
 
     postUserAval(userAval: UserAvalability): Observable<number> {
-        return this._http.post(this._apiurl, JSON.stringify(userAval))
+        let headers = new Headers({'Authorization': `${this._userauth.getAuthToken()}`});
+        let options = new RequestOptions({ headers: headers });
+        console.log(options);
+        return this._http.post(this._availapi, JSON.stringify(userAval), options)
             .map((response: Response) => <number>response.status)
     }
 
     postEvent(event: Event): Observable<number> {
         console.log(this.parseToJson(event));
-        
-        return this._http.post(this.newEventAPI, JSON.stringify(this.parseToJson(event)))
+        let headers = new Headers({ 'Authorization': this._userauth.getAuthToken() });
+        let options = new RequestOptions({ headers: headers });
+        return this._http.post(this.newEventAPI, JSON.stringify(this.parseToJson(event)), options)
             .map((response: Response) => <number>response.status)
     }
 
