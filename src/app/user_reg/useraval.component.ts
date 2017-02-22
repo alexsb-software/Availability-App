@@ -69,6 +69,7 @@ export class UserAvalComponent implements OnInit {
     onEventSelected(id: number): void {
         if (id == 0) this.eventData = null;
         this.eventData = this.eventsList[this.getEventIndex(id)];
+        this.choosedEventId = id;
     }
 
     getEventIndex(id: number): number {

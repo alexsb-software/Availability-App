@@ -76,13 +76,18 @@ foreach ($requestParams->{'avalHash'} as $i => $day)
             // var_dump($shift);
             // var_dump($user);
 
-            $add_avail_query = "INSERT INTO `member_shift_committee`(`member_id`,`shift_id`,`day_id`, `event_id`) VALUES (" . $user->{'id'} . " , " . $shift->{'shift_id'} . ", " . $day->{'id'} . ", $event[event_id])";
+            $add_avail_query = "INSERT INTO `member_shift_committee`(`member_id`,`shift_id`,`day_id`, `event_id`) VALUES (" . $user->{'id'} . " , " . $shift->{'shift_id'} . ", " . $day->{'id'} . ",". $event['event_id'] .")";
+            echo($add_avail_query);
             // mysqli_stmt_bind_param($add_avail_query, 'iiii', $user['id'], $shift[0], $day[0], $event['event_id']);
             // if(!$add_avail_query->execute()) {
             //     http_response_code(500);
             //     die('mysqli error: '.mysqli_error($conn));
             // }
-            execute_query($add_avail_query);
+            if (!execute_query($add_avail_query))
+            {
+                http_response_code(500);
+                die("mysqli error");
+            }
         }
     }
 }
