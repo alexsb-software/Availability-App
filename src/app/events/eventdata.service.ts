@@ -82,7 +82,7 @@ export class EventDataService {
     }
 
     private parseToJson(event: Event): Object {
-
+        console.log(event);
         let eventObj = {
             'eventName': event.eventName,
             'eventDays': []
