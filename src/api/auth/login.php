@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $input = file_get_contents('php://input');
     $requestParams = json_decode($input);
     if (!$requestParams) {
+        http_response_code(400);
         die("invalid params");
     }
 
@@ -75,8 +76,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $update_auth_query = "UPDATE `members` SET auth_token = '$token' WHERE `id` = '$user_id'";
 
         if(execute_query($update_auth_query)) {
-            http_response_code(200);
             header("Authorization: {$token}");
+            header("content-type: application/json");
+            http_response_code(200);
+            
         } else {
             http_response_code(500);
         }

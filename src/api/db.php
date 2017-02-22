@@ -1,5 +1,9 @@
 <?php
 
+// TODO Change
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Expose-Headers: Authorization");
+
 // Database Connection Parameters
 define("DB_DOMAIN", "localhost");
 define("DB_USER", "root");
