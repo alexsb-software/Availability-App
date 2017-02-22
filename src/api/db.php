@@ -4,7 +4,7 @@
 define("DB_DOMAIN", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
-define("DB_NAME", "hr");
+define("DB_NAME", "");
 
 
 // mysql connection object
