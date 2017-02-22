@@ -7,8 +7,8 @@ import 'rxjs/add/operator/map';
 export class UserAuthService implements OnInit {
 
     private auth_token: string = null;
-    private login_api_link = '../../api/login.php';
-    private logout_api_link = '../../api/logout.php';
+    private login_api_link = 'http://localhost/api/auth/login.php';
+    private logout_api_link = 'http://localhost/api/auth/logout.php';
 
     constructor(private http: Http) {
 
@@ -18,29 +18,42 @@ export class UserAuthService implements OnInit {
 
     }
 
-    login(email: string, password: string): Boolean {
-        let data = {};
-        data['email'] = email; data['password'] = password;
+    login(email: string, password: string): Observable<string> {
+        let data = {
+            email: email,
+            password: password
+        };
+
         let body = JSON.stringify(data);
-        this.sentLoginRequest(body).subscribe(
-            response => {
-                if (response) {
-                    this.auth_token = response;
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            error => {
-                console.error(error);
-                return false;
-            }
-        );
-        return false;
+        
+        let token = this.http.post(this.login_api_link, body)
+            .map((res:Response) => res.headers.get('Authorization'));  
+
+        return token;
+        // this.sentLoginRequest(body).subscribe(
+        //     response => {
+        //         console.log(response);
+        //         if (response) {
+        //             this.auth_token = response;
+        //             return true;
+        //         } else {
+        //             return false;
+        //         }
+        //     },
+        //     error => {
+        //         console.error(error);
+        //         return false;
+        //     }
+        // );
+        // return false;
     }
 
-    sentLoginRequest(body): Observable<string> {
-        return this.http.post(this.login_api_link, body).map((res: Response) => <string>res.headers['Authorization']);
+    setAuthToken(auth_token): void {
+        this.auth_token = auth_token;
+    }
+
+    getAuthToken(): string {
+        return this.auth_token;
     }
 
     loggedIn(): Boolean {

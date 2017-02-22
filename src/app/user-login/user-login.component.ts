@@ -15,10 +15,17 @@ export class UserLoginComponent {
     }
 
     onLoginClicked() {
+        
         if (this.email && this.password) {
-            if (this.user_auth.login(this.email, this.password)) {
-                this.router.navigateByUrl('aval');
-            }
+            this.user_auth.login(this.email, this.password).subscribe(
+                response => {
+                    this.user_auth.setAuthToken(response);
+                },
+                error => {
+                    this.user_auth.setAuthToken(null);
+                    console.log(error);
+                }
+            )
         }
     }
 
