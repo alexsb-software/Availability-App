@@ -63,7 +63,7 @@ export class UserAuthService implements OnInit {
     logout(): void {
         let headers = new Headers({ 'Authorization': this.auth_token });
         let options = new RequestOptions({ headers: headers });
-        this.http.post(this.logout_api_link, {}, headers).map((res: Response) => <number>res.status);
+        this.http.post(this.logout_api_link, {}, options).map((res: Response) => <number>res.status);
         this.auth_token = null;
     }
 }

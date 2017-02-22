@@ -24,17 +24,23 @@ export class UserAvalComponent implements OnInit {
     ngOnInit(): void {
 
         if (!this.userAuth.loggedIn()) {
-            this.router.navigate(['login']);
+            this.router.navigateByUrl('/login');
         }
-
+        
+        
         this._eventdata.getEventsList().subscribe(
-            eventslist => this.eventsList = eventslist,
+            eventslist => { 
+                console.log(eventslist);
+                this.eventsList = this._eventdata.addAvalArray(eventslist);
+                // console.log(this.eventsList);
+            },
             error => console.error(error)
         );
-
+    
     }
 
     onSaveClicked(): void {
+        
         console.log(this.eventData.avalHash);
 
         let useraval: UserAvalability = {
@@ -67,8 +73,8 @@ export class UserAvalComponent implements OnInit {
 
     getEventIndex(id: number): number {
         let eventIndex = -1;
-        this.eventsList.forEach((event: EventUser, index: number) => {
-            if (event.id == id) eventIndex = index;
+        this.eventsList.forEach((eventuser: EventUser, index: number) => {
+            if (eventuser.event.eventId == id) eventIndex = index;
         })
         return eventIndex;
     }

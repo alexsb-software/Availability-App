@@ -20,6 +20,7 @@ export class UserLoginComponent {
             this.user_auth.login(this.email, this.password).subscribe(
                 response => {
                     this.user_auth.setAuthToken(response);
+                    this.router.navigateByUrl('/aval');
                 },
                 error => {
                     this.user_auth.setAuthToken(null);
