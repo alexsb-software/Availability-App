@@ -76,8 +76,9 @@ export class UserAuthService implements OnInit {
             return;
         }
         if (!headers) headers = new Headers({ 'Authorization': this.auth_token });
+        let options = new RequestOptions({headers: headers});
 
-        return this.http.post(urlLink, body, headers).map((res: Response) => <number>res.status);
+        return this.http.post(urlLink, body, options).map((res: Response) => <number>res.status);
     }
 
     authorizedGet(urlLink: string, headers?: any): Observable<Response> {

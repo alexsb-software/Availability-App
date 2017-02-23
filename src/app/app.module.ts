@@ -101,6 +101,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
       { path: 'session', component: SessoinMemberInputComponent },
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
+      { path: 'event/new', component: NewEventComponent},
       { path: 'member', component: MemberViewComponent },
       { path: 'shift', component: ShiftAssignmentComponent },
       { path: 'day/:id', component: DayAssignmentComponent },
@@ -110,7 +111,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
       { path: '**', component: AppComponent }
     ])
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }, UserAuthService, , AuthGuard],
+  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }, UserAuthService, AuthGuard],
 
   bootstrap: [AppComponent]
 })
