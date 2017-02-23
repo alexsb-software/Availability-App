@@ -11,7 +11,7 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
 })
 export class DayEditorFormComponent {
   @Input() dayIdx: number;
-  @Input() eventDay: EventDay ;
+  @Input() eventDay: EventDay;
   @Output() onDeleteDay: EventEmitter<number> = new EventEmitter<number>();
   sessionCount: number = 0;
   visible: boolean = false;

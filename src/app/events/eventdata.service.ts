@@ -18,8 +18,8 @@ export class EventDataService {
     constructor(private _http: Http, private _userauth: UserAuthService) { }
 
     getEventsList(): Observable<EventUser[]> {
-    //     return this._http.get(this._eventapi + "event_list.php")
-    //         .map((response: Response) => this.addAvalArray(response.json()));
+        //     return this._http.get(this._eventapi + "event_list.php")
+        //         .map((response: Response) => this.addAvalArray(response.json()));
         return this._http.get(this._eventapi + "event_list.php")
             .map((response: Response) => (response.json()));
     }
@@ -43,10 +43,10 @@ export class EventDataService {
         // })
 
         // console.log("This fucking function with called with ")
-        
+
         eventslist.forEach((eventUser: EventUser, index: number) => {
             avalArray = [];
-            let event:Event = eventUser.event;
+            let event: Event = eventUser.event;
             for (let day of event.eventDays) {
                 let insideForEach = [];
                 for (let shift of day.shifts) {
@@ -66,7 +66,7 @@ export class EventDataService {
     }
 
     postUserAval(userAval: UserAvalability): Observable<number> {
-        let headers = new Headers({'Authorization': `${this._userauth.getAuthToken()}`});
+        let headers = new Headers({ 'Authorization': `${this._userauth.getAuthToken()}` });
         let options = new RequestOptions({ headers: headers });
         console.log(options);
         return this._http.post(this._availapi, JSON.stringify(userAval), options)
@@ -109,8 +109,12 @@ export class EventDataService {
                     let sessionObj = {};
                     sessionObj['name'] = session.name;
                     sessionObj['notes'] = session.notes;
-                    sessionObj['reporting'] = session.reporting.id;
-                    sessionObj['pr'] = session.publicRelations.id;
+
+                    if (typeof session.publicRelations !== "undefined" &&
+                     typeof session.reporting !== "undefined") {
+                        sessionObj['reporting'] = session.reporting.id;
+                        sessionObj['pr'] = session.publicRelations.id;
+                    }
                     shiftObj.sessions.push(sessionObj);
                 }
 

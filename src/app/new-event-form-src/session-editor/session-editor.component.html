@@ -1,7 +1,6 @@
 <!--TODO: create a component to edit each shift on its own-->
 
 <div class="row">
-
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h3>
       Edit Sessions
@@ -9,8 +8,8 @@
   </div>
 </div>
 
-<div class="row">
 
+<div class="row">
   <!--Session name, notes-->
   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 
@@ -56,71 +55,58 @@
 
   </div>
   <!--End session time-->
-
-
-  <!--Show Error-->
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div *ngIf="error" class="container" [@fallIn]>
-        <div class="alert alert-danger">
-          <strong>Please note!</strong>
-          <ng-container *ngIf="error===1">
-            <p>Session end time is less than or equal to its start time
-            </p>
-          </ng-container>
-
-          <ng-container *ngIf="error===2">
-            <p>Session name is required
-            </p>
-          </ng-container>
-          <ng-container *ngIf="error===3">
-            <p>Shift isn't selected
-            </p>
-          </ng-container>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
 </div>
 
-<div class="form-group">
-  <accordion>
-    <accordion-group #group>
-      <div accordion-heading>
-        <strong>
-        {{this.shift.sessions.length}} Session{{this.shift.sessions.length!=1?"s":""}} </strong>
-        <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+<!--Show Error-->
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div *ngIf="error" [@fallIn]>
+      <div class="alert alert-danger">
+        <strong>Please note!</strong>
+        <p>{{errDetails}}</p>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!--Day session details table-->
-      <ng-container *ngIf="this.shifts"></ng-container>
-      <table class="table table-stipped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let session of shift.sessions;let sessionIdx=index">
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <accordion>
+      <accordion-group #group>
+        <div accordion-heading>
+          <strong>
+        {{this.shift.sessions.length}} Session{{this.shift.sessions.length!=1?"s":""}} </strong>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+        </div>
+
+        <!--Day session details table-->
+        <ng-container *ngIf="this.shifts"></ng-container>
+        <table class="table table-stipped">
+          <thead>
             <tr>
-              <td>{{session.name}}</td>
-              <td>{{session.startDate|date:'shortTime'}}</td>
-              <td>{{session.endDate|date:'shortTime'}}</td>
-              <td>
-                <button (click)="onSessionRemove(sessionIdx)" class="btn btn-default">
+              <th>Name</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let session of shift.sessions;let sessionIdx=index">
+              <tr>
+                <td>{{session.name}}</td>
+                <td>{{session.startDate|date:'shortTime'}}</td>
+                <td>{{session.endDate|date:'shortTime'}}</td>
+                <td>
+                  <button (click)="onSessionRemove(sessionIdx)" class="btn btn-default">
             <span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>
           </button>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
 
-    </accordion-group>
-  </accordion>
+      </accordion-group>
+    </accordion>
+  </div>
 </div>

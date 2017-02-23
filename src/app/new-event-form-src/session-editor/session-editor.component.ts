@@ -24,17 +24,20 @@ export class SessionEditorComponent {
 
   session: SessionInfo = new SessionInfo();
   error: number = 0;
+  errDetails: String;
 
   addSession(): void {
 
     // Validate sessoin name
     if (this.session.name.length === 0) {
+      this.errDetails = "Session name is required"
       this.error = 2;
       return;
     }
 
     // Validate time correctness
     if (!SessionInfo.validate(this.session)) {
+      this.errDetails = "Session end time is less than or equal to its start time"
       this.error = 1;
       return;
     }
