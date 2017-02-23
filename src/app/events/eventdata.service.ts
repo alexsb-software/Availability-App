@@ -15,7 +15,8 @@ export class EventDataService {
     private _availapi = "http://localhost/api/reg/availabilty.php";
     private newEventAPI = 'https://avalapp-mahmoudmcd1.c9users.io/hello-world.php';
 
-    constructor(private _http: Http, private _userauth: UserAuthService) { }
+
+    constructor(private _http: Http, private _userauth: UserAuthService, private authedCommunication: UserAuthService) { }
 
     getEventsList(): Observable<EventUser[]> {
         //     return this._http.get(this._eventapi + "event_list.php")
@@ -79,6 +80,7 @@ export class EventDataService {
         let options = new RequestOptions({ headers: headers });
         return this._http.post(this.newEventAPI, JSON.stringify(this.parseToJson(event)), options)
             .map((response: Response) => <number>response.status)
+
     }
 
     private parseToJson(event: Event): Object {
