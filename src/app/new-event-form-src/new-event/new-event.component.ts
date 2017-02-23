@@ -54,7 +54,7 @@ export class NewEventComponent implements OnInit {
 
   saveEvent(): void {
     if (this.validateEvent()) {
-      this.error = false;
+      this.error = false;``
       this.service.postEvent(this.event);
     }
     else {
