@@ -75,9 +75,19 @@ export class AvialabilityRootComponent implements OnInit {
     day.day = eDay;
     day.shifts = [];
     let id = 0;
+    let totalShiftCount = 0;
+
     //-----------------------------
+    memberLines.forEach(line => {
+      let localShiftCount = line.shifts.length;
+      if (localShiftCount > totalShiftCount) {
+        totalShiftCount = localShiftCount;
+      }
+    });
+    console.debug("" + totalShiftCount);
+
     let sh: EventShift;
-    for (let j = 0; j < 2; j++) {
+    for (let j = 0; j < totalShiftCount; j++) {
       sh = new EventShift();
       sh.number = j;
       sh.sessions = [];

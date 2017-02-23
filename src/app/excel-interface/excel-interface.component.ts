@@ -72,7 +72,8 @@ export class ExcelInterfaceComponent implements OnInit {
       let contentBuff: string[] = [];
       let memberInfos: MemberLine[] = [];
       let memberInfo: MemberLine = null;
-      
+      let shiftCount: Number = 0;
+
       for (let cell in worksheet) {
         /* all keys that do not begin with "!" correspond to cell addresses */
         if (cell[0] === '!') continue;
@@ -103,11 +104,18 @@ export class ExcelInterfaceComponent implements OnInit {
           });
         }
         else if (cell.startsWith('D')) {
+          let shiftCountInRow = 0;
           // Shifts on the form shName[start-end]
           cellContent.split(',').forEach(shiftStr => {
             let shift: EventShift = this.parseShiftStr(shiftStr.trim());
             memberInfo.shifts.push(shift.number);
+            shiftCountInRow++;
           });
+
+          // Track the count of shifts
+          if (shiftCountInRow > shiftCount) {
+            shiftCount = shiftCountInRow;
+          }
 
           // This is added here because if it's added above,
           // the last cell doesn't get added as the loop
@@ -118,6 +126,10 @@ export class ExcelInterfaceComponent implements OnInit {
       }
       // Parsing finished
       this.stateHolder.save("excel", memberInfos);
+      
+      // TODO create metadata object for the event
+      // save them for each day, shift count, sessions,..etc
+      this.stateHolder.save("shiftCount", shiftCount);
 
       this.workSheetContent = contentBuff;  // For printing content
     });

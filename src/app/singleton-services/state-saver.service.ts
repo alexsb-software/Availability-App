@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class StateSaverService {
+  // TODO  Create an entry for event metadata ( shift count, committees, ...etc)
+
   private states: Map<string, any> = new Map<string, any>();
   constructor() { }
   save(key: string, object: any) {
