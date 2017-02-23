@@ -7,7 +7,6 @@
 
 
     <input-search class="stack-element" (searchRequest)="onSearchClicked($event)" [placeholder]="'Search by...'"></input-search>
-    <!--<input type="radio" name="radiogroup" [value]="" (change)="onSelectionChange(entry)">-->
     <form #f="ngForm">
       <input type="radio" value=1 name="searchType" [(ngModel)]="searchType" checked><span style="color: #000">Name</span>
       <input type="radio" value=2 name="searchType" [(ngModel)]="searchType"> <span style="color: #000">Committee</span>

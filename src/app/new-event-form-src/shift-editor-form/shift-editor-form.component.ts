@@ -2,14 +2,14 @@ import { Component, ViewChildren, OnInit, Output, Input, EventEmitter } from '@a
 import { DatePipe } from '@angular/common';
 import { EventShift } from '../../applogic-general/event-shift';
 import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic-table.component';
-import {fallIn} from '../../animation/animation';
+import { fallIn } from '../../animation/animation';
 
 @Component({
   selector: 'app-shift-editor-form',
 
   templateUrl: './shift-editor-form.component.html',
   styleUrls: ['./shift-editor-form.component.css'],
-  animations:[fallIn()]
+  animations: [fallIn()]
 })
 export class ShiftEditor {
 
@@ -38,6 +38,9 @@ export class ShiftEditor {
     else {
       this.hasError = true;
     }
+
+    console.log(this.shifts);
+
   }
 
   shiftRemoved(e: ArrayItemEventArgs): void {

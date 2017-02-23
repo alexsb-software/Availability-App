@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { ShiftEditor } from './new-event-form-src/shift-editor-form/shift-editor-form.component';
 
 import { UserAvalComponent } from './user_reg/useraval.component';
-import { ShiftViewerComponent } from './new-event-form-src/shift-viewer/shift-viewer.component';
 import { NewEventComponent } from './new-event-form-src/new-event/new-event.component';
 import { DayEditorFormComponent } from './new-event-form-src/day-editor-form/day-editor-form.component';
 import { DatePickerComponent } from './new-event-form-src/date-picker/date-picker.component';
@@ -49,19 +48,15 @@ import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
 import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
-//import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
-//import { FilterAvailbleMembersPipe } from './applogic-general/member-view/group-by-committee.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShiftEditor,
     UserAvalComponent,
-    ShiftViewerComponent,
     NewEventComponent,
     DayEditorFormComponent,
     DatePickerComponent,
-    //SessionComponent,
     InfoTextComponent,
     CommitteeMembersComponent,
     SessionEditorComponent,

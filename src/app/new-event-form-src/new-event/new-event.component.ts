@@ -35,9 +35,14 @@ export class NewEventComponent implements OnInit {
   // The for loo
 
   ngOnInit() {
-    if (!this._userauth.loggedIn()) {
-        this.router.navigate(['/login'], { queryParams: { returnUrl: '/event/new' }});
-    }
+    /**
+     * Don't use the router this way, use the
+     * guards instead, those are ready in the
+     * branch on github
+     */
+//     if (!this._userauth.loggedIn()) {
+//         this.router.navigate(['/login'], { queryParams: { returnUrl: '/event/new' }});
+//     }
   }
 
   removeDay(dayIdx: number) {
@@ -50,6 +55,7 @@ export class NewEventComponent implements OnInit {
   }
 
   saveEvent(): void {
+    console.log(this.event);
     this.service.postEvent(this.event);
   }
 }

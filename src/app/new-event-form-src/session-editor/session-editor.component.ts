@@ -1,7 +1,7 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { DatePipe } from '@angular/common';
-import {fallIn} from '../../animation/animation';
+import { fallIn } from '../../animation/animation';
 
 
 import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic-table.component';
@@ -10,15 +10,13 @@ import { EventShift } from '../../applogic-general/event-shift';
   selector: 'app-session-editor',
   templateUrl: './session-editor.component.html',
   styleUrls: ['./session-editor.component.css'],
-  animations:[fallIn()]
+  animations: [fallIn()]
 })
 export class SessionEditorComponent {
 
   // Those 2 fields are used to display the day summary
   @Output() sessionsChanged: EventEmitter<void> = new EventEmitter<void>();
   @Input() shift: EventShift;
-
-  daySessionCount: number = 0;
 
   // This pipe is used to transform the time displays
   datePipe: DatePipe = new DatePipe("en-US");
@@ -40,7 +38,7 @@ export class SessionEditorComponent {
       this.error = 1;
       return;
     }
-
+    // console.debug("Session added");
     // Save the end time to make setting
     // the dates of the next item easier
     const endTime = this.session.endDate;
@@ -63,7 +61,6 @@ export class SessionEditorComponent {
     this.shift.sessions.splice(sessionIdx, 1);
 
     // Update the summary display with session count
-    this.daySessionCount--;
     this.sessionsChanged.emit();
   }
 }
