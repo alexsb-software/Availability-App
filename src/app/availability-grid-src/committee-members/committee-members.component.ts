@@ -13,7 +13,7 @@ import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic
   styleUrls: ['./committee-members.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommitteeMembersComponent implements OnChanges {
+export class CommitteeMembersComponent implements DoCheck, OnChanges {
   public selected: string;
 
   /**
@@ -97,5 +97,9 @@ export class CommitteeMembersComponent implements OnChanges {
       this.commShiftMembers = [];
     }
     //console.log("CommitteeMembersComponent changed " + this.commName);
+  }
+
+  ngDoCheck() {
+    console.debug("D");
   }
 }

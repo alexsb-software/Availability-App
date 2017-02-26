@@ -1,5 +1,4 @@
 <accordion>
-  <a routerLink="shift/1">Shift 1</a>
   <ng-container *ngIf="day">
 
     <ng-container *ngFor="let shift of this.day.shifts;let i=index">
@@ -29,3 +28,5 @@
     <h1>404</h1>
     <strong>Nothing found about day #{{dayId}} </strong>
   </ng-container>
+
+  <a routerLink="print"><button class="btn btn-success pull-right" > Print Preview </button></a>

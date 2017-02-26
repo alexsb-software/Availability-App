@@ -30,15 +30,21 @@ export class DayAssignmentComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private stateHolder: StateSaverService) { }
+    private stateHolder: StateSaverService) { 
+      
+    }
 
   ngOnInit() {
     this.routerSubscription = this.route.params
       .switchMap(params => this.dayId = params['id'])
       .subscribe(() => {
+        console.debug("Day assignment Created");
         // Day ID exists within the array bounds
         if ((+this.dayId) < this.stateHolder.eventAvailability.length) {
           this.day = this.stateHolder.eventAvailability[+this.dayId];
+        }
+        else {
+          this.router.navigate(['main']);
         }
       });
   }

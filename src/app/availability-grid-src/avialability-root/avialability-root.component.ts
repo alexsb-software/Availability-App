@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Member } from '../../applogic-general/member';
 import { EventDay } from '../../applogic-general/event-day';
 import { SessionInfo } from '../../applogic-general/session-info';
@@ -38,6 +38,9 @@ export class AvialabilityRootComponent implements OnInit {
     let excelKey: string = "excel";
 
     this.router.events.subscribe(e => {
+      if (e instanceof NavigationStart) {
+        console.debug("Going to :", e);
+      } 
       if (e instanceof NavigationEnd) {
         //console.debug("navigated to home");
         if (this.stateHolder.exists(excelKey)) {
