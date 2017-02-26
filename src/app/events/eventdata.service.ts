@@ -15,6 +15,7 @@ export class EventDataService {
     private _availapi = "http://localhost/api/reg/availabilty.php";
     private newEventAPI = 'https://avalapp-mahmoudmcd1.c9users.io/hello-world.php';
 
+
     constructor(private _http: Http, private _userauth: UserAuthService) { }
 
     getEventsList(): Observable<EventUser[]> {
@@ -75,10 +76,14 @@ export class EventDataService {
 
     postEvent(event: Event): Observable<number> {
         console.log(this.parseToJson(event));
-        let headers = new Headers({ 'Authorization': this._userauth.getAuthToken() });
-        let options = new RequestOptions({ headers: headers });
-        return this._http.post(this.newEventAPI, JSON.stringify(this.parseToJson(event)), options)
-            .map((response: Response) => <number>response.status)
+        // let headers = new Headers({ 'Authorization': this._userauth.getAuthToken() });
+        // let options = new RequestOptions({ headers: headers });
+        // return this._http.post(this.newEventAPI, JSON.stringify(this.parseToJson(event)), options)
+        //     .map((response: Response) => <number>response.status)
+        return this._userauth.authorizedPost(
+            JSON.stringify(this.parseToJson(event)),
+            this._eventapi + 'new');
+
     }
 
     private parseToJson(event: Event): Object {

@@ -41,6 +41,7 @@ import { PrintComponent } from './availability-grid-src/print/print.component';
 import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from "@angular/router";
 import { StateSaverRouter } from './state-saver-router';
 import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
+import { AuthGuard } from './auth-guard';
 import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
@@ -91,11 +92,11 @@ import { MemberAssignmentComponent } from './member-assignment/member-assignment
     TypeaheadModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot([
-      { path: 'event/new', component: NewEventComponent },
       { path: 'login', component: UserLoginComponent },
       { path: 'session', component: SessoinMemberInputComponent },
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
+      { path: 'event/new', component: NewEventComponent},
       { path: 'member', component: MemberViewComponent },
       { path: 'day/:id', component: DayAssignmentComponent },
       { path: 'print', component: PrintComponent },
@@ -104,7 +105,8 @@ import { MemberAssignmentComponent } from './member-assignment/member-assignment
       { path: '**', component: AppComponent }
     ])
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }, UserAuthService],
+  providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }, UserAuthService, AuthGuard],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
