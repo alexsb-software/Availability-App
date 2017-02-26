@@ -7,8 +7,8 @@ import { EventShift } from '../../applogic-general/event-shift';
 import { CommitteeEnum, Committee } from '../../applogic-general/committee';
 import { DayAvailability } from '../../applogic-general/day-availability';
 import { MemberAvailability } from '../../applogic-general/member-availability';
-import { AvailabilityHolderService } from '../../singleton-services/availability-holder.service';
 import { StateSaverService } from '../../singleton-services/state-saver.service';
+import { ActivatedRoute } from '@angular/router';
 import { MemberLine } from '../../excel-interface/excel-interface.component';
 
 import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../../applogic-general/assignment-info';
@@ -27,11 +27,12 @@ export class AvialabilityRootComponent implements OnInit {
   days: DayAvailability[] = [];
   testId: number = 0;
   dayKey: string = "day";
-
   // Current page starts at 1 not 0 
   public currentPageIndex: number = 0;
 
-  constructor(private router: Router, private holder: AvailabilityHolderService, private stateHolder: StateSaverService) { }
+  constructor(private router: Router,
+    private stateHolder: StateSaverService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     let excelKey: string = "excel";
@@ -51,7 +52,7 @@ export class AvialabilityRootComponent implements OnInit {
           this.stateHolder.delete(excelKey)
 
           this.days = daysTemp;
-          this.holder.eventAvailability = this.days;
+          this.stateHolder.eventAvailability = this.days;
           //console.debug(day.availabilities.length);
         }
       }
@@ -61,9 +62,9 @@ export class AvialabilityRootComponent implements OnInit {
 
   onSaveDay(e: ShiftAssignmentInfo[], dayIdx: number): void {
     console.log("Save day");
-    this.holder.eventAssignmentInfo[dayIdx] = new DayAssignmentInfo();
-    this.holder.eventAssignmentInfo[dayIdx].shiftInfos = e;
-    this.holder.eventAssignmentInfo[dayIdx].dayNumber = dayIdx;
+    this.stateHolder.eventAssignmentInfo[dayIdx] = new DayAssignmentInfo();
+    this.stateHolder.eventAssignmentInfo[dayIdx].shiftInfos = e;
+    this.stateHolder.eventAssignmentInfo[dayIdx].dayNumber = dayIdx;
   }
 
   transformExcelData(memberLines: MemberLine[]): DayAvailability {
@@ -84,7 +85,6 @@ export class AvialabilityRootComponent implements OnInit {
         totalShiftCount = localShiftCount;
       }
     });
-    console.debug("" + totalShiftCount);
 
     let sh: EventShift;
     for (let j = 0; j < totalShiftCount; j++) {

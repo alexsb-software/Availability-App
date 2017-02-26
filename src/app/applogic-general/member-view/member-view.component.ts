@@ -52,13 +52,11 @@ export class MemberViewComponent implements OnChanges {
       //console.log(filtered);
     }
     else if (searchType == 2) {
-      filtered=this.filterByComm(filter);
+      filtered = this.filterByComm(filter);
     }
     else if (searchType == 3) {
       filtered = this.filterByShift(parseInt(filter));
     }
-
-
 
     // TODO Committee pipe
     // TODO Name sort
@@ -81,8 +79,8 @@ export class MemberViewComponent implements OnChanges {
   }
 
   filterByComm(commName: string): MemberAvailability[] {
-    
-    return this.commPipe.transform(this.memberAvailabilities,commName);
+
+    return this.commPipe.transform(this.memberAvailabilities, commName);
   }
 
   onSearchClicked(e: string) {

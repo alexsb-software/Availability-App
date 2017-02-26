@@ -1,9 +1,10 @@
 <ng-container *ngFor="let day of days;let i=index">
-  <h3>Day #{{i+1}}</h3>
+  <!--<h3>Day #{{i+1}}</h3>
   <br>
   <app-day-assignment (onSaveDay)="onSaveDay($event,i)" [day]="day"></app-day-assignment>
   <hr>
-  <a routerLink="print"><button class="btn btn-success pull-right" > Print </button></a>
+  <a routerLink="print"><button class="btn btn-success pull-right" > Print </button></a>-->
+  <a routerLink="day/{{i}}"><button class="btn btn-default">Day {{i+1}}</button></a>
 </ng-container>
 
 <ng-container *ngIf="!days || !days.length">

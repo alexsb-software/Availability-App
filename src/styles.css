@@ -44,8 +44,8 @@
 /* start of menu styles and animation */
 #hamb {
     position: fixed;
-    top: 30px;
-    left: 35px;
+    top: 20px;
+    left: 15px;
     z-index: 99;
     cursor: pointer;
 }

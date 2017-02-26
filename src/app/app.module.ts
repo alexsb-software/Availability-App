@@ -7,16 +7,13 @@ import { SingletonServicesModule } from './singleton-services/singleton-services
 
 import { AppComponent } from './app.component';
 import { ShiftEditor } from './new-event-form-src/shift-editor-form/shift-editor-form.component';
-
 import { UserAvalComponent } from './user_reg/useraval.component';
 import { NewEventComponent } from './new-event-form-src/new-event/new-event.component';
 import { DayEditorFormComponent } from './new-event-form-src/day-editor-form/day-editor-form.component';
 import { DatePickerComponent } from './new-event-form-src/date-picker/date-picker.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserAuthService } from './user-auth/user-auth.service';
-
 import { MyDatePickerModule } from 'mydatepicker';
-
 import { TimepickerModule } from 'ng2-bootstrap/timepicker';
 import { AccordionModule } from 'ng2-bootstrap/accordion';
 import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
@@ -29,7 +26,6 @@ import { DynamicTableComponent } from './applogic-general/dynamic-table/dynamic-
 import { SessoinMemberInputComponent } from './availability-grid-src/sessoin-member-input/sessoin-member-input.component';
 import { MemberViewComponent } from './applogic-general/member-view/member-view.component';
 import { TextSearchHelperComponent } from './applogic-general/text-search-helper/text-search-helper.component';
-import { SearchBarDirective } from './applogic-general/search-bar.directive';
 import { CommFilterPipe } from './applogic-general/member-view/comm-filter.pipe';
 import { ShiftFilterPipe } from './applogic-general/member-view/shift-filter.pipe';
 import { NameFilterPipe } from './applogic-general/member-view/name-filter.pipe';
@@ -48,6 +44,7 @@ import { GetCommitteePipe } from './applogic-general/get-committee.pipe';
 import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+import { MemberAssignmentComponent } from './member-assignment/member-assignment.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +61,6 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
     SessoinMemberInputComponent,
     MemberViewComponent,
     TextSearchHelperComponent,
-    SearchBarDirective,
     CommFilterPipe,
     ShiftFilterPipe,
     NameFilterPipe,
@@ -79,8 +75,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
     GetCommitteePipe,
     RemovePrRnpPipe,
     ExcelInterfaceComponent,
-    //FileSelectDirective,
-    //FilterAvailbleMembersPipe
+    MemberAssignmentComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +97,6 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
       { path: 'comm', component: CommitteeMembersComponent },
       { path: 'aval', component: UserAvalComponent },
       { path: 'member', component: MemberViewComponent },
-      { path: 'shift', component: ShiftAssignmentComponent },
       { path: 'day/:id', component: DayAssignmentComponent },
       { path: 'print', component: PrintComponent },
       { path: 'excel', component: ExcelInterfaceComponent },

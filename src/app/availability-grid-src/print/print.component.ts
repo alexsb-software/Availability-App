@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-
-import { AvailabilityHolderService } from '../../singleton-services/availability-holder.service';
 import { DayAvailability } from '../../applogic-general/day-availability';
 import { MemberAvailability } from '../../applogic-general/member-availability';
 import { Member } from '../../applogic-general/member';
 import { Committee, CommitteeEnum } from '../../applogic-general/committee';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../../applogic-general/assignment-info';
+import { StateSaverService } from '../../singleton-services/state-saver.service';
 
 
 @Component({
@@ -20,7 +19,7 @@ export class PrintComponent implements OnInit {
   committeeMember: Map<string, Member[]> = new Map<string, Member[]>();
   committees: string[] = Committee.getAll();
 
-  constructor(private holder: AvailabilityHolderService, private router: Router) {
+  constructor(private holder: StateSaverService, private router: Router) {
     this.router.events.subscribe(v => {
       if (v instanceof NavigationEnd) {
         //console.log(this.holder);

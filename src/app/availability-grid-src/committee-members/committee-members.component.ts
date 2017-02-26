@@ -1,19 +1,19 @@
 import { OnInit, Component, DoCheck, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 import { TypeaheadMatch } from 'ng2-bootstrap';
-
 import { Member } from '../../applogic-general/member';
 import { ArrayItemEventArgs } from '../../applogic-general/dynamic-table/dynamic-table.component';
+
 
 @Component({
   selector: 'app-committee-members',
   templateUrl: './committee-members.component.html',
-  styleUrls: ['./committee-members.component.css']
+  styleUrls: ['./committee-members.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommitteeMembersComponent implements OnInit,OnChanges {
+export class CommitteeMembersComponent implements OnChanges {
   public selected: string;
 
   /**
@@ -75,10 +75,6 @@ export class CommitteeMembersComponent implements OnInit,OnChanges {
     this.selectedMembers.push(selected);
 
     this.selected = "";
-  }
-
-  ngOnInit() {
-    //console.debug("OnInit Committee-members," + this.commName);
   }
 
   removeMember(e: ArrayItemEventArgs): void {

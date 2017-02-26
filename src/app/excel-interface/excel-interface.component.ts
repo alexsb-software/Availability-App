@@ -124,13 +124,9 @@ export class ExcelInterfaceComponent implements OnInit {
           contentBuff.push(memberInfo.toString());
         }
       }
+      
       // Parsing finished
       this.stateHolder.save("excel", memberInfos);
-      
-      // TODO create metadata object for the event
-      // save them for each day, shift count, sessions,..etc
-      this.stateHolder.save("shiftCount", shiftCount);
-
       this.workSheetContent = contentBuff;  // For printing content
     });
   }

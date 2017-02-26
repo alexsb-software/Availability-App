@@ -1,17 +1,22 @@
-import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
+
 import { MemberAvailability } from '../../applogic-general/member-availability';
 import { Member } from '../../applogic-general/member';
 import { Committee, CommitteeEnum } from '../../applogic-general/committee';
 import { CommFilterPipe, } from '../../applogic-general/member-view/comm-filter.pipe';
-//import { FilterAvailbleMembersPipe } from '../../applogic-general/member-view/group-by-committee.pipe';
 import { SessionInfo } from '../../applogic-general/session-info';
 import { EventShift } from '../../applogic-general/event-shift';
 import { MapKeysPipe } from '../../applogic-general/map-keys.pipe';
+import { StateSaverService } from '../../singleton-services/state-saver.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-shift-assignment',
   templateUrl: './shift-assignment.component.html',
-  styleUrls: ['./shift-assignment.component.css']
+  styleUrls: ['./shift-assignment.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * This component holds al lthe committees components,
@@ -67,23 +72,25 @@ export class ShiftAssignmentComponent implements OnChanges {
   availableCommitteeMembers: Map<string, Member[]> = new Map<string, Member[]>();
   commPipe: CommFilterPipe = new CommFilterPipe();
   mapKeys: MapKeysPipe<string, Member[]> = new MapKeysPipe<string, Member[]>();
-  constructor() {
-  }
 
 
-  ngOnChanges(e: SimpleChanges): void {
-    if (e["shiftMembersAvailability"]) {
-      console.debug("update shiftMembers");
+  constructor(
+    private stateHolder: StateSaverService) { }
 
-      this.committees = Committee.getAll();
-      this.updateAvailabilityTable();
-    }
+
+  shiftId: number;
+  dayId: number;
+  itemCount: number;
+
+  ngOnChanges() {
+    this.committees = Committee.getAll();
+    this.updateAvailabilityTable();
   }
 
   /**
-   * Marks the member as selected and removes
-   * it from the other committees choices
-   */
+ * Marks the member as selected and removes
+ * it from the other committees choices
+ */
   onMemberSelect(e: Member, comm: string): void {
     let mem: MemberAvailability =
       this.shiftMembersAvailability.find(

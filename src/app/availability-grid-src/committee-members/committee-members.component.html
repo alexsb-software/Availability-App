@@ -9,10 +9,9 @@
 
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <input [typeahead]="commShiftMembers" [typeaheadWaitMs]="400" [(ngModel)]="selected" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event)" placeholder="Find" class="form-control">
+    <input [typeahead]="commShiftMembers" [(ngModel)]="selected" typeaheadOptionField="name" (typeaheadOnSelect)="typeaheadOnSelect($event)" placeholder="Find" class="form-control">
   </div>
 </div>
-
 
 <ng-container *ngIf="selectedMembers && selectedMembers.length">
   <p>Committee <b>assigned</b> members</p>

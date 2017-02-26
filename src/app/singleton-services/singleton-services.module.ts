@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AvailabilityHolderService } from './availability-holder.service';
 import { StateSaverService } from './state-saver.service';
 
 /**
@@ -15,7 +14,6 @@ import { StateSaverService } from './state-saver.service';
   declarations: [],
   providers: [
     // Singleton service
-    AvailabilityHolderService,
     StateSaverService
   ]
 })

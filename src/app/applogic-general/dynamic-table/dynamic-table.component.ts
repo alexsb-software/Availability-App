@@ -1,9 +1,12 @@
 import { Component, PipeTransform, Input, Output, SimpleChanges, OnChanges, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy } from '@angular/core';
+
 @Component({
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html',
-  styleUrls: ['./dynamic-table.component.css']
+  styleUrls: ['./dynamic-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicTableComponent implements OnChanges {
   // TODO create an event object to hold number and object
@@ -97,7 +100,7 @@ export class DynamicTableComponent implements OnChanges {
       }
 
       /**
-       * The user didn't provice applyPipeProps
+       * The user didn't provide applyPipeProps
        * We assmue that they want to transform all
        * the provided properties.
        */
