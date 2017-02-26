@@ -1,0 +1,8 @@
+<br>
+<input class="btn btn-success" type="file" ng2FileSelect [uploader]="uploader" />
+<br>
+<button class="btn btn-default" routerLink="/">Go Back Home</button>
+<br>
+<strong *ngIf="loading">Loading...</strong>
+<app-day-shift></app-day-shift>
+<strong>{{workSheetContent.length}} rows found</strong>
