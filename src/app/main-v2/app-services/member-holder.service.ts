@@ -21,4 +21,8 @@ export class MemberHolderService {
   public getShiftCount(dayIndex: number): number {
     return this.dayShifts.get(dayIndex);
   }
+
+  public removeDay(dayIndex: number): void {
+    this.dayShifts.delete(dayIndex);
+  }
 }

@@ -19,32 +19,47 @@ export class ExcelParserComponent implements OnInit {
 
   workSheetContent: any[] = [];
   loading: boolean = false;
-  dayCount: number = 2; // Bind this with an ngFor to get shifts/day
+  dayCount: number = 0; // Bind this with an ngFor to get shifts/day
   members: Member[] = [];
-  days: number[] = [];
+  dayShifts: number[] = [];
 
   constructor(private memberService: MemberHolderService) { }
 
   ngOnInit() {
     this.setHandler();
-    this.days = Array(this.dayCount).fill(1);
+    this.dayShifts = Array(this.dayCount).fill(1);
   }
-  onDayCountChange(e) {
-    console.debug("Day count change", e);
-    this.days = Array(e).fill(1).map((x, i) => i);
-  }
+  changeDayCount(amount: number) {
+    if (this.dayCount + amount < 0) return;
 
+    if (amount > 0) {
+      let initialShiftCount: number = 1;
+      // Add last entry
+      this.memberService.setShiftCount(this.dayCount, initialShiftCount);
+      this.dayCount += amount;  // Update the count
+
+      this.dayShifts.push(initialShiftCount);
+    }
+    else if (amount < 0) {
+      // Remove the last entry in the hash table
+      this.memberService.removeDay(this.dayCount - 1);
+      this.dayCount += amount;
+
+      this.dayShifts.pop();
+    }
+
+  }
   changeShiftCount(dayIndex: number, amount: number): void {
     /**
-     * Binding an input to ngModel days[i] didn't work correctly
+     * Binding an input to ngModel dayShifts[i] didn't work correctly
+     * 
+     * Shifts can't be less than one
      */
-    if (this.days[dayIndex] + amount < 0) return;
-    this.days[dayIndex] += amount;
+    if (this.dayShifts[dayIndex] + amount < 1) return;
+    this.dayShifts[dayIndex] += amount;
+    this.memberService.setShiftCount(dayIndex, this.dayShifts[dayIndex]);
   }
 
-  onShiftCountChange(e) {
-    console.debug("beep");
-  }
   private setHandler() {
     // Template code
     // TODO make this reusable
@@ -74,7 +89,7 @@ export class ExcelParserComponent implements OnInit {
       // Get data about all available committess
       // This collection will contain all the available committees,
       // instead of creating a custom entry or defining them manually
-      member.committees.forEach(c => committees.add(c));
+      member.committees.forEach(c => committees.add((<string>c).trim()));
 
       // Each day column contains the member available shifts in a day
       for (let i: number = 0; i < this.dayCount; i++) {
