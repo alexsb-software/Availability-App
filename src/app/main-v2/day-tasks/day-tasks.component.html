@@ -1,0 +1,13 @@
+<p>
+  day-tasks works! {{dayIndex}} {{this.members.length}}
+</p>
+
+<ng-container *ngFor="let _ of iterableShiftCount;let shIndex=index">
+  <label>Shift number{{shIndex+1}}</label>
+  <ng-container *ngFor="let comm of getAllCommittees()">
+    <strong>{{comm}}</strong>
+    <b>{{getMembersOfCommittee(shIndex,comm).length}}</b>
+    <br>
+  </ng-container>
+  <hr>
+</ng-container>
