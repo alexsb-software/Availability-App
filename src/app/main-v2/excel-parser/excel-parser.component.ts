@@ -4,6 +4,7 @@ import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-u
 import { utils, IWorkBook, IWorkSheet, IWorkSheetCell, IUtils } from 'ts-xlsx';
 import * as XLSX from 'ts-xlsx';
 import { Member } from '../logic/member';
+import { Committee } from '../logic/committee';
 
 @Component({
   selector: 'v2-excel-parser',
@@ -14,9 +15,9 @@ export class ExcelParserComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({});
   public reader: FileReader = new FileReader();
 
-  workSheetContent: string[][] = [];
+  workSheetContent: any[] = [];
   loading: boolean = false;
-
+  dayCount: number = 2;
   constructor() { }
 
   ngOnInit() {
@@ -28,29 +29,60 @@ export class ExcelParserComponent implements OnInit {
         let workbook: IWorkBook;
         let arr = this.fixdata(e.target.result);
         workbook = XLSX.read(btoa(arr), { type: 'base64' });
-        this.parseFile(workbook);
+        //this.parseFile(workbook);
+        this.parseContent(workbook);
       };
 
       this.reader.readAsArrayBuffer(fileItem._file);
     };
   }
 
-  parseContent(): void {
-    for (let row in this.workSheetContent) {
-      
+  members: Member[] = [];
+  parseContent(workbook: IWorkBook): void {
+    this.workSheetContent = this.convertTo2dArray(workbook);
+    let mems: Member[] = [];
+    let committees: Set<string> = new Set<string>();
+
+    for (let row of this.workSheetContent) {
+      let member = new Member();
+      // TODO 0 contains time stamp
+      member.name = row[1];
+      member.committees = row[2].split(',').map(s => s.trim());
+
+      // Get data about all available committess
+      member.committees.forEach(c => committees.add(c));
+
+      // Each day column contains the member available shifts in a day
+      for (let i: number = 0; i < this.dayCount; i++) {
+        member.shifts.push(this.parseShifts(row[3 + i])); // Parse all shifts for this day
+      }
+
+      mems.push(member);
     }
+
+    committees.forEach(c => Committee.insertCommittee(c));
+    this.members = mems;
   }
-  
+
+  parseShifts(allShifts: string): number[] {
+    let shifts: number[] = [];
+
+    allShifts.split(',').forEach(item => {
+      let parts: string[] = item.trim().split(' ');
+
+      //Shift 1 [1:00 PM - 3:00 PM], Shift 2 [3:00 PM - 5:00 PM]
+      shifts.push(parseInt(parts[1]) - 1);
+    });
+    return shifts;
+  }
 
   parseFile(workbook: IWorkBook): void {
-
-    this.workSheetContent = this.convertTo2dArray(workbook);
 
     let sheetList: string[] = workbook.SheetNames;
     sheetList.forEach((sheetName) => {
 
       let worksheet: IWorkSheet = workbook.Sheets[sheetName];
-      let contentBuff: string[] = [];
+      //let contentBuff: string[] = [];
       let memberInfos: MemberLine[] = [];
       let memberInfo: MemberLine = null;
       let shiftCount: Number = 0;
@@ -100,21 +132,25 @@ export class ExcelParserComponent implements OnInit {
           // the last cell doesn't get added as the loop
           // breaks before reching the line
           memberInfos.push(memberInfo);
-          contentBuff.push(memberInfo.toString());
+          //contentBuff.push(memberInfo.toString());
         }
       }
       //this.workSheetContent = contentBuff;  // For printing content
     });
   }
 
-  convertTo2dArray(workbook: IWorkBook): string[][] {
+  convertTo2dArray(workbook: IWorkBook): any[] {
 
     let responses: IWorkSheet = workbook.Sheets[workbook.SheetNames[0]];
-    let result: string[][] = [];
+    let result: any[] = [];
     let content: any = XLSX.utils.sheet_to_json(responses, { header: 1 });
 
-    for (let i: number = 0; content[i].length !== 0; i++) {
+    for (let i: number = 0; true; i++) {
+      //console.debug(content[i]);
       result.push(content[i]);
+
+      if (typeof content[i + 1] === "undefined") break;
+      if (content[i + 1].length === 0) break;
     }
 
     return result;

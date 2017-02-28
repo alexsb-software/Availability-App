@@ -4,5 +4,12 @@
 <button class="btn btn-default" routerLink="/">Go Back Home</button>
 <br>
 <strong *ngIf="loading">Loading...</strong>
-<app-day-shift></app-day-shift>
-<strong>{{workSheetContent.length}} rows found</strong>
+<strong>{{members.length}} Members</strong>
+<br> 
+<ng-container *ngFor="let memb of members">
+  {{memb.name}}
+  <br> {{memb.committees}}
+  <br> {{memb.shifts}}
+  <br>
+  <br>
+</ng-container>
