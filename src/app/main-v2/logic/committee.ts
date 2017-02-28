@@ -27,7 +27,6 @@ export class Committee {
 
         // Add it
         com = com.trim();
-        console.debug("Add committee", "\"" + com + "\"");
         Committee.committees.push(com);
 
         // Keep the array sorted
@@ -52,7 +51,8 @@ export class Committee {
         // TODO apply fuzzy string matching
 
         // if committee name is 2 words, just use the first word
-        let firstWord: string = CommitteeEnum[key].split(" ")[0]
+
+        let firstWord: string = CommitteeEnum[key].split(" ")[0];
         return Committee.getCommByKeyword(firstWord);
     }
 

@@ -37,7 +37,7 @@ export class ExcelParserComponent implements OnInit {
       // Add last entry
       this.memberService.setShiftCount(this.dayCount, initialShiftCount);
       this.dayCount += amount;  // Update the count
-
+      
       this.dayShifts.push(initialShiftCount);
     }
     else if (amount < 0) {

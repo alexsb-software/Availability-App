@@ -27,15 +27,24 @@ export class MemberHolderService {
     this._members = v;
   }
 
-  public setShiftCount(dayIndex: number, shiftCount: number): void {
+  public setShiftCount(dayIndex: any, shiftCount: number): void {
+    console.debug("Set shift conut:", dayIndex, shiftCount);
+    dayIndex = parseInt(dayIndex);
     this.dayShifts.set(dayIndex, shiftCount);
   }
 
-  public getShiftCount(dayIndex: number): number {
+  public getShiftCount(dayIndex: any): number {
+    dayIndex = parseInt(dayIndex);
+    if (!this.dayShifts.has(dayIndex))
+      throw new Error("Key not found '" + dayIndex + "'");
+
+    console.debug("Get shift count", this.dayShifts.get(dayIndex), dayIndex);
     return this.dayShifts.get(dayIndex);
   }
 
-  public removeDay(dayIndex: number): void {
+  public removeDay(dayIndex: any): void {
+    dayIndex = parseInt(dayIndex);
+    console.debug("Remove key", dayIndex);
     this.dayShifts.delete(dayIndex);
   }
 }

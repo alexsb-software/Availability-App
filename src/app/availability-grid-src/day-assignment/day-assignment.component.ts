@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
+
 import { ShiftFilterPipe } from '../../applogic-general/member-view/shift-filter.pipe';
 import { DayAvailability } from '../../applogic-general/day-availability';
 import { Member } from '../../applogic-general/member';
@@ -6,7 +8,6 @@ import { ShiftAssignmentInfo, MemberAssignments, DayAssignmentInfo } from '../..
 import { CommitteeEnum, Committee } from '../../applogic-general/committee';
 import { StateSaverService } from '../../singleton-services/state-saver.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
 import 'rxjs/add/operator/switchMap';
 
 @Component({

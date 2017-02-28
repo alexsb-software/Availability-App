@@ -9,7 +9,6 @@ import { HomeComponent } from './home/home.component';
 
 import { APP_ROUTES } from './routes/main-routes';
 import { ExcelParserComponent } from './excel-parser/excel-parser.component';
-import { DayShiftComponent } from './excel-parser/day-shift/day-shift.component';
 import { ElasticTableComponent } from './elastic-table/elastic-table.component';
 import { MemberAssignmentComponent } from './member-assignment/member-assignment.component';
 import { DayTasksComponent } from './day-tasks/day-tasks.component';
@@ -25,7 +24,6 @@ import { DayTasksComponent } from './day-tasks/day-tasks.component';
   declarations: [
     HomeComponent,
     ExcelParserComponent,
-    DayShiftComponent,
     ElasticTableComponent,
     MemberAssignmentComponent,
     DayTasksComponent

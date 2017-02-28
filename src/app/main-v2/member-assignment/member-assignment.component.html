@@ -1,16 +1,19 @@
-<ng-container *ngIf="isEmpty">
-  <h1>Nothing is here...</h1>
-  <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
-</ng-container>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <ng-container *ngIf="isEmpty">
+      <h1>Nothing is here...</h1>
+      <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
+    </ng-container>
 
-<!--<ng-container *ngIf="!isEmpty">
-  <ng-container *ngFor="let item of this.memberService.getDayShifts.keys()">
-    {{this.memberService.getDayShifts.get(item)}}
-  </ng-container>
-</ng-container>-->
-<ng-container *ngFor="let day of dayShifts">
-  <button routerLink="day-assignment/{{day}}" class="btn btn-default">Day {{day+1}}</button>
-</ng-container>
-<hr>
+    <ng-container *ngFor="let day of dayShifts">
+      <button routerLink="day-assignment/{{day}}" class="btn btn-default">Day {{day+1}}</button>
+    </ng-container>
+    <hr>
+  </div>
+</div>
 
-<router-outlet></router-outlet>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <router-outlet></router-outlet>
+  </div>
+</div>
