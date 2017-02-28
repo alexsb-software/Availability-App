@@ -5,7 +5,11 @@ import { Member } from '../logic/member';
 export class MemberHolderService {
   //public members: Member[] = [];
   private dayShifts: Map<number, number> = new Map<number, number>();
-
+  
+  public get getDayShifts(): Map<number, number> {
+    return this.dayShifts;
+  }
+  
   private _members: Member[] = [];
   public get members(): Member[] {
     return this._members;

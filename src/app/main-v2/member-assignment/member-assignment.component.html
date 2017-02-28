@@ -2,3 +2,7 @@
   <h1>Nothing is here...</h1>
   <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
 </ng-container>
+
+<ng-container *ngFor="let item of this.memberService.getDayShifts">
+  {{console.debug("Thing",item)}}
+</ng-container>
