@@ -16,10 +16,6 @@ export class Filters {
     public static byDay(members: Member[], dayIndex: number): Member[] {
         if (members.length === 0) throw new EvalError("Empty member list, " + dayIndex);
 
-        return members.filter(m => {
-            console.debug("Day " + dayIndex + " Shifts:", m.shifts[dayIndex]);
-            return (typeof m.shifts[dayIndex] !== "undefined"
-                && m.shifts[dayIndex].length > 0);
-        });
+        return members.filter(m => m.shifts[dayIndex].length > 0);
     }
 }

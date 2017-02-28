@@ -19,7 +19,7 @@ export class ExcelParserComponent implements OnInit {
 
   workSheetContent: any[] = [];
   loading: boolean = false;
-  dayCount: number = 1;
+  dayCount: number = 2;
   members: Member[] = [];
 
   constructor(private memberService: MemberHolderService) { }
@@ -62,11 +62,15 @@ export class ExcelParserComponent implements OnInit {
       // Each day column contains the member available shifts in a day
       for (let i: number = 0; i < this.dayCount; i++) {
         let shiftString: string = row[3 + i];
-        if (typeof shiftString === "undefined") continue;
+        
+        if (typeof shiftString === "undefined") {
+          // Add en empty array to avoid the hussle of using
+          // a hash table for the day-shift
+          member.shifts.push([]);
+          continue;
+        }
 
         let shifts: number[] = this.parseShifts(shiftString);
-        //console.debug("Excel Shifts ", shifts);
-        if (shifts.length === 0) continue;
         member.shifts.push(shifts); // Parse all shifts for this day
 
       }
