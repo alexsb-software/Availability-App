@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
-
+import { AppServicesModule } from './app-services/app-services.module';
 
 import { HomeComponent } from './home/home.component';
 
@@ -15,7 +16,9 @@ import { MemberAssignmentComponent } from './member-assignment/member-assignment
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     FileUploadModule,
+    AppServicesModule,
     RouterModule.forRoot(APP_ROUTES)
   ],
   declarations: [

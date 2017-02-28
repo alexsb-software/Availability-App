@@ -3,7 +3,5 @@ import { Member } from '../logic/member';
 
 @Injectable()
 export class MemberHolderService {
-
   public members: Member[] = [];
-  public committees: string[] = [];
 }

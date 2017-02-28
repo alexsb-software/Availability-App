@@ -1,3 +1,4 @@
-<p>
-  member-assignment works!
-</p>
+<ng-container *ngIf="isEmpty">
+  <h1>Nothing is here...</h1>
+  <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
+</ng-container>
