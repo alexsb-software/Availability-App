@@ -3,6 +3,14 @@
   <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
 </ng-container>
 
-<ng-container *ngFor="let item of this.memberService.getDayShifts">
-  {{console.debug("Thing",item)}}
+<!--<ng-container *ngIf="!isEmpty">
+  <ng-container *ngFor="let item of this.memberService.getDayShifts.keys()">
+    {{this.memberService.getDayShifts.get(item)}}
+  </ng-container>
+</ng-container>-->
+<ng-container *ngFor="let day of dayShifts">
+  <button routerLink="day-assignment/{{day}}" class="btn btn-default">Day {{day+1}}</button>
 </ng-container>
+<hr>
+
+<router-outlet></router-outlet>

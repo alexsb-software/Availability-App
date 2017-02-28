@@ -12,6 +12,7 @@ import { ExcelParserComponent } from './excel-parser/excel-parser.component';
 import { DayShiftComponent } from './excel-parser/day-shift/day-shift.component';
 import { ElasticTableComponent } from './elastic-table/elastic-table.component';
 import { MemberAssignmentComponent } from './member-assignment/member-assignment.component';
+import { DayTasksComponent } from './day-tasks/day-tasks.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { MemberAssignmentComponent } from './member-assignment/member-assignment
     ExcelParserComponent,
     DayShiftComponent,
     ElasticTableComponent,
-    MemberAssignmentComponent
+    MemberAssignmentComponent,
+    DayTasksComponent
   ]
 })
 export class MainV2Module { }

@@ -14,6 +14,7 @@ import { Filters } from '../logic/filters';
 export class MemberAssignmentComponent implements OnInit {
   members: Member[] = [];
   isEmpty: boolean = true;
+  dayShifts: number[] = [];
 
   constructor(private memberService: MemberHolderService,
     private router: Router) { }
@@ -21,6 +22,8 @@ export class MemberAssignmentComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
+        this.dayShifts = this.memberService.days;
+        console.debug("Day shifts:", this.memberService.days);
         this.getMembersFromService();
       }
     });
