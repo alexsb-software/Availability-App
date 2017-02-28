@@ -19,15 +19,32 @@ export class ExcelParserComponent implements OnInit {
 
   workSheetContent: any[] = [];
   loading: boolean = false;
-  dayCount: number = 2;
+  dayCount: number = 2; // Bind this with an ngFor to get shifts/day
   members: Member[] = [];
+  days: number[] = [];
 
   constructor(private memberService: MemberHolderService) { }
 
   ngOnInit() {
     this.setHandler();
+    this.days = Array(this.dayCount).fill(1);
+  }
+  onDayCountChange(e) {
+    console.debug("Day count change", e);
+    this.days = Array(e).fill(1).map((x, i) => i);
   }
 
+  changeShiftCount(dayIndex: number, amount: number): void {
+    /**
+     * Binding an input to ngModel days[i] didn't work correctly
+     */
+    if (this.days[dayIndex] + amount < 0) return;
+    this.days[dayIndex] += amount;
+  }
+
+  onShiftCountChange(e) {
+    console.debug("beep");
+  }
   private setHandler() {
     // Template code
     // TODO make this reusable
@@ -62,7 +79,7 @@ export class ExcelParserComponent implements OnInit {
       // Each day column contains the member available shifts in a day
       for (let i: number = 0; i < this.dayCount; i++) {
         let shiftString: string = row[3 + i];
-        
+
         if (typeof shiftString === "undefined") {
           // Add en empty array to avoid the hussle of using
           // a hash table for the day-shift

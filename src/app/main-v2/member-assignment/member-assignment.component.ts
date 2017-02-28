@@ -32,9 +32,17 @@ export class MemberAssignmentComponent implements OnInit {
     this.isEmpty = false;
     let dayIndex: number = 0;
     console.debug("Day " + dayIndex + ":", Filters.byDay(this.members, dayIndex).length);
+    this.getShifts(dayIndex, 2);
 
     dayIndex = 1;
     console.debug("Day " + dayIndex + ":", Filters.byDay(this.members, dayIndex).length);
+  }
+
+  getShifts(dayIndex: number, shiftIndex: number): void {
+    console.debug(
+      "Day " + dayIndex + " Shift "
+      + shiftIndex + " :",
+      Filters.byShift(this.members, dayIndex, shiftIndex));
   }
 
 }

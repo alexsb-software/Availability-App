@@ -2,15 +2,25 @@
 
 
 <div class="row">
-  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
     <div class="form-group">
       <label for="day-count">Number of days</label>
-      <input class="form-control" [(ngModel)]="dayCount" id="day-count" type="number">
+      <input class="form-control" [(ngModel)]="dayCount" (ngModelChange)="onDayCountChange($event)" id="day-count" type="number">
       <strong>{{dayCount}} day(s)</strong>
     </div>
+    <ng-container *ngFor="let _ of days;let i=index">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <label>Day {{i+1}} Shift Count:</label> <strong>{{days[i]}}</strong>
+          <button class="btn btn-default" (click)="changeShiftCount(i,1)">+</button>
+          <button class="btn btn-default" (click)="changeShiftCount(i,-1)">-</button>
+        <br>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
-
+<hr>
 
 <div class="row">
 
