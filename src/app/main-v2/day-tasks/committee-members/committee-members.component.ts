@@ -10,20 +10,31 @@ import { ArrayItemEventArgs } from '../../elastic-table/elastic-table.component'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommitteeMembersComponent implements OnInit, DoCheck {
-  @Input() members: Member[] = [];
-  selected: Member[] = [];
+  @Input('Members') members: Member[] = [];
+
+  /**
+   * Trigger change detection using the event emitter
+   */
+  @Output('MemberSelected') onMemberSelect: EventEmitter<Member> = new EventEmitter<Member>();
+  @Output('MemberReleased') onMemberRelease: EventEmitter<Member> = new EventEmitter<Member>();
+  
   constructor() { }
 
   ngOnInit() {
   }
 
   select(e: ArrayItemEventArgs) {
-    console.debug("select member");
+    let selectedMember: Member = e.object;
+    this.onMemberSelect.emit(selectedMember);
   }
+
   deselect(e: ArrayItemEventArgs) {
-    console.debug("remove member");
+    let releasedMember: Member = e.object;
+    this.onMemberRelease.emit(releasedMember);
   }
+
   ngDoCheck() {
     console.debug("Check");
   }
+
 }

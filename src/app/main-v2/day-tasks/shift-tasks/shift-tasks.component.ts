@@ -24,6 +24,7 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
   shiftIndex: number;
   members: Member[] = [];
   subscription: Subscription;
+  selectedMembers: Member[] = [];
 
   /**
    * This emitter is used to trigger change detection
@@ -58,5 +59,14 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  takeMember(e: Member): void {
+    console.debug("Member taken ", e);
+    this.membersChanged.emit();
+  }
+  releaseMember(e: Member): void {
+    console.debug("Member released ", e);
+    this.membersChanged.emit();
   }
 }
