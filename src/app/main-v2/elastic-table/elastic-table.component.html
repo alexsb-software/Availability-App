@@ -34,8 +34,13 @@
         <ng-container *ngIf="!properties || properties.length === 0">
           <th>Value</th>
         </ng-container>
-        <th *ngIf="enableClickCallback">Select</th>
-        <th *ngIf="canRemove">Remove</th>
+
+        <ng-container *ngIf="canRemove">
+          <th>Remove</th>
+        </ng-container>
+        <ng-container *ngIf="enableClickCallback">
+          <th>Select</th>
+        </ng-container>
       </tr>
 
     </thead>
@@ -110,14 +115,14 @@
         <!--Attach the select button-->
         <td *ngIf="enableClickCallback">
           <button (click)="callback(item,i)" class="btn btn-default">
-            <span class="glyphicon glyphicon-ok green" aria-hidden="true"> </span>
+            <span class="glyphicon glyphicon-ok green-c" aria-hidden="true"></span>
           </button>
         </td>
 
         <!--Attach the remove button-->
         <td *ngIf="canRemove">
           <button (click)="removeItem(item,i)" class="btn btn-default">
-            <span class="glyphicon glyphicon-remove red" aria-hidden="true"> </span>
+            <span class="glyphicon glyphicon-remove red-c" aria-hidden="true"></span>
           </button>
         </td>
 

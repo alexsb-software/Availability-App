@@ -7,12 +7,15 @@ import { AppServicesModule } from './app-services/app-services.module';
 
 import { HomeComponent } from './home/home.component';
 
+import { AccordionModule } from 'ng2-bootstrap/accordion';
+
 import { APP_ROUTES } from './routes/main-routes';
 import { ExcelParserComponent } from './excel-parser/excel-parser.component';
 import { ElasticTableComponent } from './elastic-table/elastic-table.component';
 import { MemberAssignmentComponent } from './member-assignment/member-assignment.component';
 import { DayTasksComponent } from './day-tasks/day-tasks.component';
 import { CommitteeMembersComponent } from './day-tasks/committee-members/committee-members.component';
+import { ShiftTasksComponent } from './day-tasks/shift-tasks/shift-tasks.component';
 
 @NgModule({
   imports: [
@@ -20,6 +23,7 @@ import { CommitteeMembersComponent } from './day-tasks/committee-members/committ
     FormsModule,
     FileUploadModule,
     AppServicesModule,
+    AccordionModule,
     RouterModule.forRoot(APP_ROUTES)
   ],
   declarations: [
@@ -28,7 +32,8 @@ import { CommitteeMembersComponent } from './day-tasks/committee-members/committ
     ElasticTableComponent,
     MemberAssignmentComponent,
     DayTasksComponent,
-    CommitteeMembersComponent
+    CommitteeMembersComponent,
+    ShiftTasksComponent
   ]
 })
 export class MainV2Module { }

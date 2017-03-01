@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 @Component({
   selector: 'elastic-table',
   templateUrl: './elastic-table.component.html',
-  styles: ['./elastic-table.sytles.css'],
+  styles: ['elastic-table.sytles.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ElasticTableComponent implements OnChanges {

@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs/Rx';
 
 import { MemberHolderService } from '../app-services/member-holder.service';
 import { Filters } from '../logic/filters';
-import { Committee, CommitteeEnum } from '../logic/committee';
 import { Member } from '../logic/member';
 
 
@@ -35,8 +34,7 @@ export class DayTasksComponent implements OnInit {
       return; // TODO cancel navigation
     }
     this.route.params
-      .switchMap((params) => this.dayIndex = params['id'])
-      .subscribe(e => { });
+      .switchMap((params) => this.dayIndex = params['id']).subscribe();
 
     this.subscription = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
@@ -53,14 +51,4 @@ export class DayTasksComponent implements OnInit {
       }
     });
   }
-
-  getAllCommittees(): string[] {
-    return Committee.getAll();
-  }
-
-  getMembersOfCommittee(shiftIndex: number, commName: string): Member[] {
-    let temp: Member[] = Filters.byShift(this.members, this.dayIndex, shiftIndex);
-    return Filters.byCommittee(temp, commName);
-  }
-
 }

@@ -3,12 +3,6 @@
 </p>
 
 <ng-container *ngFor="let _ of iterableShiftCount;let shIndex=index">
-  <b>Shift number {{shIndex+1}}</b>
-  <br><br>
-  <ng-container *ngFor="let comm of getAllCommittees()">
-    <strong>{{comm}}</strong>
-    <app-committee-members [members]="getMembersOfCommittee(shIndex,comm)"></app-committee-members>
-    <br>
-  </ng-container>
-  <hr>
+  <button class="btn btn-default" routerLink="shift/{{shIndex}}">Shift {{shIndex+1}}</button>
 </ng-container>
+<router-outlet></router-outlet>

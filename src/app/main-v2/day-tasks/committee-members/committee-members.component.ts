@@ -1,11 +1,13 @@
 import { Component, Input, DoCheck, Output, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 import { Member } from '../../logic/member';
 import { ArrayItemEventArgs } from '../../elastic-table/elastic-table.component';
+
 @Component({
   selector: 'app-committee-members',
   templateUrl: './committee-members.component.html',
-  styles: []
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommitteeMembersComponent implements OnInit, DoCheck {
   @Input() members: Member[] = [];
