@@ -32,4 +32,18 @@ export class Filters {
 
         return members.filter(m => m.shifts[dayIndex].length > 0);
     }
+
+    public static selectedOnly(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
+        /**
+         * Filter returns an empty array when nothing is found
+         */
+        return members.filter(m => m.isBusy(dayIndex, shiftIndex));
+    }
+
+    public static freeOnly(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
+        /**
+         * Filter returns an empty array when nothing is found
+         */
+        return members.filter(m => !m.isBusy(dayIndex, shiftIndex));
+    }
 }

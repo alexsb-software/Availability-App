@@ -10,14 +10,15 @@ import { ArrayItemEventArgs } from '../../elastic-table/elastic-table.component'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommitteeMembersComponent implements OnInit, DoCheck {
-  @Input('Members') members: Member[] = [];
+  @Input('FreeMembers') freeMembers: Member[] = [];
+  @Input('SelectedMembers') selectedMembers: Member[] = [];
 
   /**
    * Trigger change detection using the event emitter
    */
   @Output('MemberSelected') onMemberSelect: EventEmitter<Member> = new EventEmitter<Member>();
   @Output('MemberReleased') onMemberRelease: EventEmitter<Member> = new EventEmitter<Member>();
-  
+
   constructor() { }
 
   ngOnInit() {

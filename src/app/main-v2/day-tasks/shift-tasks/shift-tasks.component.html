@@ -5,7 +5,7 @@
         <b>{{comm}}</b>
         <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
       </div>
-      <app-committee-members (MemberReleased)="takeMember($event)" (MemberSelected)="releaseMember($event)" [Members]="getMembersOfCommittee(comm)"></app-committee-members>
+      <app-committee-members (MemberSelected)="takeMember(comm,$event)" (MemberReleased)="releaseMember($event)" [SelectedMembers]="getSelectedMembersOfCommittee(comm)" [FreeMembers]="getMembersOfCommittee(comm)"></app-committee-members>
     </accordion-group>
   </ng-container>
 </accordion>

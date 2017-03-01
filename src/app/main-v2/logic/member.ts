@@ -16,7 +16,7 @@ export class Member {
     // by the application logic to find the selected memebrs
     id: number;
 
-    assigned: ShiftAssignmentInfo[] = [];
+    private assigned: ShiftAssignmentInfo[] = [];
 
     // IDs won't come from a databse. set them
     private static maxId = 0;
@@ -54,7 +54,16 @@ export class Member {
      * shift number
      */
     public isBusy(dayIdx: number, shiftIdx: number): boolean {
-        return this.findAssignmentIndex(dayIdx, shiftIdx).found;
+        return this.getAssignment(dayIdx, shiftIdx).found;
+    }
+
+    public getAssignmentAt(dayIdx: number, shiftIdx: number): ShiftAssignmentInfo {
+        let assignment: ShiftAssignmentInfo = this.assigned[this.getAssignment(dayIdx, shiftIdx).index];
+        return assignment;
+    }
+
+    private getAssignment(dayIdx: number, shiftIdx: number): FindResult {
+        return this.findAssignmentIndex(dayIdx, shiftIdx);
     }
 
     private findAssignmentIndex(dayIdx: number, shiftIndex: number): FindResult {
