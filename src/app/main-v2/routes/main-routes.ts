@@ -7,13 +7,15 @@ import { ExcelExportComponent } from '../excel-export/excel-export.component';
 export const APP_ROUTES: Route[] = [
     { path: 'v2', component: HomeComponent },
     {
-        path: 'member-assignment', component: MemberAssignmentComponent,
-        children: [{ path: 'day-assignment/:id', component: DayTasksComponent, children: [{ path: 'shift/:id', component: ShiftTasksComponent }] }]
-    },
-    {
         path: 'excel-export',
         component: ExcelExportComponent
 
     },
-    { path: '', component: HomeComponent }
+    {
+        path: 'member-assignment', component: MemberAssignmentComponent,
+        children: [{ path: 'day-assignment/:id', component: DayTasksComponent, children: [{ path: 'shift/:id', component: ShiftTasksComponent }] }]
+    },
+
+    { path: '', component: HomeComponent },
+    { path: '**', component: HomeComponent }
 ];

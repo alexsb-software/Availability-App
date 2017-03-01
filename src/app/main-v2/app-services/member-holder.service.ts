@@ -17,8 +17,14 @@ export class MemberHolderService {
   }
 
   public get days(): number[] {
-    let count: number[] = [];
-    this.dayShifts.forEach((v, k) => count.push(k));
+    let dayInfo: number[] = [];
+    this.dayShifts.forEach((v, k) => dayInfo.push(k));
+    return dayInfo;
+  }
+
+  public getDayCount(): number {
+    let count: number = 0;
+    this.getDayShifts.forEach(k => count++);
     return count;
   }
 
@@ -48,21 +54,36 @@ export class MemberHolderService {
     this.dayShifts.delete(dayIndex);
   }
 
-  public prettyFormat(): void {
+  public prettyFormat(): Map<string, Member[]>[] {
+    /**
+     * Array of arrays
+     * --> day
+     *      |--> shift
+     *              |--> Committee : Member[]
+     */
+    let daysArray: any[] = [];
+    let dayAssignmentInfo: Map<string, Member[]>[] = [];
 
     this.dayShifts.forEach((shiftCount, k) => {
       // For each day
-      
+      let dayTable = new Map<string, Member[]>();
+
       // Create new entry
       for (let i: number = 0; i < shiftCount; i++) {
-      
+
         // Create new entry
         for (let comm of Committee.getAll()) {
-      
+
           // Get members of all committees
           let commMembers: Member[] = Filters.selectedOnlyByCommittee(this.members, k, i, comm);
+          dayTable.set(comm, commMembers);
         }
       }
+      // Add the day to the collection
+      daysArray.push(dayAssignmentInfo);
+
     });
+
+    return null;
   }
 }

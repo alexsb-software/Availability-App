@@ -9,21 +9,16 @@ import { ArrayItemEventArgs } from '../../../elastic-table/elastic-table.compone
   templateUrl: './committee-members.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommitteeMembersComponent implements OnInit, DoCheck {
+export class CommitteeMembersComponent implements DoCheck {
   @Input('FreeMembers') freeMembers: Member[] = [];
   @Input('SelectedMembers') selectedMembers: Member[] = [];
   @Input('CommitteeName') commName: string;
-  
+
   /** 
    * Trigger change detection using the event emitter
    */
   @Output('MemberSelected') onMemberSelect: EventEmitter<Member> = new EventEmitter<Member>();
   @Output('MemberReleased') onMemberRelease: EventEmitter<Member> = new EventEmitter<Member>();
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   select(e: ArrayItemEventArgs) {
     let selectedMember: Member = e.object;
