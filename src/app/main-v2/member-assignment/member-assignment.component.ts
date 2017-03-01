@@ -23,26 +23,14 @@ export class MemberAssignmentComponent implements OnInit, OnDestroy {
     this.subscription = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         this.dayShifts = this.memberService.days;
-        console.debug("Day shifts:", this.memberService.days);
-        this.getMembersFromService();
+
+        this.members = this.memberService.members;
+        if (this.members.length === 0) { this.isEmpty = true; return; }
+        this.isEmpty = false;
       }
     });
   }
 
-  getMembersFromService(): void {
-    this.members = this.memberService.members;
-    console.debug("Members:", this.members.length);
-    if (this.members.length === 0) { this.isEmpty = true; return; }
-
-    this.isEmpty = false;
-    let dayIndex: number = 0;
-    let shiftIndex: number = 0;
-
-    let dayMembers: Member[] = Filters.byDay(this.members, dayIndex);
-    let shiftMembers: Member[] = Filters.byShift(this.members, dayIndex, shiftIndex);
-    let committeeMembers: Member[] = Filters.byCommittee(shiftMembers, CommitteeEnum.Software);
-    console.debug("Software count", committeeMembers.length, committeeMembers);
-  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

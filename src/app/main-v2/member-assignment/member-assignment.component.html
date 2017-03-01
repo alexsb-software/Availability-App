@@ -5,6 +5,8 @@
       <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
     </ng-container>
 
+    <button routerLink="/member-assignment" class="btn btn-default">Summary</button>
+
     <ng-container *ngFor="let day of dayShifts">
       <button routerLink="day-assignment/{{day}}" class="btn btn-default">Day {{day+1}}</button>
     </ng-container>
