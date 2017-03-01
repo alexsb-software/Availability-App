@@ -2,9 +2,9 @@ import { Component, Input, Output, OnDestroy, EventEmitter, OnInit } from '@angu
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { MemberHolderService } from '../app-services/member-holder.service';
-import { Filters } from '../logic/filters';
-import { Member } from '../logic/member';
+import { MemberHolderService } from '../../app-services/member-holder.service';
+import { Filters } from '../../logic/filters';
+import { Member } from '../../logic/member';
 
 
 @Component({

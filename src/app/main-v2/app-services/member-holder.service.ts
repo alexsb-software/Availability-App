@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import { Member } from '../logic/member';
+import { Filters } from '../logic/filters';
+import { Committee } from '../logic/committee';
 
 @Injectable()
 export class MemberHolderService {
@@ -9,7 +12,7 @@ export class MemberHolderService {
    */
   private dayShifts: Map<number, number> = new Map<number, number>();
 
-  public get getDayShifts(): Map<number, number> {
+  private get getDayShifts(): Map<number, number> {
     return Object.assign(this.dayShifts);
   }
 
@@ -43,5 +46,23 @@ export class MemberHolderService {
   public removeDay(dayIndex: any): void {
     dayIndex = parseInt(dayIndex);
     this.dayShifts.delete(dayIndex);
+  }
+
+  public prettyFormat(): void {
+
+    this.dayShifts.forEach((shiftCount, k) => {
+      // For each day
+      
+      // Create new entry
+      for (let i: number = 0; i < shiftCount; i++) {
+      
+        // Create new entry
+        for (let comm of Committee.getAll()) {
+      
+          // Get members of all committees
+          let commMembers: Member[] = Filters.selectedOnlyByCommittee(this.members, k, i, comm);
+        }
+      }
+    });
   }
 }

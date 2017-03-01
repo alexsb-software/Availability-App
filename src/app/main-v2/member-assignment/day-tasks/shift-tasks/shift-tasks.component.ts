@@ -2,10 +2,10 @@ import { Component, ChangeDetectionStrategy, Input, Output, OnDestroy, EventEmit
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { MemberHolderService } from '../../app-services/member-holder.service';
-import { Committee } from '../../logic/committee';
-import { Filters } from '../../logic/filters';
-import { Member } from '../../logic/member';
+import { MemberHolderService } from '../../../app-services/member-holder.service';
+import { Committee } from '../../../logic/committee';
+import { Filters } from '../../../logic/filters';
+import { Member } from '../../../logic/member';
 
 @Component({
   selector: 'app-shift-tasks',

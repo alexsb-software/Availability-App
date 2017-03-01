@@ -1,8 +1,8 @@
 import { Component, Input, DoCheck, Output, EventEmitter, OnInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 
-import { Member } from '../../logic/member';
-import { ArrayItemEventArgs } from '../../elastic-table/elastic-table.component';
+import { Member } from '../../../logic/member';
+import { ArrayItemEventArgs } from '../../../elastic-table/elastic-table.component';
 
 @Component({
   selector: 'app-committee-members',
@@ -14,7 +14,7 @@ export class CommitteeMembersComponent implements OnInit, DoCheck {
   @Input('SelectedMembers') selectedMembers: Member[] = [];
   @Input('CommitteeName') commName: string;
   
-  /**
+  /** 
    * Trigger change detection using the event emitter
    */
   @Output('MemberSelected') onMemberSelect: EventEmitter<Member> = new EventEmitter<Member>();
