@@ -145,7 +145,6 @@ export class ElasticTableComponent implements OnChanges {
 
   callback(obj: any, index: number): void {
     if (!this.enableClickCallback) return;
-
     this.itemClicked.emit(new ArrayItemEventArgs(obj, index));
   }
 

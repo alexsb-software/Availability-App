@@ -3,10 +3,11 @@
 </p>
 
 <ng-container *ngFor="let _ of iterableShiftCount;let shIndex=index">
-  <label>Shift number{{shIndex+1}}</label>
+  <b>Shift number {{shIndex+1}}</b>
+  <br><br>
   <ng-container *ngFor="let comm of getAllCommittees()">
     <strong>{{comm}}</strong>
-    <b>{{getMembersOfCommittee(shIndex,comm).length}}</b>
+    <app-committee-members [members]="getMembersOfCommittee(shIndex,comm)"></app-committee-members>
     <br>
   </ng-container>
   <hr>

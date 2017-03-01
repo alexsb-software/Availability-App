@@ -1,0 +1,3 @@
+<elastic-table [enableClickCallback]="false" [canRemove]="true" [items]="members" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemRemoved)="deselect($event)"></elastic-table>
+
+<elastic-table [enableClickCallback]="true" [canRemove]="false" [items]="members" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemClicked)="select($event)"></elastic-table>

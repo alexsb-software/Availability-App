@@ -28,7 +28,6 @@ export class MemberHolderService {
   }
 
   public setShiftCount(dayIndex: any, shiftCount: number): void {
-    console.debug("Set shift conut:", dayIndex, shiftCount);
     dayIndex = parseInt(dayIndex);
     this.dayShifts.set(dayIndex, shiftCount);
   }
@@ -38,13 +37,11 @@ export class MemberHolderService {
     if (!this.dayShifts.has(dayIndex))
       throw new Error("Key not found '" + dayIndex + "'");
 
-    console.debug("Get shift count", this.dayShifts.get(dayIndex), dayIndex);
     return this.dayShifts.get(dayIndex);
   }
 
   public removeDay(dayIndex: any): void {
     dayIndex = parseInt(dayIndex);
-    console.debug("Remove key", dayIndex);
     this.dayShifts.delete(dayIndex);
   }
 }
