@@ -1,3 +1,15 @@
-<elastic-table [enableClickCallback]="false" [canRemove]="true" [items]="selectedMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemRemoved)="deselect($event)"></elastic-table>
+<accordion-group #group class="stack-element">
+  <div accordion-heading>
+    <b>{{commName}} ({{freeMembers.length}}) Available | ({{selectedMembers.length}}) Assigned</b>
+    <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+  </div>
+  <ng-container *ngIf="selectedMembers.length>0">
+    <p><b>Assigned</b> Members</p>
+    <elastic-table [enableClickCallback]="false" [canRemove]="true" [items]="selectedMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemRemoved)="deselect($event)"></elastic-table>
+  </ng-container>
 
-<elastic-table [enableClickCallback]="true" [canRemove]="false" [items]="freeMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemClicked)="select($event)"></elastic-table>
+  <ng-container *ngIf="freeMembers.length>0">
+    <p><b>Free</b> Members</p>
+    <elastic-table [enableClickCallback]="true" [canRemove]="false" [items]="freeMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemClicked)="select($event)"></elastic-table>
+  </ng-container>
+</accordion-group>

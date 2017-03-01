@@ -1,11 +1,5 @@
 <accordion>
   <ng-container *ngFor="let comm of getAllCommittees()">
-    <accordion-group #group class="stack-element">
-      <div accordion-heading>
-        <b>{{comm}}</b>
-        <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
-      </div>
-      <app-committee-members (MemberSelected)="takeMember(comm,$event)" (MemberReleased)="releaseMember($event)" [SelectedMembers]="getSelectedMembersOfCommittee(comm)" [FreeMembers]="getMembersOfCommittee(comm)"></app-committee-members>
-    </accordion-group>
+      <app-committee-members [CommitteeName]="comm" (MemberSelected)="takeMember(comm,$event)" (MemberReleased)="releaseMember($event)" [SelectedMembers]="getSelectedMembersOfCommittee(comm)" [FreeMembers]="getMembersOfCommittee(comm)"></app-committee-members>
   </ng-container>
 </accordion>

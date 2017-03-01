@@ -11,7 +11,7 @@ import { Member } from '../../logic/member';
   selector: 'app-shift-tasks',
   templateUrl: './shift-tasks.component.html',
   styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ShiftTasksComponent implements OnInit, OnDestroy {
 
@@ -60,7 +60,7 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
 
   getSelectedMembersOfCommittee(commName: string): Member[] {
     let commMembers: Member[] = Filters.byCommittee(this.members, commName);
-    return Filters.selectedOnly(commMembers, this.dayIndex, this.shiftIndex);
+    return Filters.selectedOnlyByCommittee(commMembers, this.dayIndex, this.shiftIndex, commName);
   }
 
   ngOnDestroy(): void {
@@ -69,12 +69,10 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
 
   takeMember(commName: string, e: Member): void {
     e.reserve(this.dayIndex, this.shiftIndex, commName);
-    console.debug("Member taken ", e);
     this.membersChanged.emit();
   }
   releaseMember(e: Member): void {
     e.release(this.dayIndex, this.shiftIndex);
-    console.debug("Member released ", e);
     this.membersChanged.emit();
   }
 }

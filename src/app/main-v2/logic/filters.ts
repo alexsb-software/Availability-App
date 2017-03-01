@@ -40,6 +40,18 @@ export class Filters {
         return members.filter(m => m.isBusy(dayIndex, shiftIndex));
     }
 
+    public static selectedOnlyByCommittee(members: Member[], dayIndex: number, shiftIndex: number, commName: string): Member[] {
+        /**
+         * Filter returns an empty array when nothing is found
+         */
+        return members.filter(m => {
+            let assignment = m.getAssignmentAt(dayIndex, shiftIndex);
+            if (typeof assignment === "undefined") return false;
+            
+            return assignment.committee === commName;
+        });
+    }
+
     public static freeOnly(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
         /**
          * Filter returns an empty array when nothing is found
