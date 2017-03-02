@@ -146,26 +146,6 @@ export class ExcelInterfaceComponent implements OnInit {
     return result;
   }
 
-  exportWorkbook(): void {
-    let workbook = 'test.xlsx';
-    
-    let wopts = { bookType:'xlsx', bookSST:false, type:'binary' };
-    let wbout = XLSX.write(workbook,wopts);
-    console.debug("Hello", wopts);
-    saveAs(new Blob([this.s2ab(workbook)],{type:"application/octet-stream"}), "test.xlsx");
-
-  }
-
-  s2ab(s): ArrayBuffer {
-
-    var buf = new ArrayBuffer(s.length);
-    var view = new Uint8Array(buf);
-    for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-    
-    return buf;
-
-  }
-
 }
 
 

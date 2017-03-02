@@ -46,13 +46,6 @@ import { AuthGuard } from './auth-guard';
 import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
-<<<<<<< HEAD
-
-
-
-//import { MemberAssignmentComponent } from './member-assignment/member-assignment.component';
-=======
->>>>>>> d77978ab2de04dcf8c75158cf994440c5a4bff08
 
 @NgModule({
   declarations: [
