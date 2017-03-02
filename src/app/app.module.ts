@@ -45,7 +45,10 @@ import { AuthGuard } from './auth-guard';
 import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
-import { MemberAssignmentComponent } from './member-assignment/member-assignment.component';
+
+
+
+//import { MemberAssignmentComponent } from './member-assignment/member-assignment.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +79,7 @@ import { MemberAssignmentComponent } from './member-assignment/member-assignment
     GetCommitteePipe,
     RemovePrRnpPipe,
     ExcelInterfaceComponent,
-    MemberAssignmentComponent
+    //MemberAssignmentComponent
   ],
   imports: [
     BrowserModule,
