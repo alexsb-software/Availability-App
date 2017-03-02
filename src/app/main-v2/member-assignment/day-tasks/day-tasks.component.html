@@ -1,8 +1,8 @@
-<p>
-  day-tasks works! {{dayIndex}} {{this.members.length}}
-</p>
-
 <ng-container *ngFor="let _ of iterableShiftCount;let shIndex=index">
-  <button class="btn btn-default" routerLink="/shift/{{shIndex}}">Shift {{shIndex+1}}</button>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button class="btn btn-default" routerLink="/shift/{{shIndex}}">Shift {{shIndex+1}}</button>
+    </div>
+  </div>
 </ng-container>
-<router-outlet></router-outlet>

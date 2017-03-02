@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnDestroy, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnDestroy, EventEmitter, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
@@ -12,10 +12,10 @@ import { Member } from '../../logic/member';
   templateUrl: './day-tasks.component.html',
   styles: []
 })
-export class DayTasksComponent implements OnInit {
+export class DayTasksComponent implements OnInit, OnChanges {
 
+  @Input('DayIndex') dayIndex: number = -1;
   subscription: Subscription;
-  dayIndex: number = -1;
   members: Member[] = [];
   /**
    * Used for ngFor in HTML
@@ -26,26 +26,29 @@ export class DayTasksComponent implements OnInit {
     private memberService: MemberHolderService) {
 
   }
+  ngOnChanges() {
+    this.memberService.currentDayIndex = this.dayIndex;
+  }
   ngOnInit() {
 
-    this.route.params
-      .switchMap((params) => this.dayIndex = params['id']).subscribe();
+    // this.route.params
+    //   .switchMap((params) => this.dayIndex = params['id']).subscribe();
 
-    this.subscription = this.router.events.subscribe(e => {
-      if (e instanceof NavigationEnd) {
+    // this.subscription = this.router.events.subscribe(e => {
+    //   if (e instanceof NavigationEnd) {
 
-        // "dayIndex" is retrieved as a number from router
-        let temp: any = this.dayIndex;
-        
-        this.dayIndex = parseInt(temp);
-        this.memberService.currentDayIndex = this.dayIndex;
+    //     // "dayIndex" is retrieved as a number from router
+    //     let temp: any = this.dayIndex;
 
-        this.members = Filters.byDay(this.memberService.members, this.dayIndex);
-        let shiftCount = this.memberService.getShiftCount(this.dayIndex);
-        console.debug("Shift count", shiftCount, this.dayIndex);
+    //     this.dayIndex = parseInt(temp);
+    //     this.memberService.currentDayIndex = this.dayIndex;
 
-        this.iterableShiftCount = Array(shiftCount).fill(0);
-      }
-    });
+    //     this.members = Filters.byDay(this.memberService.members, this.dayIndex);
+    //     let shiftCount = this.memberService.getShiftCount(this.dayIndex);
+    //     console.debug("Shift count", shiftCount, this.dayIndex);
+
+    //     this.iterableShiftCount = Array(shiftCount).fill(0);
+    //   }
+    // });
   }
 }

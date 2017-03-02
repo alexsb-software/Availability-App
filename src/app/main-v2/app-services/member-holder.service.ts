@@ -56,4 +56,17 @@ export class MemberHolderService {
     dayIndex = parseInt(dayIndex);
     this.dayShifts.delete(dayIndex);
   }
+
+  getNumberAsIterable(num: number): number[] {
+    /**
+     * Used for HTML ngFor Generation
+     * 
+     * Creates an array of a given number and fills it
+     * with each element's index
+     */
+
+    let result: number[] = Array(num).fill(0);
+    result.forEach((val, index) => result[index] = index);
+    return result;
+  }
 }

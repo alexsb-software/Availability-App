@@ -22,18 +22,24 @@ export class ExcelExportComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Update te component for the first time
     this.router.events.subscribe(e => {
       console.debug("Router ", e);
       if (e instanceof NavigationEnd) {
         this.allMembers = this.memberService.members;
-        if (typeof this.allMembers === "undefined") throw Error("No members are present");
-        console.debug("Members", this.allMembers);
-      }
 
+        // Reset search index values
+        // this forces refresh of internal
+        // member lists
+        this.lastSearchedDayIndex = -1;
+        this.lastSearchedShiftIndex = -1;
+
+        if (typeof this.allMembers === "undefined") throw Error("No members are present");
+      }
+      /**
+       * event emiiteer reload memebrs
+       */
     });
-    // this.memberService.memberAssignmentChanged.subscribe(() => {
-    //   console.debug("Members changed");
-    // });
   }
 
   getCommittees(): string[] { return Committee.getAll(); }
