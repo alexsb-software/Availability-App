@@ -118,18 +118,11 @@ export class ExcelExportComponent implements OnInit {
 
     let self = this;
     this.getEventDaysDetails().forEach(function(value, index) {
-      let fileName = "event-day-" + value + "-index-" + index;
-//      let csv = self.getCSV(index);
-      let csv = fileName;
+      let fileName = "event-day-" + (index + 1) + "-value-" + index;
+      let csv = self.getCSV(index);
+      // let csv = fileName;
       saveAs(new Blob([self.s2ab(csv)],{type:"application/octet-stream"}), fileName + ".csv");
-      // TODO 
     })
-
-    let workbook = 'test.xlsx'; // TODO change this to the workbook to be exported
-    
-    let wopts = { bookType:'csv', bookSST:false, type:'binary' };
-    let wbout = XLSX.write(workbook,wopts);
-    // console.debug("Hello", wopts);
 
   }
 
