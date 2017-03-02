@@ -50,7 +50,7 @@ export class ExcelExportComponent implements OnInit {
   }
 
   exportWorkbook(): void {
-    let workbook = 'test.xlsx';
+    let workbook = 'test.xlsx'; // TODO change this to the workbook to be exported
     
     let wopts = { bookType:'xlsx', bookSST:false, type:'binary' };
     let wbout = XLSX.write(workbook,wopts);
