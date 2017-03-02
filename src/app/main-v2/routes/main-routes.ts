@@ -17,7 +17,7 @@ export const APP_ROUTES: Route[] = [
          */
         path: 'member-assignment', component: MemberAssignmentComponent,
         children: [
-            { path: 'day-assignment/:id', component: DayTasksComponent,outlet:'day-outlet', children: [{ path: 'shift/:id', component: ShiftTasksComponent, outlet: 'shift-outlet' }] }],
+            { path: 'day-assignment/:id', component: DayTasksComponent, children: [{ path: 'shift/:id', component: ShiftTasksComponent }] }],
 
     },
 
