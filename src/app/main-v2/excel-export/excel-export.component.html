@@ -5,21 +5,28 @@
 
 
 
+<ng-container *ngIf="allMembers">
+  <ng-container *ngFor="let _ of getEventDaysDetails();let i = index">
+    <h2>Day {{i+1}}</h2>
 
-<ng-container *ngFor="let _ of getDaysAsIterable();let i = index">
-  {{i}}
-  <ng-container *ngFor="let _ of getShiftsAsIterable(i);let j = index">
-    {{j}}
-    <ng-container *ngFor="let com of getCommittees()">
+    <ng-container *ngFor="let _ of getEventShiftsOfDay(i);let j = index">
+      <h3>Shift {{j+1}}</h3>
+
       <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-          <ng-container *ngFor="let item of getAssignedCommitteeMembers(i,j,com)">
-            {{item.name}}
-          </ng-container>
-
-        </div>
+        <ng-container *ngFor="let com of getCommittees()">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h4>{{com}}</h4>
+            <ol>
+              <ng-container *ngFor="let member of getAssignedCommitteeMembers(i,j,com)">
+                <li> {{member.name}}
+              </ng-container>
+            </ol>
+            <br>
+          </div>
+        </ng-container>
       </div>
+
+      <hr>
     </ng-container>
   </ng-container>
 </ng-container>

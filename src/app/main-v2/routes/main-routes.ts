@@ -12,10 +12,14 @@ export const APP_ROUTES: Route[] = [
 
     },
     {
+        /**
+         * TODO fix router outlets
+         */
         path: 'member-assignment', component: MemberAssignmentComponent,
-        children: [{ path: 'day-assignment/:id', component: DayTasksComponent, children: [{ path: 'shift/:id', component: ShiftTasksComponent }] }]
+        children: [
+            { path: 'day-assignment/:id', component: DayTasksComponent,outlet:'day-outlet', children: [{ path: 'shift/:id', component: ShiftTasksComponent, outlet: 'shift-outlet' }] }],
+
     },
 
-    { path: '', component: HomeComponent },
-    { path: '**', component: HomeComponent }
+    { path: '', component: HomeComponent }
 ];

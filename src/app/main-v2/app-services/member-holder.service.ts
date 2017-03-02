@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { Member } from '../logic/member';
 import { Filters } from '../logic/filters';
@@ -11,7 +11,8 @@ export class MemberHolderService {
    * Holds the day
    */
   private dayShifts: Map<number, number> = new Map<number, number>();
-
+  public memberAssignmentChanged: EventEmitter<void> = new EventEmitter<void>();
+  
   private get getDayShifts(): Map<number, number> {
     return Object.assign(this.dayShifts);
   }

@@ -14,7 +14,7 @@ import { Filters } from '../logic/filters';
 })
 export class ExcelExportComponent implements OnInit {
   memberCount: number = 0;
-  assignedMembers: Member[];
+  allMembers: Member[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -22,42 +22,66 @@ export class ExcelExportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.events.subscribe(e => {
+      console.debug("Router ", e);
+      if (e instanceof NavigationEnd) {
+        this.allMembers = this.memberService.members;
+        if (typeof this.allMembers === "undefined") throw Error("No members are present");
+        console.debug("Members", this.allMembers);
+      }
+
+    });
+    // this.memberService.memberAssignmentChanged.subscribe(() => {
+    //   console.debug("Members changed");
+    // });
   }
 
   getCommittees(): string[] { return Committee.getAll(); }
 
   shiftMembers: Member[];
-  lastSearchedDayIndex: number = NaN;
-  lastSearchedShiftIndex: number = NaN;
+  dayMembers: Member[];
+  lastSearchedDayIndex: number = -1;
+  lastSearchedShiftIndex: number = -1;
 
   getAssignedCommitteeMembers(dayIndex: number, shiftIndex: number, committeeName: string): Member[] {
 
-    if (dayIndex === this.lastSearchedDayIndex && shiftIndex === this.lastSearchedShiftIndex) {
-      this.shiftMembers = Filters.selectedOnly(this.memberService.members, dayIndex, shiftIndex);
+    if (dayIndex !== this.lastSearchedDayIndex) {
+      /**
+       * Cache the slected members of this day
+       */
+      this.dayMembers = Filters.selectedInDay(this.allMembers, dayIndex);
       this.lastSearchedDayIndex = dayIndex;
+    }
+
+    if (shiftIndex !== this.lastSearchedShiftIndex) {
+      /**
+       * Cache the members of the shift
+       */
+      this.shiftMembers = Filters.selectedInShift(this.dayMembers, dayIndex, shiftIndex);
       this.lastSearchedShiftIndex = shiftIndex;
     }
 
-    return this.shiftMembers.filter(m => m.getAssignmentAt(dayIndex, shiftIndex).committee === committeeName);
+    // Shift has no assigned members
+    if (typeof this.shiftMembers === "undefined") return [];
+
+    let commMembers = this.shiftMembers.filter(m => m.getAssignmentAt(dayIndex, shiftIndex).committee === committeeName);
+
+    // This committee has noone assigned
+    if (typeof commMembers === "undefined") return [];
+    return commMembers;
   }
 
-  getDaysAsIterable(): number[] {
-    /**
-     * Creates an array to be used with ngFor
-     * based on the number of days in the event
-     */
-    let dayCount: number = this.memberService.getDayCount();
-    return Array(dayCount).fill(0);
+  /**
+   * Used for iteration with ngFor
+   */
+  getEventDaysDetails(): number[] {
+    return this.memberService.days;
   }
 
-  getShiftsAsIterable(dayIndex: number): number[] {
-    /**
-     * Creates an array to be used with ngFor
-     * based on the number of days in the event
-     */
-    console.debug("000", this.memberService.days);
-    let shiftCount: number = this.memberService.days[dayIndex];
-    console.debug("Day shift ", dayIndex, shiftCount);
-    return Array(shiftCount).fill(0);
+  /**
+   * Used for iteration with ngFor
+   */
+  getEventShiftsOfDay(dayIndex: number): number[] {
+    return Array(this.memberService.days[dayIndex]).fill(0);
   }
 }
