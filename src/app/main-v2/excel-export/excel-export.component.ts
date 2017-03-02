@@ -35,9 +35,13 @@ export class ExcelExportComponent implements OnInit {
       }
 
     });
+    
+    
+
     // this.memberService.memberAssignmentChanged.subscribe(() => {
     //   console.debug("Members changed");
     // });
+
   }
 
   getCommittees(): string[] { return Committee.getAll(); }
@@ -100,8 +104,8 @@ export class ExcelExportComponent implements OnInit {
     
     let wopts = { bookType:'xlsx', bookSST:false, type:'binary' };
     let wbout = XLSX.write(workbook,wopts);
-    console.debug("Hello", wopts);
-    saveAs(new Blob([this.s2ab(workbook)],{type:"application/octet-stream"}), "test.xlsx");
+    // console.debug("Hello", wopts);
+    saveAs(new Blob([this.s2ab(wbout)],{type:"application/octet-stream"}), "test.xlsx");
 
   }
 
@@ -111,6 +115,5 @@ export class ExcelExportComponent implements OnInit {
     for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
     return buf;
   }
-
 
 }
