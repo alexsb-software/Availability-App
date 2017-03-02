@@ -6,7 +6,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { AppServicesModule } from './app-services/app-services.module';
 
 import { HomeComponent } from './home/home.component';
-
+import { TimepickerModule } from 'ng2-bootstrap/timepicker';
 import { AccordionModule } from 'ng2-bootstrap/accordion';
 
 import { APP_ROUTES } from './routes/main-routes';
@@ -25,6 +25,7 @@ import { ExcelExportComponent } from './excel-export/excel-export.component';
     FileUploadModule,
     AppServicesModule,
     AccordionModule,
+    TimepickerModule.forRoot(),
     RouterModule.forChild(APP_ROUTES)
   ],
   declarations: [

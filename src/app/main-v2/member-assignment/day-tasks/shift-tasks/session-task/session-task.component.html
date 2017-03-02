@@ -93,7 +93,8 @@
 <!--Show Error-->
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div *ngIf="error" [@fallIn]>
+    <div *ngIf="error">
+      <!--[@fallIn]-->
       <div class="alert alert-danger">
         <strong>Please note!</strong>
         <p>{{errDetails}}</p>
@@ -108,12 +109,11 @@
       <accordion-group #group>
         <div accordion-heading>
           <strong>
-        {{this.shift.sessions.length}} Session{{this.shift.sessions.length!=1?"s":""}} </strong>
+        {{this.sessions.length}} Session{{this.sessions.length!=1?"s":""}} </strong>
           <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
         </div>
 
         <!--Day session details table-->
-        <ng-container *ngIf="this.shifts"></ng-container>
         <table class="table table-stipped">
           <thead>
             <tr>
@@ -124,7 +124,7 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let session of shift.sessions;let sessionIdx=index">
+            <ng-container *ngFor="let session of sessions;let sessionIdx=index">
               <tr>
                 <td>{{session.name}}</td>
                 <td>{{session.startDate|date:'shortTime'}}</td>
