@@ -77,6 +77,8 @@ import { HomeComponent } from './main-v2/home/home.component';
     PrintComponent,
     GetCommitteePipe,
     RemovePrRnpPipe,
+    ExcelInterfaceComponent,
+    //MemberAssignmentComponent
     ExcelInterfaceComponent
   ],
   imports: [

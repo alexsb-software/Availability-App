@@ -1,6 +1,6 @@
 <accordion-group #group class="stack-element">
   <div accordion-heading>
-    <b>{{commName}} ({{freeMembers.length}}) Available | ({{selectedMembers.length}}) Assigned</b>
+    {{commName}} ({{freeMembers.length}}) Available | <b>({{selectedMembers.length}}) Assigned</b>
     <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
   </div>
   <ng-container *ngIf="selectedMembers.length>0">
