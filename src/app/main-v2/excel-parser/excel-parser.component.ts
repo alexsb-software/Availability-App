@@ -37,7 +37,7 @@ export class ExcelParserComponent implements OnInit {
       // Add last entry
       this.memberService.setShiftCount(this.dayCount, initialShiftCount);
       this.dayCount += amount;  // Update the count
-      
+
       this.dayShifts.push(initialShiftCount);
     }
     else if (amount < 0) {
@@ -47,7 +47,6 @@ export class ExcelParserComponent implements OnInit {
 
       this.dayShifts.pop();
     }
-
   }
   changeShiftCount(dayIndex: number, amount: number): void {
     /**
@@ -56,6 +55,7 @@ export class ExcelParserComponent implements OnInit {
      * Shifts can't be less than one
      */
     if (this.dayShifts[dayIndex] + amount < 1) return;
+
     this.dayShifts[dayIndex] += amount;
     this.memberService.setShiftCount(dayIndex, this.dayShifts[dayIndex]);
   }
@@ -67,7 +67,6 @@ export class ExcelParserComponent implements OnInit {
       this.reader.onload = (e: any) => {
         let arr = this.fixdata(e.target.result);
         this.parseContent(XLSX.read(btoa(arr), { type: 'base64' }));
-
       };
       this.reader.readAsArrayBuffer(fileItem._file);
     };

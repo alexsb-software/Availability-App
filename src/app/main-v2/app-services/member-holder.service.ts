@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { Member } from '../logic/member';
 import { Filters } from '../logic/filters';
@@ -11,14 +11,15 @@ export class MemberHolderService {
    * Holds the day
    */
   private dayShifts: Map<number, number> = new Map<number, number>();
-
+  public memberAssignmentChanged: EventEmitter<void> = new EventEmitter<void>();
+  
   private get getDayShifts(): Map<number, number> {
     return Object.assign(this.dayShifts);
   }
 
   public get days(): number[] {
     let dayInfo: number[] = [];
-    this.dayShifts.forEach((v, k) => dayInfo.push(k));
+    this.dayShifts.forEach((shiftCount, dayIndex) => dayInfo.push(shiftCount));
     return dayInfo;
   }
 
@@ -52,38 +53,5 @@ export class MemberHolderService {
   public removeDay(dayIndex: any): void {
     dayIndex = parseInt(dayIndex);
     this.dayShifts.delete(dayIndex);
-  }
-
-  public prettyFormat(): Map<string, Member[]>[] {
-    /**
-     * Array of arrays
-     * --> day
-     *      |--> shift
-     *              |--> Committee : Member[]
-     */
-    let daysArray: any[] = [];
-    let dayAssignmentInfo: Map<string, Member[]>[] = [];
-
-    this.dayShifts.forEach((shiftCount, k) => {
-      // For each day
-      let dayTable = new Map<string, Member[]>();
-
-      // Create new entry
-      for (let i: number = 0; i < shiftCount; i++) {
-
-        // Create new entry
-        for (let comm of Committee.getAll()) {
-
-          // Get members of all committees
-          let commMembers: Member[] = Filters.selectedOnlyByCommittee(this.members, k, i, comm);
-          dayTable.set(comm, commMembers);
-        }
-      }
-      // Add the day to the collection
-      daysArray.push(dayAssignmentInfo);
-
-    });
-
-    return null;
   }
 }

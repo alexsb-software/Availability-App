@@ -70,6 +70,7 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
   takeMember(commName: string, e: Member): void {
     e.reserve(this.dayIndex, this.shiftIndex, commName);
     this.membersChanged.emit();
+    this.memberService.memberAssignmentChanged.emit();
   }
   releaseMember(e: Member): void {
     e.release(this.dayIndex, this.shiftIndex);

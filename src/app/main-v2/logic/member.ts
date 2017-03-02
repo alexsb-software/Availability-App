@@ -57,6 +57,10 @@ export class Member {
         return this.getAssignment(dayIdx, shiftIdx).found;
     }
 
+    public isBusyOnDay(dayIdx: number): boolean {
+        return this.findDayAssignmentIndex(dayIdx).found;
+    }
+
     public getAssignmentAt(dayIdx: number, shiftIdx: number): ShiftAssignmentInfo {
         let assignment: ShiftAssignmentInfo = this.assigned[this.getAssignment(dayIdx, shiftIdx).index];
         return assignment;
@@ -77,6 +81,17 @@ export class Member {
         return FindResult.createFound(idx);
     }
 
+    private findDayAssignmentIndex(dayIdx: number): FindResult {
+
+        let idx: number =
+            this.assigned.findIndex(sh =>
+                sh.dayIndex === dayIdx);
+
+        if (idx === -1) {
+            return FindResult.createNotFound();
+        }
+        return FindResult.createFound(idx);
+    }
 
     /**
      * Gets the committee owning the member at the given
