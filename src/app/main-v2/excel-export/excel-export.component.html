@@ -4,17 +4,22 @@
 
 
 
-<ng-container *ngIf="eventInfo">
 
-  <ng-container *ngFor="let _ of getDaysAsIterable();let i = index">
-    {{i}}
-  </ng-container>
 
-  <ng-container *ngFor="let com of getCommittees()">
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        {{com}}
+<ng-container *ngFor="let _ of getDaysAsIterable();let i = index">
+  {{i}}
+  <ng-container *ngFor="let _ of getShiftsAsIterable(i);let j = index">
+    {{j}}
+    <ng-container *ngFor="let com of getCommittees()">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+          <ng-container *ngFor="let item of getAssignedCommitteeMembers(i,j,com)">
+            {{item.name}}
+          </ng-container>
+
+        </div>
       </div>
-    </div>
+    </ng-container>
   </ng-container>
 </ng-container>
