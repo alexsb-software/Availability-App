@@ -55,8 +55,8 @@ export class ExcelInterfaceComponent implements OnInit {
           let arr = this.fixdata(data);
           workbook = XLSX.read(btoa(arr), { type: 'base64' });
         }
-        // console.log("Printing workbook")
-        // console.log(workbook);
+        console.log("Printing workbook")
+        console.log(workbook);
         this.parseFile(workbook);
 
       };
