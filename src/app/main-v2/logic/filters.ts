@@ -2,12 +2,7 @@ import { Member } from './member';
 import { Committee, CommitteeEnum } from './committee';
 type ShiftNumber = number;
 export class Filters {
-    /**
-     * Groups members of the same day by shifts
-     */
-    public static byShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
-        return members.filter(m => m.shifts[dayIndex].indexOf(shiftIndex) !== -1);
-    }
+
 
     public static byCommittee(members: Member[], commName: string | CommitteeEnum): Member[] {
         let searchKey: string;
@@ -27,10 +22,19 @@ export class Filters {
         return members.filter(m => m.committees.indexOf(searchKey) !== -1);
     }
 
+    /**
+     * Groups members of the same day by shifts
+     */
+    public static byShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
+        if (members.length === 0) throw new EvalError("Empty member list, " + dayIndex + " " + shiftIndex);
+
+        return members.filter(m => m.shifts[dayIndex].indexOf(shiftIndex) !== -1);
+    }
+
     public static byDay(members: Member[], dayIndex: number): Member[] {
         if (members.length === 0) throw new EvalError("Empty member list, " + dayIndex);
 
-        return members.filter(m => m.shifts[dayIndex].length > 0);
+        return members.filter(m => typeof m.shifts[dayIndex] !== "undefined" && m.shifts[dayIndex].length > 0);
     }
 
     /**

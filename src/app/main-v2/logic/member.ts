@@ -1,7 +1,7 @@
 import { ShiftAssignmentInfo } from './shift-assignment-info';
 
 type DayIndex = number;
-type ShiftIndex = any;
+type ShiftIndex = number[];
 type Committee = string;
 
 export class Member {

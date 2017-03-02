@@ -32,6 +32,9 @@ export class ExcelExportComponent implements OnInit {
       if (e instanceof NavigationEnd) {
         this.allMembers = this.memberService.members;
 
+        if (this.allMembers.length === 0) {
+          this.router.navigateByUrl('home');
+        }
         // Reset search index values
         // this forces refresh of internal
         // member lists
@@ -103,18 +106,18 @@ export class ExcelExportComponent implements OnInit {
    */
   exportWorkbook(): void {
     let workbook = 'test.xlsx'; // TODO change this to the workbook to be exported
-    
-    let wopts = { bookType:'xlsx', bookSST:false, type:'binary' };
-    let wbout = XLSX.write(workbook,wopts);
+
+    let wopts = { bookType: 'xlsx', bookSST: false, type: 'binary' };
+    let wbout = XLSX.write(workbook, wopts);
     // console.debug("Hello", wopts);
-    saveAs(new Blob([this.s2ab(wbout)],{type:"application/octet-stream"}), "test.xlsx");
+    saveAs(new Blob([this.s2ab(wbout)], { type: "application/octet-stream" }), "test.xlsx");
 
   }
 
   s2ab(s): ArrayBuffer {
     var buf = new ArrayBuffer(s.length);
     var view = new Uint8Array(buf);
-    for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
     return buf;
   }
 

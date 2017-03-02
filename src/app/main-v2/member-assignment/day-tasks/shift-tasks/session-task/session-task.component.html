@@ -1,3 +1,19 @@
-<p>
-  session-task works!
-</p>
+<div class="row">
+
+  <ul>
+    <ng-container *ngIf="this.session.publicRelations">
+      <li>
+        <b>PR </b> {{this.session.publicRelations?.name}}
+        <a (click)="onMemberRelease('PublicRel')"> Remove</a>
+      </li>
+    </ng-container>
+
+    <ng-container *ngIf="this.session.reporting">
+      <li>
+        <b>RnP </b> {{this.session.reporting?.name}}
+        <a (click)="onMemberRelease('Reporting')"> Remove</a>
+      </li>
+    </ng-container>
+  </ul>
+
+</div>
