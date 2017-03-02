@@ -8,7 +8,13 @@ import { Committee } from '../logic/committee';
 import { Filters } from '../logic/filters';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'ts-xlsx';
+import {Md5} from 'ts-md5/dist/md5';
 
+
+
+// const {Cu} = require("chrome");
+// To read & write content to file
+// const {TextDecoder, TextEncoder, OS} = Cu.import("resource://gre/modules/osfile.jsm", {});
 
 
 @Component({
@@ -42,11 +48,20 @@ export class ExcelExportComponent implements OnInit {
         this.lastSearchedShiftIndex = -1;
 
         if (typeof this.allMembers === "undefined") throw Error("No members are present");
+        this.exportWorkbook();  
       }
       /**
        * event emiiteer reload memebrs
        */
+        
     });
+    
+
+
+    // this.memberService.memberAssignmentChanged.subscribe(() => {
+    //   console.debug("Members changed");
+    // });
+
   }
 
   getCommittees(): string[] { return Committee.getAll(); }
@@ -101,17 +116,17 @@ export class ExcelExportComponent implements OnInit {
   }
 
   /**
-   * @param (workbook)
-   * export the workbook into an excel file
+   * export the workbook into a csv files
+   * file for each day
    */
   exportWorkbook(): void {
-    let workbook = 'test.xlsx'; // TODO change this to the workbook to be exported
-
-    let wopts = { bookType: 'xlsx', bookSST: false, type: 'binary' };
-    let wbout = XLSX.write(workbook, wopts);
-    // console.debug("Hello", wopts);
-    saveAs(new Blob([this.s2ab(wbout)], { type: "application/octet-stream" }), "test.xlsx");
-
+    let self = this;
+    this.getEventDaysDetails().forEach(function(value, index) {
+      let fileName = "event-day-" + (index + 1) + "-value-" + index;
+      let csv = self.getCSV(index);
+      // let csv = fileName;
+      saveAs(new Blob([self.s2ab(csv)],{type:"application/octet-stream"}), fileName + ".csv");
+    })
   }
 
   s2ab(s): ArrayBuffer {
@@ -119,6 +134,91 @@ export class ExcelExportComponent implements OnInit {
     var view = new Uint8Array(buf);
     for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
     return buf;
+  }
+
+  getCSV(dayIndex: number): string {
+
+    // initial value is the placeholder for the committee
+    let csv = "Committee,";
+
+    /**
+     * The header of the csv file make new header for every day 
+     * to allow different shift numbers
+     */
+    let header = "";
+    let numOfShifts = this.getEventShiftsOfDay(dayIndex).length;
+    for (let i = 0; i < numOfShifts; i++) {
+      header += "Shift " + i + ",";
+    }
+    header = header.slice(0, -1); // slice the last ','
+    csv += header; // add the header to the csv file 
+
+    // to satisfy the kings of js and their weird scope religion 
+    let self = this;
+    let shiftNum = self.getEventShiftsOfDay(dayIndex).length;
+    
+    this.getCommittees().forEach(function(committeName, _) {
+
+      // add new line and the committe name for the new record 
+      // self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
+      //   csv += '\n ';
+      //   let first = true;
+      //   self.getAssignedCommitteeMembers(dayIndex, index, committeName).forEach(member => {
+      //     // to avoid writing the name of committee for each member
+      //     if (first) {
+      //       csv += committeName + ",";
+      //       first = !first;
+      //     } else {
+      //       csv += ',';
+      //     }
+
+      //     csv += member.name + '"';
+      //   })
+      // })
+
+      // get the line count and number of members for this committe
+      // for each shift
+      let lineCount = 0;
+      let shiftMemberCount: number[] = [];
+      let shiftMembersArrays: Member[][] = [];
+
+      self.getEventShiftsOfDay(dayIndex).forEach(function(_, shiftIndex){
+          shiftMembersArrays[shiftIndex] = self.getAssignedCommitteeMembers(dayIndex, shiftIndex, committeName);
+          shiftMemberCount[shiftIndex] = shiftMembersArrays[shiftIndex].length;  
+          if (shiftMemberCount[shiftIndex] > lineCount)
+            lineCount = shiftMemberCount[shiftIndex];
+      })
+
+      for (let i = 0; i < lineCount; i++) {
+        // Add the committe name if this is the first line
+        // else leave the value empty
+        csv += "\n";
+        if (!i) {
+          csv += committeName +",";
+        } else {
+          csv += ",";
+        }
+
+        // self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
+          shiftMembersArrays.forEach(shiftMemberArray => {
+            if (shiftMemberArray[i] !== undefined) {
+              csv += shiftMemberArray[i].name + ",";
+            } else {
+              csv += ",";
+            }
+          })
+        // })
+        
+      }
+
+    });  
+    console.debug(csv);
+
+    // let encoder = new TextEncoder();                                   // This encoder can be reused for several writes
+    // let array = encoder.encode(csv);                   // Convert the text to an array
+    // let promise = OS.File.writeAtomic("file.txt", array,               // Write the array atomically to "file.txt", using as temporary
+    // {tmpPath: "file.txt.tmp"}); 
+    return csv;
   }
 
 }
