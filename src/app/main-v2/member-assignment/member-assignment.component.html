@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <ng-container *ngIf="isEmpty">
+      <h1>Nothing is here...</h1>
+      <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
+    </ng-container>
+
+    <button routerLink="/excel-export" class="btn btn-default">Summary</button>
+
+    <ng-container *ngFor="let day of dayShifts">
+      <button routerLink="day-assignment/{{day}}" class="btn btn-default">Day {{day+1}}</button>
+    </ng-container>
+    <hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <router-outlet></router-outlet>
+  </div>
+</div>

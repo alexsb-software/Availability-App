@@ -1,0 +1,5 @@
+<accordion>
+  <ng-container *ngFor="let comm of getAllCommittees()">
+      <app-committee-members [CommitteeName]="comm" (MemberSelected)="takeMember(comm,$event)" (MemberReleased)="releaseMember($event)" [SelectedMembers]="getSelectedMembersOfCommittee(comm)" [FreeMembers]="getMembersOfCommittee(comm)"></app-committee-members>
+  </ng-container>
+</accordion>

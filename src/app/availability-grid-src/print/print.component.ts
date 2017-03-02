@@ -16,7 +16,7 @@ import { StateSaverService } from '../../singleton-services/state-saver.service'
 })
 export class PrintComponent implements OnInit {
   dayAssignments: DayAssignmentInfo[] = [];
-  committeeMember: Map<string, Member[]> = new Map<string, Member[]>();
+  //committeeMember: Map<string, Member[]> = new Map<string, Member[]>();
   committees: string[] = Committee.getAll();
 
   constructor(private holder: StateSaverService, private router: Router) {

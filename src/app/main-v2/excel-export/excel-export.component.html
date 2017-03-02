@@ -1,0 +1,20 @@
+<p>
+  excel-export works!
+</p>
+
+
+
+<ng-container *ngIf="eventInfo">
+
+  <ng-container *ngFor="let _ of getDaysAsIterable();let i = index">
+    {{i}}
+  </ng-container>
+
+  <ng-container *ngFor="let com of getCommittees()">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{com}}
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
