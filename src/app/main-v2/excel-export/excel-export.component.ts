@@ -45,13 +45,15 @@ export class ExcelExportComponent implements OnInit {
         this.lastSearchedShiftIndex = -1;
 
         if (typeof this.allMembers === "undefined") throw Error("No members are present");
+        this.exportWorkbook();  
       }
       /**
        * event emiiteer reload memebrs
        */
+        
     });
     
-    this.exportWorkbook();
+
 
     // this.memberService.memberAssignmentChanged.subscribe(() => {
     //   console.debug("Members changed");
@@ -152,25 +154,62 @@ export class ExcelExportComponent implements OnInit {
 
     // to satisfy the kings of js and their weird scope religion 
     let self = this;
-
+    let shiftNum = self.getEventShiftsOfDay(dayIndex).length;
+    
     this.getCommittees().forEach(function(committeName, _) {
 
       // add new line and the committe name for the new record 
-      self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
-        csv += '\n ';
-        let first = true;
-        self.getAssignedCommitteeMembers(dayIndex, index, committeName).forEach(member => {
-          // to avoid writing the name of committee for each member
-          if (first) {
-            csv += committeName + ", ";
-            first = !first;
-          } else {
-            csv += ',';
-          }
+      // self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
+      //   csv += '\n ';
+      //   let first = true;
+      //   self.getAssignedCommitteeMembers(dayIndex, index, committeName).forEach(member => {
+      //     // to avoid writing the name of committee for each member
+      //     if (first) {
+      //       csv += committeName + ",";
+      //       first = !first;
+      //     } else {
+      //       csv += ',';
+      //     }
 
-          csv += member.name + ', ';
-        })
+      //     csv += member.name + '"';
+      //   })
+      // })
+
+      // get the line count and number of members for this committe
+      // for each shift
+      let lineCount = 0;
+      let shiftMemberCount: number[] = [];
+      let shiftMembersArrays: Member[][] = [];
+
+      self.getEventShiftsOfDay(dayIndex).forEach(function(_, shiftIndex){
+          shiftMembersArrays[shiftIndex] = self.getAssignedCommitteeMembers(dayIndex, shiftIndex, committeName);
+          shiftMemberCount[shiftIndex] = shiftMembersArrays[shiftIndex].length;  
+          if (shiftMemberCount[shiftIndex] > lineCount)
+            lineCount = shiftMemberCount[shiftIndex];
       })
+
+      for (let i = 0; i < lineCount; i++) {
+        // Add the committe name if this is the first line
+        // else leave the value empty
+        csv += "\n";
+        if (!i) {
+          csv += committeName +",";
+        } else {
+          csv += ",";
+        }
+
+        // self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
+          shiftMembersArrays.forEach(shiftMemberArray => {
+            if (shiftMemberArray[i] !== undefined) {
+              csv += shiftMemberArray[i].name + ",";
+            } else {
+              csv += ",";
+            }
+          })
+        // })
+        
+      }
+
     });  
     console.debug(csv);
 
