@@ -3,6 +3,6 @@
 </p>
 
 <ng-container *ngFor="let _ of iterableShiftCount;let shIndex=index">
-  <button class="btn btn-default" routerLink="shift/{{shIndex}}">Shift {{shIndex+1}}</button>
+  <button class="btn btn-default" routerLink="/shift/{{shIndex}}">Shift {{shIndex+1}}</button>
 </ng-container>
 <router-outlet></router-outlet>

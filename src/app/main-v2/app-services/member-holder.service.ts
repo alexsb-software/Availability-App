@@ -12,7 +12,9 @@ export class MemberHolderService {
    */
   private dayShifts: Map<number, number> = new Map<number, number>();
   public memberAssignmentChanged: EventEmitter<void> = new EventEmitter<void>();
-  
+  public currentDayIndex: number;
+  public currentShiftIndex: number;
+
   private get getDayShifts(): Map<number, number> {
     return Object.assign(this.dayShifts);
   }

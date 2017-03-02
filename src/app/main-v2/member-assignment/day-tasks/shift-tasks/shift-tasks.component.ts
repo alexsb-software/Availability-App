@@ -32,18 +32,19 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
   @Output() membersChanged: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit() {
-    this.route.parent.params.switchMap(p => this.dayIndex = p['id']).subscribe();
+    //    this.route.parent.params.switchMap(p => this.dayIndex = p['id']).subscribe();
     this.route.params.switchMap(p => this.shiftIndex = p['id']).subscribe();
 
     this.subscription = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
 
         // "dayIndex" is retrieved as a number from router
-        let temp: any = this.dayIndex;
+        let temp: any = this.memberService.currentDayIndex;
         this.dayIndex = parseInt(temp);
+
+        // Parse shift index
         temp = this.shiftIndex;
         this.shiftIndex = parseInt(temp);
-
         this.members = Filters.byShift(this.memberService.members, this.dayIndex, this.shiftIndex);
       }
     });

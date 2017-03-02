@@ -27,12 +27,7 @@ export class DayTasksComponent implements OnInit {
 
   }
   ngOnInit() {
-    if (this.memberService.days.length === 0) {
-      this.router.navigate(['/v2']);
-      // Refresh the browser
-      alert("This page won't work at this state, please refresh the browser page");
-      return; // TODO cancel navigation
-    }
+
     this.route.params
       .switchMap((params) => this.dayIndex = params['id']).subscribe();
 
@@ -41,7 +36,9 @@ export class DayTasksComponent implements OnInit {
 
         // "dayIndex" is retrieved as a number from router
         let temp: any = this.dayIndex;
+        
         this.dayIndex = parseInt(temp);
+        this.memberService.currentDayIndex = this.dayIndex;
 
         this.members = Filters.byDay(this.memberService.members, this.dayIndex);
         let shiftCount = this.memberService.getShiftCount(this.dayIndex);

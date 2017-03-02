@@ -9,17 +9,19 @@ export const APP_ROUTES: Route[] = [
     {
         path: 'excel-export',
         component: ExcelExportComponent
+    },
+    {
+        path: 'memberassignment', component: MemberAssignmentComponent,
 
     },
     {
-        /**
-         * TODO fix router outlets
-         */
-        path: 'member-assignment', component: MemberAssignmentComponent,
-        children: [
-            { path: 'day-assignment/:id', component: DayTasksComponent, children: [{ path: 'shift/:id', component: ShiftTasksComponent }] }],
-
+        path: 'dayassignment/:id',
+        component: DayTasksComponent,
+        //outlet: 'o1',
     },
-
-    { path: '', component: HomeComponent }
+    {
+        path: 'shift/:id',
+        component: ShiftTasksComponent
+    }
+    //{ path: '', component: HomeComponent }
 ];
