@@ -12,7 +12,9 @@ export class MemberHolderService {
    */
   private dayShifts: Map<number, number> = new Map<number, number>();
   public memberAssignmentChanged: EventEmitter<void> = new EventEmitter<void>();
-  
+  public currentDayIndex: number;
+  public currentShiftIndex: number;
+
   private get getDayShifts(): Map<number, number> {
     return Object.assign(this.dayShifts);
   }
@@ -53,5 +55,18 @@ export class MemberHolderService {
   public removeDay(dayIndex: any): void {
     dayIndex = parseInt(dayIndex);
     this.dayShifts.delete(dayIndex);
+  }
+
+  getNumberAsIterable(num: number): number[] {
+    /**
+     * Used for HTML ngFor Generation
+     * 
+     * Creates an array of a given number and fills it
+     * with each element's index
+     */
+
+    let result: number[] = Array(num).fill(0);
+    result.forEach((val, index) => result[index] = index);
+    return result;
   }
 }

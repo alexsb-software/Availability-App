@@ -34,4 +34,5 @@ export class MemberAssignmentComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
 }

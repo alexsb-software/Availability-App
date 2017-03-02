@@ -1,21 +1,30 @@
-<div class="row">
+<ng-container *ngIf="isEmpty">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <ng-container *ngIf="isEmpty">
-      <h1>Nothing is here...</h1>
-      <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
-    </ng-container>
-
-    <button routerLink="/excel-export" class="btn btn-default">Summary</button>
-
-    <ng-container *ngFor="let _ of dayShifts; let i= index">
-      <button routerLink="day-assignment/{{i}}" class="btn btn-default">Day {{i+1}}</button>
-    </ng-container>
-    <hr>
+    <h1>Nothing is here...</h1>
+    <button routerLink="/" class="btn btn-default">Upload excelsheet</button>
   </div>
-</div>
+</ng-container>
 
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <router-outlet ></router-outlet>
+<ng-container *ngIf="!isEmpty">
+  <h1>Assign Members</h1>
+  <ng-container *ngFor="let shCount of dayShifts; let i= index">
+    <app-day-tasks [DayIndex]="i"></app-day-tasks>
+
+    <div class="row">
+
+      <ng-container *ngFor="let shIndex of this.memberService.getNumberAsIterable(shCount)">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <button class="btn btn-default" routerLink="/shift/{{shIndex}}">Shift {{shIndex+1}}</button>
+        </div>
+      </ng-container>
+
+    </div>
+
+  </ng-container>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button routerLink="/excel-export" class="btn btn-default">View All</button>
+    </div>
   </div>
-</div>
+</ng-container>

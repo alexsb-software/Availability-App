@@ -26,7 +26,7 @@ import { ExcelExportComponent } from './excel-export/excel-export.component';
     FileUploadModule,
     AppServicesModule,
     AccordionModule,
-    RouterModule.forRoot(APP_ROUTES)
+    RouterModule.forChild(APP_ROUTES)
   ],
   declarations: [
     HomeComponent,

@@ -47,6 +47,8 @@ import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 
+import { HomeComponent } from './main-v2/home/home.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,19 +96,20 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
     TypeaheadModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot([
-      { path: 'login', component: UserLoginComponent },
-      { path: 'session', component: SessoinMemberInputComponent },
-      { path: 'comm', component: CommitteeMembersComponent },
-      { path: 'aval', component: UserAvalComponent },
-      { path: 'event/new', component: NewEventComponent },
-      { path: 'member', component: MemberViewComponent },
-      { path: 'print', component: PrintComponent },
-      { path: 'day/:id', component: DayAssignmentComponent },
-      { path: 'main', component: AvialabilityRootComponent },
+      // { path: 'login', component: UserLoginComponent },
+      // { path: 'session', component: SessoinMemberInputComponent },
+      // { path: 'comm', component: CommitteeMembersComponent },
+      // { path: 'aval', component: UserAvalComponent },
+      // { path: 'event/new', component: NewEventComponent },
+      // { path: 'member', component: MemberViewComponent },
+      // { path: 'print', component: PrintComponent },
+      // { path: 'day/:id', component: DayAssignmentComponent },
+      // { path: 'main', component: AvialabilityRootComponent },
 
-      { path: 'excel', component: ExcelInterfaceComponent },
-      { path: '', redirectTo: 'main', pathMatch: 'full' },
-      { path: '**', redirectTo: 'main' }
+      // { path: 'excel', component: ExcelInterfaceComponent },
+      { path: 'home', component: HomeComponent, pathMatch: 'prefix' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      // { path: '**', redirectTo: 'home', pathMatch: 'full' }
     ])
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }, UserAuthService, AuthGuard],
