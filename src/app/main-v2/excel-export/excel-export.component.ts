@@ -8,7 +8,7 @@ import { Committee } from '../logic/committee';
 import { Filters } from '../logic/filters';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'ts-xlsx';
-import {Md5} from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5/dist/md5';
 
 
 
@@ -48,14 +48,14 @@ export class ExcelExportComponent implements OnInit {
         this.lastSearchedShiftIndex = -1;
 
         if (typeof this.allMembers === "undefined") throw Error("No members are present");
-        this.exportWorkbook();  
+        this.exportWorkbook();
       }
       /**
        * event emiiteer reload memebrs
        */
-        
+
     });
-    
+
 
 
     // this.memberService.memberAssignmentChanged.subscribe(() => {
@@ -121,11 +121,11 @@ export class ExcelExportComponent implements OnInit {
    */
   exportWorkbook(): void {
     let self = this;
-    this.getEventDaysDetails().forEach(function(value, index) {
+    this.getEventDaysDetails().forEach(function (value, index) {
       let fileName = "event-day-" + (index + 1) + "-value-" + index;
       let csv = self.getCSV(index);
       // let csv = fileName;
-      saveAs(new Blob([self.s2ab(csv)],{type:"application/octet-stream"}), fileName + ".csv");
+      saveAs(new Blob([self.s2ab(csv)], { type: "application/octet-stream" }), fileName + ".csv");
     })
   }
 
@@ -156,8 +156,8 @@ export class ExcelExportComponent implements OnInit {
     // to satisfy the kings of js and their weird scope religion 
     let self = this;
     let shiftNum = self.getEventShiftsOfDay(dayIndex).length;
-    
-    this.getCommittees().forEach(function(committeName, _) {
+
+    this.getCommittees().forEach(function (committeName, _) {
 
       // add new line and the committe name for the new record 
       // self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
@@ -182,11 +182,11 @@ export class ExcelExportComponent implements OnInit {
       let shiftMemberCount: number[] = [];
       let shiftMembersArrays: Member[][] = [];
 
-      self.getEventShiftsOfDay(dayIndex).forEach(function(_, shiftIndex){
-          shiftMembersArrays[shiftIndex] = self.getAssignedCommitteeMembers(dayIndex, shiftIndex, committeName);
-          shiftMemberCount[shiftIndex] = shiftMembersArrays[shiftIndex].length;  
-          if (shiftMemberCount[shiftIndex] > lineCount)
-            lineCount = shiftMemberCount[shiftIndex];
+      self.getEventShiftsOfDay(dayIndex).forEach(function (_, shiftIndex) {
+        shiftMembersArrays[shiftIndex] = self.getAssignedCommitteeMembers(dayIndex, shiftIndex, committeName);
+        shiftMemberCount[shiftIndex] = shiftMembersArrays[shiftIndex].length;
+        if (shiftMemberCount[shiftIndex] > lineCount)
+          lineCount = shiftMemberCount[shiftIndex];
       })
 
       for (let i = 0; i < lineCount; i++) {
@@ -194,24 +194,24 @@ export class ExcelExportComponent implements OnInit {
         // else leave the value empty
         csv += "\n";
         if (!i) {
-          csv += committeName +",";
+          csv += committeName + ",";
         } else {
           csv += ",";
         }
 
         // self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
-          shiftMembersArrays.forEach(shiftMemberArray => {
-            if (shiftMemberArray[i] !== undefined) {
-              csv += shiftMemberArray[i].name + ",";
-            } else {
-              csv += ",";
-            }
-          })
+        shiftMembersArrays.forEach(shiftMemberArray => {
+          if (shiftMemberArray[i] !== undefined) {
+            csv += shiftMemberArray[i].name + ",";
+          } else {
+            csv += ",";
+          }
+        })
         // })
-        
+
       }
 
-    });  
+    });
     console.debug(csv);
 
     // let encoder = new TextEncoder();                                   // This encoder can be reused for several writes
