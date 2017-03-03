@@ -12,8 +12,7 @@ import * as XLSX from 'ts-xlsx';
 
 @Component({
   selector: 'v2-excel-parser',
-  templateUrl: './excel-parser.component.html',
-  styleUrls: ['./excel-parser.component.css']
+  templateUrl: './excel-parser.component.html'
 })
 export class ExcelParserComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({});
@@ -21,7 +20,7 @@ export class ExcelParserComponent implements OnInit {
 
   workSheetContent: any[] = [];
   loading: boolean = false;
-  dayCount: number = 0; // Bind this with an ngFor to get shifts/day
+  dayCount: number = 1; // Bind this with an ngFor to get shifts/day
   members: Member[] = [];
   dayShifts: number[] = [];
 
@@ -54,7 +53,7 @@ export class ExcelParserComponent implements OnInit {
   changeShiftCount(dayIndex: number, amount: number): void {
     /**
      * Binding an input to ngModel dayShifts[i] didn't work correctly
-     * 
+     *
      * Shifts can't be less than one
      */
     if (this.dayShifts[dayIndex] + amount < 1) return;

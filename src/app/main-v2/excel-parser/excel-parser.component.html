@@ -4,14 +4,14 @@
 <div class="row">
   <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
     <div class="form-group">
-      <strong>{{dayCount}} day(s)</strong>
+      <h3>{{dayCount}} day{{dayCount!=1?"s":""}}</h3>
       <button class="btn btn-default" (click)="changeDayCount(1)">+</button>
       <button class="btn btn-default" (click)="changeDayCount(-1)">-</button>
     </div>
     <ng-container *ngFor="let _ of dayShifts;let i=index">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <label>Day {{i+1}} Shift Count: <span><b>{{dayShifts[i]}}</b></span></label>
+          <span>Day {{i+1}} Shift Count: <b>{{dayShifts[i]}}</b></span>
           <button class="btn btn-default" (click)="changeShiftCount(i,1)">+</button>
           <button class="btn btn-default" (click)="changeShiftCount(i,-1)">-</button>
           <br>
@@ -25,7 +25,7 @@
 <div class="row">
 
   <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-    <input class="btn btn-success" type="file" ng2FileSelect [uploader]="uploader" />
+    <input class="btn btn-success" type="file" ng2FileSelect [uploader]="uploader"/>
   </div>
 
   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
