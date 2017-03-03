@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { MemberHolderService } from '../app-services/member-holder.service';
+import { DayInfoHolderService } from '../app-services/day-info-holder.service';
+import { MemberInfoHolderService } from '../app-services/member-info-holder.service';
+
 import { Member } from '../logic/member';
 import { Committee } from '../logic/committee';
 import { Filters } from '../logic/filters';
@@ -28,7 +30,8 @@ export class ExcelExportComponent implements OnInit {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private memberService: MemberHolderService) {
+    private dayService: DayInfoHolderService,
+    private memberService: MemberInfoHolderService) {
   }
 
   ngOnInit() {
@@ -48,7 +51,7 @@ export class ExcelExportComponent implements OnInit {
         this.lastSearchedShiftIndex = -1;
 
         if (typeof this.allMembers === "undefined") throw Error("No members are present");
-        this.exportWorkbook();
+        //this.exportWorkbook();  // You really could add a button to call this function!!
       }
       /**
        * event emiiteer reload memebrs
@@ -58,7 +61,7 @@ export class ExcelExportComponent implements OnInit {
 
 
 
-    // this.memberService.memberAssignmentChanged.subscribe(() => {
+    // this.dayService.memberAssignmentChanged.subscribe(() => {
     //   console.debug("Members changed");
     // });
 
@@ -103,7 +106,7 @@ export class ExcelExportComponent implements OnInit {
    * Used for iteration with ngFor
    */
   getEventDaysDetails(): number[] {
-    return this.memberService.days;
+    return this.dayService.dayShifts;
   }
 
 
@@ -112,7 +115,7 @@ export class ExcelExportComponent implements OnInit {
    * Used for iteration with ngFor
    */
   getEventShiftsOfDay(dayIndex: number): number[] {
-    return Array(this.memberService.days[dayIndex]).fill(0);
+    return Array(this.dayService.dayShifts[dayIndex]).fill(0);
   }
 
   /**

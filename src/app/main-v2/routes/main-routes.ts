@@ -19,7 +19,7 @@ export const APP_ROUTES: Route[] = [
         component: ShiftTasksComponent
     },
     {
-        path: 'sessions',
+        path: 'session', pathMatch: 'prefix',
         component: SessionTaskComponent
     }
 ];

@@ -10,12 +10,18 @@
   <ng-container *ngFor="let shCount of dayShifts; let i= index">
     <div class="row">
 
-      <ng-container *ngFor="let shIndex of this.memberService.getNumberAsIterable(shCount)">
+      <ng-container *ngFor="let shIndex of this.dayService.getNumberAsIterable(shCount)">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <button class="btn btn-default" routerLink="/shift/{{i}}/{{shIndex}}">Shift {{shIndex+1}}</button>
         </div>
       </ng-container>
 
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <app-session-task></app-session-task>
+      </div>
     </div>
 
   </ng-container>

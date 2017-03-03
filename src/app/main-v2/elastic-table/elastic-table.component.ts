@@ -1,12 +1,10 @@
 import { Component, PipeTransform, Input, Output, SimpleChanges, OnChanges, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'elastic-table',
   templateUrl: './elastic-table.component.html',
   styles: ['elastic-table.sytles.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ElasticTableComponent implements OnChanges {
   // TODO create an event object to hold number and object
@@ -17,6 +15,8 @@ export class ElasticTableComponent implements OnChanges {
    */
   @Input() items: any[];
 
+  @Input() removeHeaderText: string = "Remove";
+  @Input() selectHeaderText: string = "Select";
   /**
    * Properties to be displayed in the given objects
    * in the array

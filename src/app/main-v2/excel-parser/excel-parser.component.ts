@@ -4,7 +4,9 @@ import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-u
 import { utils, IWorkBook, IWorkSheet, IWorkSheetCell, IUtils } from 'ts-xlsx';
 import { Member } from '../logic/member';
 import { Committee } from '../logic/committee';
-import { MemberHolderService } from '../app-services/member-holder.service';
+import { DayInfoHolderService } from '../app-services/day-info-holder.service';
+import { MemberInfoHolderService } from '../app-services/member-info-holder.service';
+
 
 import * as XLSX from 'ts-xlsx';
 
@@ -23,7 +25,8 @@ export class ExcelParserComponent implements OnInit {
   members: Member[] = [];
   dayShifts: number[] = [];
 
-  constructor(private memberService: MemberHolderService) { }
+  constructor(private dayService: DayInfoHolderService,
+    private memberService: MemberInfoHolderService) { }
 
   ngOnInit() {
     this.setHandler();
@@ -35,14 +38,14 @@ export class ExcelParserComponent implements OnInit {
     if (amount > 0) {
       let initialShiftCount: number = 1;
       // Add last entry
-      this.memberService.setShiftCount(this.dayCount, initialShiftCount);
+      this.dayService.setShiftCount(this.dayCount, initialShiftCount);
       this.dayCount += amount;  // Update the count
 
       this.dayShifts.push(initialShiftCount);
     }
     else if (amount < 0) {
       // Remove the last entry in the hash table
-      this.memberService.removeDay(this.dayCount - 1);
+      this.dayService.removeDay(this.dayCount - 1);
       this.dayCount += amount;
 
       this.dayShifts.pop();
@@ -57,7 +60,7 @@ export class ExcelParserComponent implements OnInit {
     if (this.dayShifts[dayIndex] + amount < 1) return;
 
     this.dayShifts[dayIndex] += amount;
-    this.memberService.setShiftCount(dayIndex, this.dayShifts[dayIndex]);
+    this.dayService.setShiftCount(dayIndex, this.dayShifts[dayIndex]);
   }
 
   private setHandler() {

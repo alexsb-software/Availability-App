@@ -10,6 +10,8 @@
 
   <ng-container *ngIf="freeMembers.length>0">
     <p><b>Free</b> Members</p>
-    <elastic-table [enableClickCallback]="true" [canRemove]="false" [items]="freeMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemClicked)="select($event)"></elastic-table>
+    <div class="pre-scrollable">
+      <elastic-table [enableClickCallback]="true" [canRemove]="false" [items]="freeMembers" [properties]='["name"]' [propertyDisplayNames]="['Name']" (itemClicked)="select($event)"></elastic-table>
+    </div>
   </ng-container>
 </accordion-group>

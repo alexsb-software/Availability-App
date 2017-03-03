@@ -1,71 +1,55 @@
 <div class="row">
-
-  <ul>
-    <ng-container *ngIf="this.session.publicRelations">
-      <li>
-        <b>PR </b> {{this.session.publicRelations?.name}}
-        <a (click)="onMemberRelease('PublicRel')"> Remove</a>
-      </li>
-    </ng-container>
-
-    <ng-container *ngIf="this.session.reporting">
-      <li>
-        <b>RnP </b> {{this.session.reporting?.name}}
-        <a (click)="onMemberRelease('Reporting')"> Remove</a>
-      </li>
-    </ng-container>
-  </ul>
-
-</div>
-
-
-
-
-
-
-
-
-<hr>
-
-
-
-
-
-
-
-<div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h3>
+    <h1>
       Edit Sessions
-    </h3>
+    </h1>
   </div>
 </div>
 
 
-<div class="row">
-  <!--Session name, notes-->
+<div id="session-edit-view" class="row">
   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+    <!--New session form-->
+    <!--Session name, notes-->
+
 
     <!--Session name-->
     <div class="form-group">
-      <input type="text" name="session-name" [(ngModel)]="session.name" class="form-control" placeholder="Name">
+      <input type="text" [(ngModel)]="session.name" class="form-control" placeholder="Name">
+    </div>
+
+    <div id="day-up-down" class="form-group row">
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <label>Day Number:</label>
+        <ng-container *ngIf="session.dayIndex>-1">
+          <span>{{session.dayIndex+1}}</span>
+        </ng-container>
+      </div>
+
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <button class="btn btn-default" (click)="upDownChange('day',1)">+</button>
+        <button class="btn btn-default" (click)="upDownChange('day',-1)">-</button>
+      </div>
+    </div>
+
+    <div id="shift-up-down" class="form-group row">
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <label>Shift Number:</label>
+        <ng-container *ngIf="session.shiftIndex>-1">
+          <span>{{session.shiftIndex+1}}</span>
+        </ng-container>
+      </div>
+
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <!--TODO CHECK DISABLED-->
+        <button class="btn btn-default" (click)="upDownChange('shift',1)" [disabled]="session.dayIndex<0">+</button>
+        <button class="btn btn-default" (click)="upDownChange('shift',-1)" [disabled]="session.dayIndex<0">-</button>
+      </div>
     </div>
 
 
-    <!--Session notes-->
-    <div class="form-group">
-      <textarea rows="3" class="form-control" placeholder="Notes" [(ngModel)]="session.notes"></textarea>
-    </div>
-
-    <div class="form-group">
-      <button type="button" (click)="addSession()" class="btn btn-default">Add Session</button>
-    </div>
-
-  </div>
-  <!--End session name, notes-->
-
-  <!--Session time-->
-  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+    <!--End session name, notes-->
 
     <div class="row">
       <!--Session time from -->
@@ -86,58 +70,63 @@
 
     </div>
 
-  </div>
-  <!--End session time-->
-</div>
+    <!--Session notes-->
+    <div class="form-group">
+      <textarea rows="3" class="form-control" placeholder="Notes" [(ngModel)]="session.notes"></textarea>
+    </div>
 
-<!--Show Error-->
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div *ngIf="error">
-      <!--[@fallIn]-->
-      <div class="alert alert-danger">
-        <strong>Please note!</strong>
-        <p>{{errDetails}}</p>
+    <div class="form-group">
+      <button type="button" (click)="addSession()" class="btn btn-default">Add Session</button>
+    </div>
+
+
+    <!--Show Error-->
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div *ngIf="error">
+          <!--[@fallIn]-->
+          <div class="alert alert-danger">
+            <strong>Please note!</strong>
+            <p>{{errDetails}}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row">
+
+<div id="member-select view" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+  <div id="PR-Member-View" class="row">
+    <!--<app-committee-members [CommitteeName]="'Public Relations'"
+     (MemberSelected)="takeMember(comm,$event)"
+      (MemberReleased)="releaseMember($event)"
+       [SelectedMembers]="getSelectedMembersOfCommittee(comm)" 
+       [FreeMembers]="getMembersOfCommittee(comm)"></app-committee-members>-->
+
+  </div>
+
+  <div id="R&P-Member-View" class="row">
+
+  </div>
+</div>
+
+
+
+<div class="row" id="session-view">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <accordion>
       <accordion-group #group>
         <div accordion-heading>
           <strong>
-        {{this.sessions.length}} Session{{this.sessions.length!=1?"s":""}} </strong>
+        {{this.sessionService.sessions.length}} Session{{this.sessionService.sessions.length!=1?"s":""}} </strong>
           <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
         </div>
+        <ng-container *ngIf="sessionService.sessions">
+          <elastic-table [removeHeaderText]="'Delete'" [selectHeaderText]="'Edit'" [applyPipeProps]="[0,1,1,0,0]" [pipe]="pipe" [pipeArgs]="['shortTime']" [enableClickCallback]="true" [canRemove]="false" [items]="sessionService.sessions" [properties]='["name","startDate","endDate","publicRelationsMember.name","reportingMember.name"]'
+            [propertyDisplayNames]="['Name','Start','End','PR','R&P']" (itemClicked)="select($event)" (itemRemoved)="deselect($event)"></elastic-table>
 
-        <!--Day session details table-->
-        <table class="table table-stipped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let session of sessions;let sessionIdx=index">
-              <tr>
-                <td>{{session.name}}</td>
-                <td>{{session.startDate|date:'shortTime'}}</td>
-                <td>{{session.endDate|date:'shortTime'}}</td>
-                <td>
-                  <button (click)="onSessionRemove(sessionIdx)" class="btn btn-default">
-            <span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>
-          </button>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
+        </ng-container>
 
       </accordion-group>
     </accordion>

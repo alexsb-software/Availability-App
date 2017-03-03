@@ -2,7 +2,8 @@ import { Component, OnChanges, ChangeDetectionStrategy, Input, Output, OnDestroy
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { MemberHolderService } from '../../../app-services/member-holder.service';
+import { DayInfoHolderService } from '../../../app-services/day-info-holder.service';
+import { MemberInfoHolderService } from '../../../app-services/member-info-holder.service';
 import { Committee } from '../../../logic/committee';
 import { Filters } from '../../../logic/filters';
 import { Member } from '../../../logic/member';
@@ -17,7 +18,8 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private memberService: MemberHolderService) {
+    private dayService: DayInfoHolderService,
+    private memberService: MemberInfoHolderService, ) {
 
   }
   dayIndex: number;
@@ -68,10 +70,10 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
 
   takeMember(commName: string, e: Member): void {
     e.reserve(this.dayIndex, this.shiftIndex, commName);
-    this.memberService.memberAssignmentChanged.emit();
+    this.dayService.memberAssignmentChanged.emit();
   }
   releaseMember(e: Member): void {
     e.release(this.dayIndex, this.shiftIndex);
-    this.memberService.memberAssignmentChanged.emit();
+    this.dayService.memberAssignmentChanged.emit();
   }
 }

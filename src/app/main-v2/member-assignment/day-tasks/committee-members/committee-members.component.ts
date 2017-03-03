@@ -12,7 +12,7 @@ import { ArrayItemEventArgs } from '../../../elastic-table/elastic-table.compone
 export class CommitteeMembersComponent implements DoCheck {
   @Input('FreeMembers') freeMembers: Member[] = [];
   @Input('SelectedMembers') selectedMembers: Member[] = [];
-  @Input('CommitteeName') commName: string;
+  @Input('CommitteeName') commName: string; // Used in HTML
 
   /** 
    * Trigger change detection using the event emitter
