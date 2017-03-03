@@ -92,7 +92,7 @@ export class Filters {
         /**
          * Filter returns an empty array when nothing is found
          */
-        
+
         return members.filter(m => {
             let assignment = m.getAssignmentAt(dayIndex, shiftIndex);
             if (typeof assignment === "undefined") return false;

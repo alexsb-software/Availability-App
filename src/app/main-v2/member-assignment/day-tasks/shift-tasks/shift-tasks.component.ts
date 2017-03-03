@@ -1,12 +1,21 @@
-import { Component, OnChanges, ChangeDetectionStrategy, Input, Output, OnDestroy, EventEmitter, OnInit } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
+import {
+  Component,
+  OnChanges,
+  ChangeDetectionStrategy,
+  Input,
+  Output,
+  OnDestroy,
+  EventEmitter,
+  OnInit
+} from '@angular/core';
+import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs/Rx';
 
-import { DayInfoHolderService } from '../../../app-services/day-info-holder.service';
-import { MemberInfoHolderService } from '../../../app-services/member-info-holder.service';
-import { Committee } from '../../../logic/committee';
-import { Filters } from '../../../logic/filters';
-import { Member } from '../../../logic/member';
+import {DayInfoHolderService} from '../../../app-services/day-info-holder.service';
+import {MemberInfoHolderService} from '../../../app-services/member-info-holder.service';
+import {Committee} from '../../../logic/committee';
+import {Filters} from '../../../logic/filters';
+import {Member} from '../../../logic/member';
 
 @Component({
   selector: 'app-shift-tasks',
@@ -17,11 +26,12 @@ import { Member } from '../../../logic/member';
 export class ShiftTasksComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
-    private route: ActivatedRoute,
-    private dayService: DayInfoHolderService,
-    private memberService: MemberInfoHolderService, ) {
+              private route: ActivatedRoute,
+              private dayService: DayInfoHolderService,
+              private memberService: MemberInfoHolderService,) {
 
   }
+
   dayIndex: number;
   members: Member[] = [];
   subscription: Subscription;
@@ -70,10 +80,18 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
 
   takeMember(commName: string, e: Member): void {
     e.reserve(this.dayIndex, this.shiftIndex, commName);
-    this.dayService.memberAssignmentChanged.emit();
+    this.memberService.memberAssignmentChanged.emit(e);
   }
+
   releaseMember(e: Member): void {
+    // Check if the member is assigned at a sessoin
+    let assigned: boolean = this.memberService.isAssignedAtSessionOnly(this.dayIndex, this.shiftIndex, e);
+    if (assigned) {
+      // TODO show error`
+      alert("Member is reserved at a session at the same time, delete the session if you want to release the member");
+      return;
+    }
     e.release(this.dayIndex, this.shiftIndex);
-    this.dayService.memberAssignmentChanged.emit();
+    this.memberService.memberAssignmentChanged.emit(e);
   }
 }

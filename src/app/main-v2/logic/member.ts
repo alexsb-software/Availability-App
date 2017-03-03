@@ -50,8 +50,8 @@ export class Member {
     }
 
     /**
-     * Checks whther a member is busy a a given
-     * shift number
+     * Checks whther a member is busy in
+     * EITHER shift OR a session
      */
     public isBusy(dayIdx: number, shiftIdx: number): boolean {
         return this.getAssignment(dayIdx, shiftIdx).found;
@@ -103,6 +103,10 @@ export class Member {
         if (!result.found) throw new Error("Requested member's committee not found");
 
         return this.assigned[result.index].committee;
+    }
+
+    public isEqualTo(other: Member): boolean {
+        return this.id === other.id;
     }
 }
 class FindResult {

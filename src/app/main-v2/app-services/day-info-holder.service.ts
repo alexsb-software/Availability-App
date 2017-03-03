@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Filters } from '../logic/filters';
 import { Committee } from '../logic/committee';
@@ -10,7 +10,7 @@ export class DayInfoHolderService {
    * Holds the day
    */
   private dayShiftsTable: Map<number, number> = new Map<number, number>();
-  public memberAssignmentChanged: EventEmitter<void> = new EventEmitter<void>();
+
   public currentDayIndex: number;
   public currentShiftIndex: number;
 

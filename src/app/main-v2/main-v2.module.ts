@@ -24,7 +24,7 @@ import { ExcelExportComponent } from './excel-export/excel-export.component';
     FormsModule,
     FileUploadModule,
     AppServicesModule,
-    AccordionModule,
+    AccordionModule.forRoot(),
     TimepickerModule.forRoot(),
     RouterModule.forChild(APP_ROUTES)
   ],

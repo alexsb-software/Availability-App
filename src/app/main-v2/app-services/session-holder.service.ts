@@ -1,20 +1,23 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { Session } from '../logic/session';
+import {Injectable, EventEmitter} from '@angular/core';
+import {Session} from '../logic/session';
 
 @Injectable()
 export class SessionHolderService {
 
-  sessions: Session[] = [];
-  sessionsChanged: EventEmitter<void> = new EventEmitter<void>();
+  private sessions: Session[] = [];
+  sessionsChanged: EventEmitter<Session> = new EventEmitter<Session>();
 
-  constructor() { }
+  constructor() {
+  }
 
   addSession(session: Session): void {
     this.sessions.push(session);
+
+    console.debug("sessions:", this.sessions, session);
   }
 
   removeSession(session: Session): void {
-    let index: number = this.sessions.findIndex(s => s.Equals(session));
+    let index: number = this.sessions.findIndex(s => s.isEqualTo(session));
 
     if (index === -1) {
       console.debug("Failed to find session", session);
@@ -32,7 +35,7 @@ export class SessionHolderService {
 
   getShiftSessions(dayIndex: number, shiftIndex: number): Session[] {
     if (this.sessions.length === 0) return [];
-
+    console.debug("All Sessions", this.sessions);
     return this.sessions.filter(s => s.dayIndex === dayIndex && s.shiftIndex === shiftIndex);
   }
 }
