@@ -172,10 +172,15 @@ export class SessionTaskComponent implements OnInit {
   }
 
   /**
-   *
+   * Called from HTML as a click handler of the remove button in
+   * assigned member table in app-committee-view
    * @param mem Member from the committee component
    */
   unmarkMember(mem: Member): void {
+    // TODO this might be implemented later,
+    // in case someone wants to add the ability to delete the already assigned
+    // session members after the session itself is saved, anyway they must keep
+    // the "session" object in a valid state
 
     // // Don't remove a member that was assigned in a session and saved
     // if (this.memberService.isAssignedAtShiftOnly(this.session.dayIndex,
