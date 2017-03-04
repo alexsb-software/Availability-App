@@ -44,18 +44,6 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
 
     this.subscription = this.router.events.subscribe(e => {
 
-      // Redirect in case that members are undefined/of length 0
-      try {
-        if (this.members.length === 0) {
-          this.router.navigateByUrl('');
-          return;
-        }
-
-      } catch (error) {
-        this.router.navigateByUrl('');
-        return;
-      }
-
       if (e instanceof NavigationEnd) {
 
         let temp: any = this.dayIndex;
