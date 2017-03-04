@@ -107,7 +107,7 @@ import { HomeComponent } from './main-v2/home/home.component';
       // { path: 'main', component: AvialabilityRootComponent },
 
       // { path: 'excel', component: ExcelInterfaceComponent },
-      { path: 'home', component: HomeComponent, pathMatch: 'prefix' },
+      { path: 'home', component: HomeComponent, pathMatch: 'prefix'},
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       // { path: '**', redirectTo: 'home', pathMatch: 'full' }
     ])

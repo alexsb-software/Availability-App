@@ -32,10 +32,10 @@ export class MemberInfoHolderService {
       return false;
     }
 
-    console.debug("Shift sessions",this.sessionInfo.getShiftSessions(dayIndex, shiftIndex));
+    //console.debug("Shift sessions", this.sessionInfo.getShiftSessions(dayIndex, shiftIndex));
 
     this.sessionInfo.getShiftSessions(dayIndex, shiftIndex).forEach((session: Session) => {
-      console.debug("Session members:", session.publicRelationsMember, session.reportingMember);
+      //console.debug("Session members:", session.publicRelationsMember, session.reportingMember);
       if (session.publicRelationsMember.isEqualTo(member) || session.reportingMember.isEqualTo(member)) {
         result = true;
         return;
