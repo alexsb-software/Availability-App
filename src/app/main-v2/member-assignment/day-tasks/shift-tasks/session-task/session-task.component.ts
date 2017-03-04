@@ -52,8 +52,6 @@ export class SessionTaskComponent implements OnInit {
       if (e instanceof NavigationEnd) {
         this.resetModel();
         this.updateMemberLists(this.session.dayIndex, this.session.shiftIndex);
-
-        console.debug("Load members");
       }
 
     });
@@ -83,6 +81,7 @@ export class SessionTaskComponent implements OnInit {
     }
 
     // Add the session to the shift
+
     this.sessionService.addSession(this.session);
     this.sessionService.sessionsChanged.emit(this.session);
 
@@ -102,7 +101,7 @@ export class SessionTaskComponent implements OnInit {
       sessionDayIndex, sessionShiftIndex,
       Committee.getCommittee(CommitteeEnum.Reporting));
 
-    // Notify other components
+    // Notify other components and update member lists in this component
     this.memberService.memberAssignmentChanged.emit(prMember);
     this.memberService.memberAssignmentChanged.emit(reportingMember);
 
@@ -111,7 +110,7 @@ export class SessionTaskComponent implements OnInit {
 
     // Reset the state based on the last session
     this.resetModel(this.session.endDate, sessionShiftIndex, this.session.shiftIndex);
-    this.updateMemberLists(sessionDayIndex, sessionShiftIndex);
+    // this.updateMemberLists(sessionDayIndex, sessionShiftIndex);  // Check
   }
 
   deleteSession(e: ArrayItemEventArgs): void {
@@ -153,7 +152,6 @@ export class SessionTaskComponent implements OnInit {
         alert("this member is being re-assigned -reportings-");
         return;
       }
-      console.log(this.session.reportingMember, mem);
     } catch (error) {
     }
 
@@ -271,6 +269,10 @@ export class SessionTaskComponent implements OnInit {
 
     // Load public relations and R&P members
     let shiftMembers: Member[] = Filters.byShift(this.memberService.members, this.session.dayIndex, this.session.shiftIndex);
+
+    // Clear the members of the session being edited
+    this.session.publicRelationsMember = null;
+    this.session.reportingMember = null;
 
     this.availablePublicRelMembers = Filters.byCommittee(shiftMembers, Committee.getCommittee(CommitteeEnum.PublicRelations));
     this.availableReportingMembers = Filters.byCommittee(shiftMembers, Committee.getCommittee(CommitteeEnum.Reporting));

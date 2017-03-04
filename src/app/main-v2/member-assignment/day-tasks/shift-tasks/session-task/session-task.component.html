@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h1>
-      Edit Sessions
+      Add Sessions
     </h1>
   </div>
 </div>
@@ -14,32 +14,6 @@
     <!--Session name, notes-->
 
 
-    <!--Session name-->
-    <div class="form-group">
-      <input type="text" [(ngModel)]="session.name" class="form-control" placeholder="Name">
-    </div>
-
-
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <span>Public Relations:</span>
-        <ng-container *ngIf="session.publicRelationsMember">
-          <label>{{session.publicRelationsMember.name}}
-          </label>
-        </ng-container>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <span>Reporting:</span>
-        <ng-container *ngIf="session.reportingMember">
-          <label>{{session.reportingMember.name}}
-          </label>
-        </ng-container>
-      </div>
-    </div>
-    <hr>
     <div id="day-up-down" class="form-group row">
       <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
         <span>Day Number:</span>
@@ -69,6 +43,33 @@
       </div>
     </div>
 
+    <hr>
+
+    <!--Session name-->
+    <div class="form-group">
+      <input type="text" [(ngModel)]="session.name" class="form-control" placeholder="Name">
+    </div>
+
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <span>Public Relations:</span>
+        <ng-container *ngIf="session.publicRelationsMember">
+          <label>{{session.publicRelationsMember.name}}
+          </label>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <span>Reporting:</span>
+        <ng-container *ngIf="session.reportingMember">
+          <label>{{session.reportingMember.name}}
+          </label>
+        </ng-container>
+      </div>
+    </div>
 
     <!--End session name, notes-->
 
