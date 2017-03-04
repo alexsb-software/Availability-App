@@ -1,0 +1,175 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h1>
+      Add Sessions
+    </h1>
+  </div>
+</div>
+
+
+<div id="session-edit-view" class="row">
+  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+    <!--New session form-->
+    <!--Session name, notes-->
+
+
+    <div id="day-up-down" class="form-group row">
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <span>Day Number:</span>
+        <ng-container *ngIf="session.dayIndex>-1">
+          <label>{{session.dayIndex+1}}</label>
+        </ng-container>
+      </div>
+
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <button class="btn btn-default" (click)="upDownChange('day',1)">+</button>
+        <button class="btn btn-default" (click)="upDownChange('day',-1)">-</button>
+      </div>
+    </div>
+
+    <div id="shift-up-down" class="form-group row">
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <span>Shift Number:</span>
+        <ng-container *ngIf="session.shiftIndex>-1">
+          <label>{{session.shiftIndex+1}}</label>
+        </ng-container>
+      </div>
+
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <!--TODO CHECK DISABLED-->
+        <button class="btn btn-default" (click)="upDownChange('shift',1)" [disabled]="session.dayIndex<0">+</button>
+        <button class="btn btn-default" (click)="upDownChange('shift',-1)" [disabled]="session.dayIndex<0">-</button>
+      </div>
+    </div>
+
+    <hr>
+
+    <!--Session name-->
+    <div class="form-group">
+      <input type="text" [(ngModel)]="session.name" class="form-control" placeholder="Name">
+    </div>
+
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <span>Public Relations:</span>
+        <ng-container *ngIf="session.publicRelationsMember">
+          <label>{{session.publicRelationsMember.name}}
+          </label>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <span>Reporting:</span>
+        <ng-container *ngIf="session.reportingMember">
+          <label>{{session.reportingMember.name}}
+          </label>
+        </ng-container>
+      </div>
+    </div>
+
+    <!--End session name, notes-->
+
+    <div class="row">
+      <!--Session time from -->
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+        <label for="_start">From</label>
+        <timepicker [(ngModel)]="session.startDate" id="_start"></timepicker>
+
+
+      </div>
+
+      <!--Session time to-->
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <label for="_end">To</label>
+        <timepicker [(ngModel)]="session.endDate" id="_end"></timepicker>
+
+      </div>
+
+    </div>
+
+    <!--Session notes-->
+    <div class="form-group">
+      <textarea rows="3" class="form-control" placeholder="Notes" [(ngModel)]="session.notes"></textarea>
+    </div>
+
+    <div class="form-group">
+      <button type="button" (click)="addSession()" class="btn btn-default">Add Session</button>
+    </div>
+
+
+    <!--Show Error-->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div *ngIf="error">
+          <!--[@fallIn]-->
+          <div class="alert alert-danger">
+            <strong>Please note!</strong>
+            <p>{{errDetails}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="member-select view" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ng-container *ngIf="availablePublicRelMembers">
+          <accordion>
+            <app-committee-members [SelectedMembers]="busyPublicRelMembers"
+                                   [FreeMembers]="availablePublicRelMembers" [CommitteeName]="'Public Relations'"
+                                   (MemberSelected)="markMember('PR',$event)"
+                                   (MemberReleased)="unmarkMember('PR',$event)"></app-committee-members>
+          </accordion>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ng-container *ngIf="availableReportingMembers">
+          <accordion>
+            <app-committee-members [SelectedMembers]="busyReportingMembers"
+                                   [FreeMembers]="availableReportingMembers" [CommitteeName]="'Reporting'"
+                                   (MemberSelected)="markMember('R&P',$event)"
+                                   (MemberReleased)="unmarkMember('R&P',$event)"></app-committee-members>
+          </accordion>
+        </ng-container>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="row " id="session-view ">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+    <accordion>
+      <accordion-group #group>
+        <div accordion-heading>
+          <strong>
+            {{sessionService.sessions.length}} Session{{sessionService.sessions.length!=1?"s ":" "}} </strong>
+          <i class="pull-right float-xs-right glyphicon "
+             [ngClass]="{ 'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen} "></i>
+        </div>
+        <ng-container *ngIf="sessionService.sessions ">
+          <elastic-table [selectHeaderText]="'Edit'" [removeHeaderText]=" 'Delete' " [applyPipeProps]="[0,0,0,1,1,0,0] "
+                         [pipe]="pipe" [pipeArgs]="['shortTime']"
+                         [showIndex]="false"
+                         [canRemove]="true"
+                         [items]="sessionService.sessions "
+                         [properties]='["name ","dayIndex+1","shiftIndex+1","startDate ","endDate ","publicRelationsMember.name","reportingMember.name "]'
+                         [propertyDisplayNames]="[ 'Name','Day','Shift' ,'Start', 'End', 'PR', 'R&P'] "
+                         (itemRemoved)="deleteSession($event) "></elastic-table>
+        </ng-container>
+
+      </accordion-group>
+    </accordion>
+  </div>
+</div>

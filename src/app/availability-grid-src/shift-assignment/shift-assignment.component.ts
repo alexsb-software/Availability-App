@@ -81,11 +81,16 @@ export class ShiftAssignmentComponent implements OnChanges {
   shiftId: number;
   dayId: number;
   itemCount: number;
+  isOpen: boolean = false;
 
   ngOnChanges() {
     this.committees = Committee.getAll();
     this.updateAvailabilityTable();
-  }
+  }a
+
+onToggle():void{
+  console.debug("Clicked")
+}
 
   /**
  * Marks the member as selected and removes

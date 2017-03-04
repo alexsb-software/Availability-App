@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { SingletonServicesModule } from './singleton-services/singleton-services.module';
+import { MainV2Module } from './main-v2/main-v2.module';
 
 import { AppComponent } from './app.component';
 import { ShiftEditor } from './new-event-form-src/shift-editor-form/shift-editor-form.component';
@@ -45,7 +46,8 @@ import { AuthGuard } from './auth-guard';
 import { RemovePrRnpPipe } from './applogic-general/remove-pr-rnp.pipe';
 import { ExcelInterfaceComponent } from './excel-interface/excel-interface.component';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
-import { MemberAssignmentComponent } from './member-assignment/member-assignment.component';
+
+import { HomeComponent } from './main-v2/home/home.component';
 
 @NgModule({
   declarations: [
@@ -76,12 +78,14 @@ import { MemberAssignmentComponent } from './member-assignment/member-assignment
     GetCommitteePipe,
     RemovePrRnpPipe,
     ExcelInterfaceComponent,
-    MemberAssignmentComponent
+    //MemberAssignmentComponent
+    ExcelInterfaceComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    MainV2Module,
     MyDatePickerModule,
     SingletonServicesModule,
     FileUploadModule,
@@ -92,17 +96,20 @@ import { MemberAssignmentComponent } from './member-assignment/member-assignment
     TypeaheadModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot([
-      { path: 'login', component: UserLoginComponent },
-      { path: 'session', component: SessoinMemberInputComponent },
-      { path: 'comm', component: CommitteeMembersComponent },
-      { path: 'aval', component: UserAvalComponent },
-      { path: 'event/new', component: NewEventComponent},
-      { path: 'member', component: MemberViewComponent },
-      { path: 'day/:id', component: DayAssignmentComponent },
-      { path: 'print', component: PrintComponent },
-      { path: 'excel', component: ExcelInterfaceComponent },
-      { path: '', component: AvialabilityRootComponent },
-      { path: '**', component: AppComponent }
+      // { path: 'login', component: UserLoginComponent },
+      // { path: 'session', component: SessoinMemberInputComponent },
+      // { path: 'comm', component: CommitteeMembersComponent },
+      // { path: 'aval', component: UserAvalComponent },
+      // { path: 'event/new', component: NewEventComponent },
+      // { path: 'member', component: MemberViewComponent },
+      // { path: 'print', component: PrintComponent },
+      // { path: 'day/:id', component: DayAssignmentComponent },
+      // { path: 'main', component: AvialabilityRootComponent },
+
+      // { path: 'excel', component: ExcelInterfaceComponent },
+      { path: 'home', component: HomeComponent, pathMatch: 'prefix'},
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      // { path: '**', redirectTo: 'home', pathMatch: 'full' }
     ])
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }, UserAuthService, AuthGuard],

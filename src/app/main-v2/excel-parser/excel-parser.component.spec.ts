@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TimePickerComponent } from './time-picker.component';
+import { ExcelParserComponent } from './excel-parser.component';
 
-describe('TimePickerComponent', () => {
-  let component: TimePickerComponent;
-  let fixture: ComponentFixture<TimePickerComponent>;
+describe('ExcelParserComponent', () => {
+  let component: ExcelParserComponent;
+  let fixture: ComponentFixture<ExcelParserComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimePickerComponent ]
+      declarations: [ ExcelParserComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimePickerComponent);
+    fixture = TestBed.createComponent(ExcelParserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

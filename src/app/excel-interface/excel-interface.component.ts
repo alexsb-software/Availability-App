@@ -5,7 +5,10 @@ import { utils, IWorkBook, IWorkSheet, IWorkSheetCell, IUtils } from 'ts-xlsx';
 import { EventShift } from '../applogic-general/event-shift';
 import { Member } from '../applogic-general/member';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import 'rxjs/Rx' ;
 import { StateSaverService } from '../singleton-services/state-saver.service';
+import { saveAs } from 'file-saver';
+
 
 // const URL = '/api/';
 //const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
@@ -52,8 +55,8 @@ export class ExcelInterfaceComponent implements OnInit {
           let arr = this.fixdata(data);
           workbook = XLSX.read(btoa(arr), { type: 'base64' });
         }
-        // console.log("Printing workbook")
-        // console.log(workbook);
+        console.log("Printing workbook")
+        console.log(workbook);
         this.parseFile(workbook);
 
       };
@@ -142,6 +145,7 @@ export class ExcelInterfaceComponent implements OnInit {
     result.number = parseInt(parts[1]) - 1;
     return result;
   }
+
 }
 
 

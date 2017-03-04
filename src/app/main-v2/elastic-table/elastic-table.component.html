@@ -1,0 +1,132 @@
+<ng-container *ngIf="showEmptyMessage && items.length===0">
+  <p>No elements are available at the moment
+  </p>
+</ng-container>
+
+<!--
+  Move the ngIf outside the loop for performance
+  -->
+
+<ng-container *ngIf="items.length || !showEmptyMessage">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+
+        <!--Show the # of each element-->
+        <ng-container *ngIf="showIndex">
+          <th>#</th>
+        </ng-container>
+
+        <!--loop on properties names-->
+        <ng-container *ngIf="properties?.length>0 && !propertyDisplayNames">
+          <th *ngFor="let prop of properties">{{prop}}</th>
+        </ng-container>
+
+        <!--If property names were supplied, 
+      display them-->
+        <ng-container *ngIf="properties?.length>0 && propertyDisplayNames?.length>0">
+          <th *ngFor="let prop of propertyDisplayNames">{{prop}}</th>
+        </ng-container>
+
+
+        <!--Showing value of the whole object
+       instead of properties-->
+        <ng-container *ngIf="!properties || properties.length === 0">
+          <th>Value</th>
+        </ng-container>
+
+        <ng-container *ngIf="canRemove">
+          <th>{{removeHeaderText}}</th>
+        </ng-container>
+        <ng-container *ngIf="enableClickCallback">
+          <th>{{selectHeaderText}}</th>
+        </ng-container>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items;let i=index">
+
+        <!--Print the item's index-->
+        <ng-container *ngIf="showIndex">
+          <td>{{i+1}}</td>
+        </ng-container>
+
+        <!--
+        The user provided no properties, if the pipe
+        is valid, transform the object using it and
+        the arguments, 
+        
+        Otherwise, print the object
+
+        No properties to transform, if a pipe is
+        propvided, then the user surely wants to 
+        convert the object with the pipe
+        -->
+        <ng-container *ngIf="!properties || properties.length==0">
+          <td>
+            <!--
+              Transform this item if a pipe is provided
+              otherwise just print its value
+            -->
+            {{pipe?pipe.transform(item,pipeArgs):item}}
+          </td>
+        </ng-container>
+
+        <!--
+          Properties are provided, it's obvious that
+          the user wants to transform them (otherwise it's 
+          easier to pass empty properties)
+          We loop through the properties and transform
+          them using the pipe
+        -->
+        <ng-container *ngIf="properties && properties.length>0">
+          <td *ngFor="let prop of properties;let j=index">
+
+            <!--
+              Select properties to transform using applyPipeProps
+              array.
+            -->
+            <ng-container *ngIf="applyPipeProps">
+              <ng-container *ngIf="applyPipeProps[j]">
+                <!--{{ pipe?
+                pipe.transform(item[prop],pipeArgs):item[prop]}}-->
+                {{ pipe? pipe.transform(eval(item,prop),pipeArgs):eval(item,prop)}}
+
+              </ng-container>
+              <ng-container *ngIf="!applyPipeProps[j]">
+                <!--{{ item[prop]
+                }}-->
+
+                {{ eval(item,prop)}}
+              </ng-container>
+            </ng-container>
+
+            <!--Transform all properties if a pipe is provided-->
+            <ng-container *ngIf="!applyPipeProps ||applyPipeProps.length===0">
+              <!--{{ pipe?
+              pipe.transform(item[prop],pipeArgs):item[prop]}}-->
+              {{ pipe? pipe.transform(eval(item,prop),pipeArgs):eval(item,prop)}}
+
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!--Attach the select button-->
+        <td *ngIf="enableClickCallback">
+          <button (click)="callback(item,i)" class="btn btn-default">
+            <span class="glyphicon glyphicon-ok green-c" aria-hidden="true"></span>
+          </button>
+        </td>
+
+        <!--Attach the remove button-->
+        <td *ngIf="canRemove">
+          <button (click)="removeItem(item,i)" class="btn btn-default">
+            <span class="glyphicon glyphicon-remove red-c" aria-hidden="true"></span>
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
