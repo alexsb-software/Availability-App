@@ -31,6 +31,7 @@ export class ExcelParserComponent implements OnInit {
   ngOnInit() {
     this.setHandler();
     this.dayShifts = Array(this.dayCount).fill(1);
+    this.changeDayCount(1);
   }
 
   changeDayCount(amount: number) {
