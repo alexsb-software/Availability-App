@@ -118,12 +118,12 @@
   <div id="member-select view" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ng-container *ngIf="this.publicRelMembers && this.publicRelMembers.length >0">
+        <ng-container *ngIf="availablePublicRelMembers">
           <accordion>
-            <app-committee-members [SelectedMembers]="getSelectedMembersOfCommittee('PR')"
-                                   [FreeMembers]="getMembersOfCommittee('PR')" [CommitteeName]="'Public Relations'"
+            <app-committee-members [SelectedMembers]="busyPublicRelMembers"
+                                   [FreeMembers]="availablePublicRelMembers" [CommitteeName]="'Public Relations'"
                                    (MemberSelected)="markMember('PR',$event)"
-                                   (MemberReleased)="unmarkMember($event)"></app-committee-members>
+                                   (MemberReleased)="unmarkMember('PR',$event)"></app-committee-members>
           </accordion>
         </ng-container>
       </div>
@@ -131,12 +131,12 @@
 
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ng-container *ngIf="this.reportingsMembers && this.reportingsMembers.length >0">
+        <ng-container *ngIf="availableReportingMembers">
           <accordion>
-            <app-committee-members [SelectedMembers]="getSelectedMembersOfCommittee('R&P')"
-                                   [FreeMembers]="getMembersOfCommittee('R&P')" [CommitteeName]="'Reporting'"
+            <app-committee-members [SelectedMembers]="busyReportingMembers"
+                                   [FreeMembers]="availableReportingMembers" [CommitteeName]="'Reporting'"
                                    (MemberSelected)="markMember('R&P',$event)"
-                                   (MemberReleased)="unmarkMember($event)"></app-committee-members>
+                                   (MemberReleased)="unmarkMember('R&P',$event)"></app-committee-members>
           </accordion>
         </ng-container>
       </div>
@@ -153,7 +153,7 @@
       <accordion-group #group>
         <div accordion-heading>
           <strong>
-            {{this.sessionService.sessions.length}} Session{{this.sessionService.sessions.length!=1?"s ":" "}} </strong>
+            {{sessionService.sessions.length}} Session{{sessionService.sessions.length!=1?"s ":" "}} </strong>
           <i class="pull-right float-xs-right glyphicon "
              [ngClass]="{ 'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen} "></i>
         </div>
@@ -161,11 +161,11 @@
           <elastic-table [selectHeaderText]="'Edit'" [removeHeaderText]=" 'Delete' " [applyPipeProps]="[0,0,0,1,1,0,0] "
                          [pipe]="pipe" [pipeArgs]="['shortTime']"
                          [showIndex]="false"
-                         [enableClickCallback]="false" [canRemove]="true"
-                         [items]="this.sessionService.sessions "
+                         [canRemove]="true"
+                         [items]="sessionService.sessions "
                          [properties]='["name ","dayIndex+1","shiftIndex+1","startDate ","endDate ","publicRelationsMember.name","reportingMember.name "]'
                          [propertyDisplayNames]="[ 'Name','Day','Shift' ,'Start', 'End', 'PR', 'R&P'] "
-                         (itemClicked)="loadSession($event) " (itemRemoved)="deleteSession($event) "></elastic-table>
+                         (itemRemoved)="deleteSession($event) "></elastic-table>
         </ng-container>
 
       </accordion-group>

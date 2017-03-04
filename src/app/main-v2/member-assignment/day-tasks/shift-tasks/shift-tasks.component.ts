@@ -27,20 +27,16 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private dayService: DayInfoHolderService,
-              private memberService: MemberInfoHolderService,) {
+              private memberService: MemberInfoHolderService) {
 
   }
 
   dayIndex: number;
   members: Member[] = [];
   subscription: Subscription;
-  selectedMembers: Member[] = [];
   shiftIndex: number;
 
   ngOnInit() {
-    //this.route.parent.params.switchMap(p => this.dayIndex = p['id']).subscribe();
-
     this.route.params.subscribe(p => {
       this.shiftIndex = p['id'];
       this.dayIndex = p['dayIndex']
@@ -56,6 +52,14 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
         temp = this.shiftIndex;
         this.shiftIndex = parseInt(temp);
         this.members = Filters.byShift(this.memberService.members, this.dayIndex, this.shiftIndex);
+
+        // Redirect in case that members are undefined/of length 0
+        try {
+          if (this.members.length === 0) this.router.navigateByUrl('home');
+        } catch (error) {
+          this.router.navigateByUrl('home');
+        }
+
       }
     });
   }
@@ -84,10 +88,11 @@ export class ShiftTasksComponent implements OnInit, OnDestroy {
   }
 
   releaseMember(e: Member): void {
-    // Check if the member is assigned at a sessoin
-    let assigned: boolean = this.memberService.isAssignedAtSessionOnly(this.dayIndex, this.shiftIndex, e);
-    if (assigned) {
-      // TODO show error`
+    // Check if the member is assigned at a session
+    if (this.memberService
+        .isAssignedAtSessionOnly(this.dayIndex,
+          this.shiftIndex, e)) {
+      // TODO show error
       alert("Member is reserved at a session at the same time, delete the session if you want to release the member");
       return;
     }

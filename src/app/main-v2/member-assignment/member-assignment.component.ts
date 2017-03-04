@@ -29,7 +29,9 @@ export class MemberAssignmentComponent implements OnInit, OnDestroy {
         this.dayShifts = this.dayService.dayShifts;
 
         this.members = this.memberService.members;
-        if (this.members.length === 0) { this.isEmpty = true; return; }
+        if (this.members.length === 0) {
+          this.isEmpty = true; return;
+        }
         this.isEmpty = false;
       }
     });

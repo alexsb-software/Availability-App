@@ -6,8 +6,8 @@ export class Session {
   endDate: Date;
   reportingMember: Member;
   publicRelationsMember: Member;
-  shiftIndex: number;
-  dayIndex: number;
+  shiftIndex: number = 0;
+  dayIndex: number = 0;
 
   private static validateTime(startDate: Date, endDate: Date): boolean {
 

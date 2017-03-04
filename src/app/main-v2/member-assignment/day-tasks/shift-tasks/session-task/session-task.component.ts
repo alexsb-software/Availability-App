@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {DatePipe} from '@angular/common';
-import {Router, NavigationStart} from '@angular/router';
+import {Router, NavigationStart, NavigationEnd} from '@angular/router';
 
 import {fallIn} from '../../../../../animation/animation';
 import {Session} from '../../../../logic/session';
@@ -12,6 +12,7 @@ import {MemberInfoHolderService} from '../../../../app-services/member-info-hold
 import {ArrayItemEventArgs} from '../../../../elastic-table/elastic-table.component';
 import {Filters} from '../../../../logic/filters';
 import {Committee, CommitteeEnum} from '../../../../logic/committee';
+import {tryCatch} from "rxjs/util/tryCatch";
 
 @Component({
   selector: 'app-session-task',
@@ -28,8 +29,12 @@ export class SessionTaskComponent implements OnInit {
   session: Session = new Session();
   error: number = 0;
   errDetails: String;
-  publicRelMembers: Member[];
-  reportingsMembers: Member[];
+
+  availablePublicRelMembers: Member[] = [];
+  availableReportingMembers: Member[] = [];
+
+  busyPublicRelMembers: Member[] = [];
+  busyReportingMembers: Member[] = [];
 
   constructor(private sessionService: SessionHolderService,
               private dayService: DayInfoHolderService,
@@ -41,21 +46,29 @@ export class SessionTaskComponent implements OnInit {
     // check if a session wasn't saved
     // when leaving the page, or free the members of
     // the non saved sessions
+
     this.router.events.subscribe(e => {
-      if (e instanceof NavigationStart === false) return;
-      this.resetModel();
+
+      if (e instanceof NavigationEnd) {
+        this.resetModel();
+        this.updateMemberLists(this.session.dayIndex, this.session.shiftIndex);
+
+        console.debug("Load members");
+      }
+
+    });
+
+    this.memberService.memberAssignmentChanged.subscribe(() => {
+      this.updateMemberLists(this.session.dayIndex, this.session.shiftIndex);
     });
 
     this.resetModel();
-
-    this.memberService.memberAssignmentChanged.subscribe((mem: Member) => {
-
-    });
+    this.updateMemberLists(this.session.dayIndex, this.session.shiftIndex);
   }
 
   addSession(): void {
 
-    // Validate sessoin name
+    // Validate session name
     if (!this.session.name || this.session.name.length === 0) {
       this.errDetails = "Session name is required"
       this.error = 2;
@@ -78,13 +91,15 @@ export class SessionTaskComponent implements OnInit {
 
     let prMember = this.session.publicRelationsMember;
     let reportingMember = this.session.reportingMember;
+    let sessionDayIndex = this.session.dayIndex;
+    let sessionShiftIndex = this.session.shiftIndex;
 
     prMember.reserve(
-      this.session.dayIndex, this.session.shiftIndex,
+      sessionDayIndex, sessionShiftIndex,
       Committee.getCommittee(CommitteeEnum.PublicRelations));
 
     reportingMember.reserve(
-      this.session.dayIndex, this.session.shiftIndex,
+      sessionDayIndex, sessionShiftIndex,
       Committee.getCommittee(CommitteeEnum.Reporting));
 
     // Notify other components
@@ -95,15 +110,8 @@ export class SessionTaskComponent implements OnInit {
     console.debug("Session", this.session, this.sessionService);
 
     // Reset the state based on the last session
-    this.resetModel(this.session.endDate, this.session.dayIndex, this.session.shiftIndex);
-  }
-
-
-  loadSession(e: ArrayItemEventArgs): void {
-
-    // Reset the state
-    this.session = new Session();
-    this.session = e.object;
+    this.resetModel(this.session.endDate, sessionShiftIndex, this.session.shiftIndex);
+    this.updateMemberLists(sessionDayIndex, sessionShiftIndex);
   }
 
   deleteSession(e: ArrayItemEventArgs): void {
@@ -121,8 +129,8 @@ export class SessionTaskComponent implements OnInit {
     // The release function is originally waiting an
     // object from the table
 
-    this.unmarkMember(session.reportingMember);
-    this.unmarkMember(session.publicRelationsMember);
+    this.unmarkMember('R&P', session.reportingMember);
+    this.unmarkMember('PR', session.publicRelationsMember);
   }
 
   /**
@@ -134,13 +142,12 @@ export class SessionTaskComponent implements OnInit {
    */
   markMember(commName: string, mem: Member): void {
 
-
     // The member may be in both R&P and PR, don't select them
     // twice
 
     // If the object is undefined, do nothing
     // The object type is always undefined, I can't Test
-    // if the reference is empty
+    // if the reference is empty so a try-catch statement is used
     try {
       if (this.session.reportingMember.isEqualTo(mem)) {
         alert("this member is being re-assigned -reportings-");
@@ -155,7 +162,6 @@ export class SessionTaskComponent implements OnInit {
         alert("this member is being re-assigned -public relations-");
         return;
       }
-      console.log(this.session.publicRelationsMember, mem);
     } catch (error) {
     }
 
@@ -164,32 +170,9 @@ export class SessionTaskComponent implements OnInit {
     if (commName === "PR") {
       this.session.publicRelationsMember = mem;
     }
-    if (commName === "R&P") {
+    else if (commName === "R&P") {
       this.session.reportingMember = mem;
     }
-    console.debug("Session info", this.session);
-
-  }
-
-  /**
-   * Called from HTML as a click handler of the remove button in
-   * assigned member table in app-committee-view
-   * @param mem Member from the committee component
-   */
-  unmarkMember(mem: Member): void {
-    // TODO this might be implemented later,
-    // in case someone wants to add the ability to delete the already assigned
-    // session members after the session itself is saved, anyway they must keep
-    // the "session" object in a valid state
-
-    // // Don't remove a member that was assigned in a session and saved
-    // if (this.memberService.isAssignedAtShiftOnly(this.session.dayIndex,
-    //     this.session.shiftIndex, mem)) {
-    //   alert("Member is reserved at a session at the same time, delete/modify the session");
-    //   return;
-    // }
-    // mem.release(this.session.dayIndex, this.session.shiftIndex);
-    // this.memberService.memberAssignmentChanged.emit(mem);
   }
 
   /**
@@ -201,7 +184,7 @@ export class SessionTaskComponent implements OnInit {
    * @param lastSessionShiftIndex Index of last session's shift
    */
   resetModel(lastSessionEndTime: Date = new Date("1/1/2000"),
-             lastSessionDayIndex: number = -1, lastSessionShiftIndex: number = -1) {
+             lastSessionDayIndex: number = 0, lastSessionShiftIndex: number = 0) {
 
     this.session = new Session();
     this.session.startDate = lastSessionEndTime;
@@ -210,6 +193,48 @@ export class SessionTaskComponent implements OnInit {
     this.session.shiftIndex = lastSessionShiftIndex;
 
     this.error = 0;
+  }
+
+  /**
+   * Updates the lists containing members
+   */
+  updateMemberLists(dayIndex: number, shiftIndex: number): void {
+    this.updateBusyMembersList(dayIndex, shiftIndex);
+    this.updateFreeMembersList(dayIndex, shiftIndex);
+  }
+
+  updateBusyMembersList(dayIndex: number, shiftIndex: number): void {
+
+    let shiftMembers: Member[] = Filters.byShift(this.memberService.members,
+      dayIndex, shiftIndex);
+    let prComm: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
+    let reportingComm: string = Committee.getCommittee(CommitteeEnum.Reporting);
+
+    this.busyPublicRelMembers =
+      Filters.selectedOnlyByCommittee(shiftMembers,
+        dayIndex, shiftIndex, prComm);
+
+    this.busyReportingMembers =
+      Filters.selectedOnlyByCommittee(shiftMembers,
+        dayIndex, shiftIndex, reportingComm);
+  }
+
+  updateFreeMembersList(dayIndex: number, shiftIndex: number): void {
+    let shiftMembers: Member[] =
+      Filters.byShift(this.memberService.members,
+        dayIndex, shiftIndex);
+
+    let prComm: string = Committee.getCommittee(CommitteeEnum.PublicRelations);
+    let reportingComm: string = Committee.getCommittee(CommitteeEnum.Reporting);
+
+    let freeShiftMembers: Member[] =
+      Filters.freeOnly(shiftMembers, dayIndex, shiftIndex);
+
+    this.availablePublicRelMembers =
+      Filters.byCommittee(freeShiftMembers, prComm);
+
+    this.availableReportingMembers =
+      Filters.byCommittee(freeShiftMembers, reportingComm);
   }
 
   /**
@@ -247,41 +272,51 @@ export class SessionTaskComponent implements OnInit {
     // Load public relations and R&P members
     let shiftMembers: Member[] = Filters.byShift(this.memberService.members, this.session.dayIndex, this.session.shiftIndex);
 
-    this.publicRelMembers = Filters.byCommittee(shiftMembers, Committee.getCommittee(CommitteeEnum.PublicRelations));
-    this.reportingsMembers = Filters.byCommittee(shiftMembers, Committee.getCommittee(CommitteeEnum.Reporting));
+    this.availablePublicRelMembers = Filters.byCommittee(shiftMembers, Committee.getCommittee(CommitteeEnum.PublicRelations));
+    this.availableReportingMembers = Filters.byCommittee(shiftMembers, Committee.getCommittee(CommitteeEnum.Reporting));
   }
 
   /**
-   * Populates the member tables in the HTML
-   * @param commName Name of the committee
+   * Called from HTML as a click handler of the remove button in
+   * assigned member table in app-committee-view, removes
+   * the member from the currently edited session
+   * and when deleting a session
+   *
+   * @param comm Name of committee
+   * @param mem Member from the committee component
    */
-  getMembersOfCommittee(commName: string): Member[] {
-    let members: Member[];
-    if (commName === "PR") {
-      members = this.publicRelMembers;
+  unmarkMember(comm: string, mem: Member): void {
+
+    // Attempt to remove the member from the session currently
+    // being edited
+
+    if (comm === 'PR') {
+      try {
+        if (mem.isEqualTo(this.session.publicRelationsMember)) {
+          this.session.publicRelationsMember = null;
+        }
+      } catch (e) {
+      }
     }
-    if (commName === "R&P") {
-      members = this.reportingsMembers;
+
+    if (comm === 'R&P') {
+      try {
+        if (mem.isEqualTo(this.session.reportingMember)) {
+          this.session.reportingMember = null;
+        }
+      } catch (e) {
+      }
     }
-    return Filters.freeOnly(members, this.session.dayIndex, this.session.shiftIndex);
+
+    // Remove the member assigned by a session that will be deleted
+    // Don't remove a member that was assigned in a previously saved session
+    if (this.memberService.isAssignedAtShiftOnly(this.session.dayIndex,
+        this.session.shiftIndex, mem)) {
+      alert("Member is reserved at a shift, modify shift assignment");
+      return;
+    }
+    mem.release(this.session.dayIndex, this.session.shiftIndex);
+    this.memberService.memberAssignmentChanged.emit(mem);
   }
 
-  /**
-   * Populates the reserved table of members in the HTML
-   * @param commName Name of the Committee
-   */
-  getSelectedMembersOfCommittee(commName: string): Member[] {
-    let members: Member[];
-
-    if (commName === "PR") {
-      commName = Committee.getCommittee(CommitteeEnum.PublicRelations);
-      members = this.publicRelMembers;
-    }
-    if (commName === "R&P") {
-      commName = Committee.getCommittee(CommitteeEnum.Reporting);
-      members = this.reportingsMembers;
-    }
-
-    return Filters.selectedOnlyByCommittee(members, this.session.dayIndex, this.session.shiftIndex, commName);
-  }
 }

@@ -1,20 +1,20 @@
-import { Component, Input, DoCheck, Output, EventEmitter, OnInit } from '@angular/core';
-import { ChangeDetectionStrategy } from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {ChangeDetectionStrategy} from '@angular/core';
 
-import { Member } from '../../../logic/member';
-import { ArrayItemEventArgs } from '../../../elastic-table/elastic-table.component';
+import {Member} from '../../../logic/member';
+import {ArrayItemEventArgs} from '../../../elastic-table/elastic-table.component';
 
 @Component({
   selector: 'app-committee-members',
   templateUrl: './committee-members.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommitteeMembersComponent implements DoCheck {
+export class CommitteeMembersComponent {
   @Input('FreeMembers') freeMembers: Member[] = [];
   @Input('SelectedMembers') selectedMembers: Member[] = [];
   @Input('CommitteeName') commName: string; // Used in HTML
 
-  /** 
+  /**
    * Trigger change detection using the event emitter
    */
   @Output('MemberSelected') onMemberSelect: EventEmitter<Member> = new EventEmitter<Member>();
@@ -29,9 +29,4 @@ export class CommitteeMembersComponent implements DoCheck {
     let releasedMember: Member = e.object;
     this.onMemberRelease.emit(releasedMember);
   }
-
-  ngDoCheck() {
-    console.debug("Check");
-  }
-
 }

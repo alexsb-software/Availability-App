@@ -12,13 +12,6 @@ import { saveAs } from 'file-saver';
 import * as XLSX from 'ts-xlsx';
 import { Md5 } from 'ts-md5/dist/md5';
 
-
-
-// const {Cu} = require("chrome");
-// To read & write content to file
-// const {TextDecoder, TextEncoder, OS} = Cu.import("resource://gre/modules/osfile.jsm", {});
-
-
 @Component({
   selector: 'app-excel-export',
   templateUrl: './excel-export.component.html',
@@ -41,7 +34,7 @@ export class ExcelExportComponent implements OnInit {
       if (e instanceof NavigationEnd) {
         this.allMembers = this.memberService.members;
 
-        if (this.allMembers.length === 0) {
+        if (this.allMembers.length === 0 || typeof this.allMembers === "undefined") {
           this.router.navigateByUrl('home');
         }
         // Reset search index values
@@ -49,22 +42,12 @@ export class ExcelExportComponent implements OnInit {
         // member lists
         this.lastSearchedDayIndex = -1;
         this.lastSearchedShiftIndex = -1;
-
-        if (typeof this.allMembers === "undefined") throw Error("No members are present");
-        //this.exportWorkbook();  // You really could add a button to call this function!!
       }
-      /**
-       * event emiiteer reload memebrs
-       */
-
     });
+  }
 
-
-
-    // this.dayService.memberAssignmentChanged.subscribe(() => {
-    //   console.debug("Members changed");
-    // });
-
+  export(): void {
+    this.exportWorkbook();
   }
 
   getCommittees(): string[] { return Committee.getAll(); }

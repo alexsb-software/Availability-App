@@ -1,3 +1,14 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h1>
+      Export view
+    </h1>
+    <button class="btn btn-default" (click)="export()">Export ExcelSheet</button>
+  </div>
+</div>
+
+
+
 <ng-container *ngIf="allMembers">
   <ng-container *ngFor="let _ of getEventDaysDetails();let i = index">
     <h2>Day {{i+1}}</h2>

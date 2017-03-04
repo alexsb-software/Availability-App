@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
-import { utils, IWorkBook, IWorkSheet, IWorkSheetCell, IUtils } from 'ts-xlsx';
-import { Member } from '../logic/member';
-import { Committee } from '../logic/committee';
-import { DayInfoHolderService } from '../app-services/day-info-holder.service';
-import { MemberInfoHolderService } from '../app-services/member-info-holder.service';
+import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upload/ng2-file-upload';
+import {utils, IWorkBook, IWorkSheet, IWorkSheetCell, IUtils} from 'ts-xlsx';
+import {Member} from '../logic/member';
+import {Committee} from '../logic/committee';
+import {DayInfoHolderService} from '../app-services/day-info-holder.service';
+import {MemberInfoHolderService} from '../app-services/member-info-holder.service';
 
 
 import * as XLSX from 'ts-xlsx';
@@ -20,17 +20,19 @@ export class ExcelParserComponent implements OnInit {
 
   workSheetContent: any[] = [];
   loading: boolean = false;
-  dayCount: number = 1; // Bind this with an ngFor to get shifts/day
+  dayCount: number = 0; // Bind this with an ngFor to get shifts/day
   members: Member[] = [];
   dayShifts: number[] = [];
 
   constructor(private dayService: DayInfoHolderService,
-    private memberService: MemberInfoHolderService) { }
+              private memberService: MemberInfoHolderService) {
+  }
 
   ngOnInit() {
     this.setHandler();
     this.dayShifts = Array(this.dayCount).fill(1);
   }
+
   changeDayCount(amount: number) {
     if (this.dayCount + amount < 0) return;
 
@@ -50,6 +52,7 @@ export class ExcelParserComponent implements OnInit {
       this.dayShifts.pop();
     }
   }
+
   changeShiftCount(dayIndex: number, amount: number): void {
     /**
      * Binding an input to ngModel dayShifts[i] didn't work correctly
@@ -68,7 +71,7 @@ export class ExcelParserComponent implements OnInit {
     this.uploader.onAfterAddingFile = (fileItem: any) => {
       this.reader.onload = (e: any) => {
         let arr = this.fixdata(e.target.result);
-        this.parseContent(XLSX.read(btoa(arr), { type: 'base64' }));
+        this.parseContent(XLSX.read(btoa(arr), {type: 'base64'}));
       };
       this.reader.readAsArrayBuffer(fileItem._file);
     };
@@ -134,7 +137,7 @@ export class ExcelParserComponent implements OnInit {
 
     let responses: IWorkSheet = workbook.Sheets[workbook.SheetNames[0]];
     let result: any[] = [];
-    let content: any = XLSX.utils.sheet_to_json(responses, { header: 1 });
+    let content: any = XLSX.utils.sheet_to_json(responses, {header: 1});
 
     for (let i: number = 0; true; i++) {
       //console.debug(content[i]);
