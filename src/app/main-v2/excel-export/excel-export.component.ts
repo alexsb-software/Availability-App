@@ -137,7 +137,7 @@ export class ExcelExportComponent implements OnInit {
     let header = "";
     let numOfShifts = this.getEventShiftsOfDay(dayIndex).length;
     for (let i = 0; i < numOfShifts; i++) {
-      header += "Shift " + i + ",";
+      header += "Shift " + (i + 1) + ",";
     }
     header = header.slice(0, -1); // slice the last ','
     csv += header; // add the header to the csv file 
