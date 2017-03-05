@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { EventDataService } from './events/eventdata.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [EventDataService]
+  styleUrls: ['./app.component.css']
 })
 
 export class AppComponent {
