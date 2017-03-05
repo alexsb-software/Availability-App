@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs/Rx';
 
 import { DayInfoHolderService } from '../app-services/day-info-holder.service';
 import { MemberInfoHolderService } from '../app-services/member-info-holder.service';
+import { SessionHolderService } from '../app-services/session-holder.service';
+
 
 import { Member } from '../logic/member';
 import { Committee } from '../logic/committee';
@@ -24,7 +26,8 @@ export class ExcelExportComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private dayService: DayInfoHolderService,
-    private memberService: MemberInfoHolderService) {
+    private memberService: MemberInfoHolderService,
+    private sessionService: SessionHolderService) {
   }
 
   ngOnInit() {
@@ -197,9 +200,55 @@ export class ExcelExportComponent implements OnInit {
       
 
     });
+
+    
+    csv += this.getSessionCSV(dayIndex);
+    
     console.debug(csv);
 
     return csv;
+  }
+
+   getSessionCSV(dayIndex: number) : string {
+    let sessionsCSV = "";
+    let daySessions = this.sessionService.getDaySessions(dayIndex);
+    
+    if (!daySessions) return sessionsCSV;
+    
+    let sessionsCount = daySessions.length;
+    // sessionsCSV += "," // placeholder for the committee name
+
+    // add sessions names 
+    let header = "\n \n,";
+    let time = ",";
+    let reporting = "Reporting,";
+    let pr = "Public Relations,";
+
+    for (let i = 0; i < sessionsCount; i++) {
+      
+      header += daySessions[i].name + ",";
+      time += daySessions[i].startDate.getHours() + ":" + daySessions[i].startDate.getMinutes() +
+         " - " + daySessions[i].endDate.getHours() + ":" + daySessions[i].endDate.getMinutes() + ",";
+      reporting += daySessions[i].reportingMember.name + ",";
+      pr += daySessions[i].publicRelationsMember.name += ",";
+
+    }
+    
+    header = header.slice(0, -1);
+    header += "\n";
+    reporting = reporting.slice(0, -1);
+    reporting += "\n";
+    time = time.slice(0, -1);
+    time += "\n";
+    pr = pr.slice(0, -1);
+    pr += "\n";
+
+    sessionsCSV += header;
+    sessionsCSV += time;
+    sessionsCSV += reporting;
+    sessionsCSV += pr;
+
+    return sessionsCSV;
   }
 
 }
