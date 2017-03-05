@@ -1,4 +1,4 @@
-import { Component, Input, Output, SimpleChanges, OnChanges, EventEmitter } from '@angular/core';
+import { Component, PipeTransform, Input, Output, SimpleChanges, OnChanges, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -27,6 +27,12 @@ export class ElasticTableComponent implements OnChanges {
    * Names to use as table head to display properties
    */
   @Input() propertyDisplayNames: string[];
+
+  /**
+   * Optional pipe incase you want to transform     
+   * element display    
+   */   
+  @Input() pipe: PipeTransform;   
 
   /**
    * Arguments for the given pipe
@@ -97,17 +103,6 @@ export class ElasticTableComponent implements OnChanges {
        * We assmue that they want to transform all
        * the provided properties.
        */
-
-      // /**
-      //  * Deep binding
-      //  */
-      // for (let i: number = 0; i < this.properties.length; i++) {
-      //   // No '.' found
-      //   if (this.properties[i].indexOf('.') === -1) continue;
-
-      //   // This is a complex property
-
-      // }
     }
   }
 
