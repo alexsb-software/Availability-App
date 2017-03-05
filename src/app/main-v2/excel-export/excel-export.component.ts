@@ -107,10 +107,10 @@ export class ExcelExportComponent implements OnInit {
    */
   exportWorkbook(): void {
     let self = this;
+    // for each day generate csv file and download it
     this.getEventDaysDetails().forEach(function (value, index) {
       let fileName = "event-day-" + (index + 1) + "-value-" + index;
       let csv = self.getCSV(index);
-      // let csv = fileName;
       saveAs(new Blob([self.s2ab(csv)], { type: "application/octet-stream" }), fileName + ".csv");
     })
   }
@@ -141,26 +141,11 @@ export class ExcelExportComponent implements OnInit {
 
     // to satisfy the kings of js and their weird scope religion 
     let self = this;
-    let shiftNum = self.getEventShiftsOfDay(dayIndex).length;
+
+    // used for adding empty line at end of each committee
+    let shiftNum = self.getEventShiftsOfDay(dayIndex).length; 
 
     this.getCommittees().forEach(function (committeName, _) {
-
-      // add new line and the committe name for the new record 
-      // self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
-      //   csv += '\n ';
-      //   let first = true;
-      //   self.getAssignedCommitteeMembers(dayIndex, index, committeName).forEach(member => {
-      //     // to avoid writing the name of committee for each member
-      //     if (first) {
-      //       csv += committeName + ",";
-      //       first = !first;
-      //     } else {
-      //       csv += ',';
-      //     }
-
-      //     csv += member.name + '"';
-      //   })
-      // })
 
       // get the line count and number of members for this committe
       // for each shift
@@ -168,6 +153,7 @@ export class ExcelExportComponent implements OnInit {
       let shiftMemberCount: number[] = [];
       let shiftMembersArrays: Member[][] = [];
 
+      
       self.getEventShiftsOfDay(dayIndex).forEach(function (_, shiftIndex) {
         shiftMembersArrays[shiftIndex] = self.getAssignedCommitteeMembers(dayIndex, shiftIndex, committeName);
         shiftMemberCount[shiftIndex] = shiftMembersArrays[shiftIndex].length;
@@ -185,25 +171,34 @@ export class ExcelExportComponent implements OnInit {
           csv += ",";
         }
 
-        // self.getEventShiftsOfDay(dayIndex).forEach(function(_, index) {
+        // iterate over shiftMembersArrays each is array of member - hence the name -
         shiftMembersArrays.forEach(shiftMemberArray => {
+          // if shift has member at line i add it else leave empty (',')
           if (shiftMemberArray[i] !== undefined) {
             csv += shiftMemberArray[i].name + ",";
           } else {
             csv += ",";
           }
         })
-        // })
+      
 
       }
+
+      
+      // adding empty line at the end of the committe members if 
+      // there's members in this committe for this day
+      if (lineCount) {
+        csv += "\n";
+        for(let i = 0; i <= numOfShifts; i++) { 
+          csv += ","; 
+        }
+        csv += "\n";
+      }
+      
 
     });
     console.debug(csv);
 
-    // let encoder = new TextEncoder();                                   // This encoder can be reused for several writes
-    // let array = encoder.encode(csv);                   // Convert the text to an array
-    // let promise = OS.File.writeAtomic("file.txt", array,               // Write the array atomically to "file.txt", using as temporary
-    // {tmpPath: "file.txt.tmp"}); 
     return csv;
   }
 
