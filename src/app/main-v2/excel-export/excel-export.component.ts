@@ -210,7 +210,7 @@ export class ExcelExportComponent implements OnInit {
   }
 
    getSessionCSV(dayIndex: number) : string {
-    let sessionsCSV = "";
+    let sessionsCSV = "\n \nSessions, \n";
     let daySessions = this.sessionService.getDaySessions(dayIndex);
     
     if (!daySessions) return sessionsCSV;
@@ -219,36 +219,56 @@ export class ExcelExportComponent implements OnInit {
     // sessionsCSV += "," // placeholder for the committee name
 
     // add sessions names 
-    let header = "\n \n,";
-    let time = ",";
-    let reporting = "Reporting,";
-    let pr = "Public Relations,";
+    // let header = ",";
+    // let time = ",";
+    // let reporting = "Reporting,";
+    // let pr = "Public Relations,";
+
+    let header = ",Public Relations,Reporting and Publications \n"
+    let body = "";
 
     for (let i = 0; i < sessionsCount; i++) {
-      
-      header += daySessions[i].name + ",";
-      time += daySessions[i].startDate.getHours() + ":" + daySessions[i].startDate.getMinutes() +
-         " - " + daySessions[i].endDate.getHours() + ":" + daySessions[i].endDate.getMinutes() + ",";
-      reporting += daySessions[i].reportingMember.name + ",";
-      pr += daySessions[i].publicRelationsMember.name += ",";
+      body += daySessions[i].name + " (" + this.getTimeFormatted(daySessions[i].startDate) + " - " + 
+      this.getTimeFormatted(daySessions[i].endDate) + ")";
+      body += "," + daySessions[i].publicRelationsMember.name + "," +
+        daySessions[i].reportingMember.name + "\n";
+
+      // header += daySessions[i].name + ",";
+      // time += daySessions[i].startDate.getHours() + ":" + daySessions[i].startDate.getMinutes() +
+      //    " - " + daySessions[i].endDate.getHours() + ":" + daySessions[i].endDate.getMinutes() + ",";
+      // reporting += daySessions[i].reportingMember.name + ",";
+      // pr += daySessions[i].publicRelationsMember.name += ",";
 
     }
-    
-    header = header.slice(0, -1);
-    header += "\n";
-    reporting = reporting.slice(0, -1);
-    reporting += "\n";
-    time = time.slice(0, -1);
-    time += "\n";
-    pr = pr.slice(0, -1);
-    pr += "\n";
 
     sessionsCSV += header;
-    sessionsCSV += time;
-    sessionsCSV += reporting;
-    sessionsCSV += pr;
+    sessionsCSV += body;
+    
+    // header = header.slice(0, -1);
+    // header += "\n";
+    // reporting = reporting.slice(0, -1);
+    // reporting += "\n";
+    // time = time.slice(0, -1);
+    // time += "\n";
+    // pr = pr.slice(0, -1);
+    // pr += "\n";
+
+    // sessionsCSV += header;
+    // sessionsCSV += time;
+    // sessionsCSV += reporting;
+    // sessionsCSV += pr;
 
     return sessionsCSV;
+  }
+
+  getTimeFormatted(date: Date): string {
+    let hours = date.getHours();
+    let hoursString = hours.toString();
+    if (hours < 10) hoursString = "0" + hoursString;
+    let minutes = date.getMinutes();
+    let minutesString = minutes.toString();
+    if (minutes < 10) minutesString = "0" + minutesString;
+    return hoursString + ":" + minutesString;
   }
 
 }

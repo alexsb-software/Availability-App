@@ -93,6 +93,8 @@ export class SessionTaskComponent implements OnInit {
     let sessionDayIndex = this.session.dayIndex;
     let sessionShiftIndex = this.session.shiftIndex;
 
+    // TODO check if prMember and reportingMember are not selected 
+
     prMember.reserve(
       sessionDayIndex, sessionShiftIndex,
       Committee.getCommittee(CommitteeEnum.PublicRelations));
