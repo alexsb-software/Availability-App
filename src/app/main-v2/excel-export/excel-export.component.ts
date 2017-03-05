@@ -33,7 +33,6 @@ export class ExcelExportComponent implements OnInit {
   ngOnInit() {
     // Update te component for the first time
     this.router.events.subscribe(e => {
-      console.debug("Router ", e);
       if (e instanceof NavigationEnd) {
         this.allMembers = this.memberService.members;
 
@@ -204,8 +203,6 @@ export class ExcelExportComponent implements OnInit {
     
     csv += this.getSessionCSV(dayIndex);
     
-    console.debug(csv);
-
     return csv;
   }
 

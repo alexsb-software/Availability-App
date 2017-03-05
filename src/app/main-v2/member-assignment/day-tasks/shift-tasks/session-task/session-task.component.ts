@@ -107,9 +107,6 @@ export class SessionTaskComponent implements OnInit {
     this.memberService.memberAssignmentChanged.emit(prMember);
     this.memberService.memberAssignmentChanged.emit(reportingMember);
 
-
-    console.debug("Session", this.session, this.sessionService);
-
     // Reset the state based on the last session
     this.resetModel(this.session.endDate, sessionShiftIndex, this.session.shiftIndex);
     // this.updateMemberLists(sessionDayIndex, sessionShiftIndex);  // Check

@@ -30,8 +30,6 @@ export class DayInfoHolderService {
     return count;
   }
 
-
-
   public setShiftCount(dayIndex: any, shiftCount: number): void {
     dayIndex = parseInt(dayIndex);
     this.dayShiftsTable.set(dayIndex, shiftCount);

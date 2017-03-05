@@ -57,7 +57,6 @@ export class Filters {
    * Applies the isBusy() function on provided members
    */
   public static selectedInShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
-    console.assert(typeof members !== "undefined", "Members are un defined");
     /**
      * Filter returns an empty array when nothing is found
      */
@@ -68,8 +67,6 @@ export class Filters {
    * Applies the isBusyOnDay() function on provided members
    */
   public static selectedInDay(members: Member[], dayIndex: number): Member[] {
-    console.assert(typeof members !== "undefined", "Members are undefined");
-
     return members.filter(m => m.isBusyOnDay(dayIndex));
   }
 
@@ -92,7 +89,6 @@ export class Filters {
   public static selectedOnlyByCommittee(members: Member[],
                                         dayIndex: number, shiftIndex: number,
                                         commName: string): Member[] {
-    console.assert(typeof members !== "undefined", "Members are undefined");
     /**
      * Filter returns an empty array when nothing is found
      */

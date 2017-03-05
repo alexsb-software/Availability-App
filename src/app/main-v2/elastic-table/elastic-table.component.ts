@@ -1,4 +1,4 @@
-import { Component, PipeTransform, Input, Output, SimpleChanges, OnChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, SimpleChanges, OnChanges, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -28,11 +28,6 @@ export class ElasticTableComponent implements OnChanges {
    */
   @Input() propertyDisplayNames: string[];
 
-  /**
-   * Optional pipe incase you want to transform 
-   * element display
-   */
-  @Input() pipe: PipeTransform;
   /**
    * Arguments for the given pipe
    */
@@ -74,8 +69,6 @@ export class ElasticTableComponent implements OnChanges {
     }
 
     // changes.prop contains the old and the new value...
-    //console.debug("Changes");
-    //console.log(changes);
     if (this.properties && this.propertyDisplayNames) {
       if (this.properties.length != this.propertyDisplayNames.length) {
         throw new EvalError("[ng2-dynamic-table] Number of element in property display names isn't equal to number of properties");
@@ -158,7 +151,6 @@ export class ElasticTableComponent implements OnChanges {
     // then find this value using eval -- this is a bad practice
     // it'll stay here until a better solution is found
 
-    // console.log("item" + "." + prop);
     return eval("item" + "." + prop);
   }
 

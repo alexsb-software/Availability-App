@@ -141,7 +141,6 @@ export class ExcelParserComponent implements OnInit {
     let content: any = XLSX.utils.sheet_to_json(responses, {header: 1});
 
     for (let i: number = 0; true; i++) {
-      //console.debug(content[i]);
       result.push(content[i]);
 
       if (typeof content[i + 1] === "undefined") break;
