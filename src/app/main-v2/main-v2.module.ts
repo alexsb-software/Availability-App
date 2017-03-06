@@ -17,6 +17,8 @@ import {CommitteeMembersComponent} from './member-assignment/day-tasks/committee
 import {ShiftTasksComponent} from './member-assignment/day-tasks/shift-tasks/shift-tasks.component';
 import {SessionTaskComponent} from './member-assignment/day-tasks/shift-tasks/session-task/session-task.component';
 import {ExcelExportComponent} from './excel-export/excel-export.component';
+import {LoadComponent} from './load/load.component';
+import {SaveComponent} from './save/save.component';
 import {DataExistsGuard} from "./logic/data-exists-guard";
 
 @NgModule({
@@ -37,7 +39,9 @@ import {DataExistsGuard} from "./logic/data-exists-guard";
     CommitteeMembersComponent,
     ShiftTasksComponent,
     SessionTaskComponent,
-    ExcelExportComponent
+    ExcelExportComponent,
+    LoadComponent,
+    SaveComponent
   ],
   providers: [DataExistsGuard]
 })

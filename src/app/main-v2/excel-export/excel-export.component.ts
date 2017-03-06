@@ -63,7 +63,7 @@ export class ExcelExportComponent implements OnInit {
 
     if (dayIndex !== this.lastSearchedDayIndex) {
       /**
-       * Cache the slected members of this day
+       * Cache the selected members of this day
        */
       this.dayMembers = Filters.selectedInDay(this.allMembers, dayIndex);
       this.lastSearchedDayIndex = dayIndex;
@@ -182,10 +182,7 @@ export class ExcelExportComponent implements OnInit {
             csv += ",";
           }
         })
-      
-
       }
-
       
       // adding empty line at the end of the committe members if 
       // there's members in this committe for this day
@@ -196,8 +193,6 @@ export class ExcelExportComponent implements OnInit {
         }
         csv += "\n";
       }
-      
-
     });
 
     
@@ -213,14 +208,7 @@ export class ExcelExportComponent implements OnInit {
     if (!daySessions) return sessionsCSV;
     
     let sessionsCount = daySessions.length;
-    // sessionsCSV += "," // placeholder for the committee name
-
-    // add sessions names 
-    // let header = ",";
-    // let time = ",";
-    // let reporting = "Reporting,";
-    // let pr = "Public Relations,";
-
+    
     let header = ",Public Relations,Reporting and Publications \n"
     let body = "";
 
@@ -229,31 +217,10 @@ export class ExcelExportComponent implements OnInit {
       this.getTimeFormatted(daySessions[i].endDate) + ")";
       body += "," + daySessions[i].publicRelationsMember.name + "," +
         daySessions[i].reportingMember.name + "\n";
-
-      // header += daySessions[i].name + ",";
-      // time += daySessions[i].startDate.getHours() + ":" + daySessions[i].startDate.getMinutes() +
-      //    " - " + daySessions[i].endDate.getHours() + ":" + daySessions[i].endDate.getMinutes() + ",";
-      // reporting += daySessions[i].reportingMember.name + ",";
-      // pr += daySessions[i].publicRelationsMember.name += ",";
-
     }
 
     sessionsCSV += header;
     sessionsCSV += body;
-    
-    // header = header.slice(0, -1);
-    // header += "\n";
-    // reporting = reporting.slice(0, -1);
-    // reporting += "\n";
-    // time = time.slice(0, -1);
-    // time += "\n";
-    // pr = pr.slice(0, -1);
-    // pr += "\n";
-
-    // sessionsCSV += header;
-    // sessionsCSV += time;
-    // sessionsCSV += reporting;
-    // sessionsCSV += pr;
 
     return sessionsCSV;
   }
