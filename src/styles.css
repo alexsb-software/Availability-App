@@ -223,9 +223,9 @@
 body{
     font-family: "Roboto",sans-serif;
     font-weight:200;
-     background: url("assets/background.jpg") fixed;
-     background-size: cover;
-     color:#fff;
+    background: #fff;
+    background-size: cover;
+    color:#000;
 }
 .panel-default p,.panel-default h1,.panel-default h2,.panel-default h3,.panel-default h4,.panel-default h5,.panel-default h6,.panel-default a,.panel-default b,.panel-default strong,.panel-default li{
      color:#000;
@@ -276,20 +276,21 @@ input[type=text]:focus{
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 .btn.btn-default{
-    background: #26a69a;
+    background: #2196f3;
     transition: 0.3s;
 }
 .btn.btn-default:active{
-    background: #2ab7a9;
+    background: #2174D1;
     color:#fff;
 }
 
 .btn.btn-primary {
-    background: #2196f3;
+    background: #26a69a;
 }
 .btn.btn-success{
   background: #4caf50;
 }
+
 /************ alert ***************/
 
 
@@ -321,4 +322,44 @@ li.nav-item > a.nav-link{
 
 table{
   color:#000;
+}
+
+#back-logo{
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:500px;
+    z-index: -1;
+}
+
+#back-logo img{
+    width: 100%;
+}
+
+.divider {
+    height: 1px;
+    overflow: hidden;
+    background-color: #9d9d9d;
+    margin: 20px auto;
+}
+
+.margin10{
+    margin: 10px auto;
+}
+
+.box-block{
+    background: #eee;
+    margin: 10px auto;
+    padding: 15px;
+    -webkit-transition: box-shadow 0.25s;
+    transition: box-shadow 0.25s;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.box-block:hover{
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.center-block{
+    text-align: center;
 }
