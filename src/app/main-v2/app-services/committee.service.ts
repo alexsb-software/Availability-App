@@ -1,3 +1,4 @@
+import {Injectable} from '@angular/core';
 
 /**
  * Holds the committee names in an array that's 
@@ -18,19 +19,20 @@
  * Update: An enum is provided for the main committees
  * now, the Committee class MUST be compatible with enum/string usage
  */
-export class Committee {
+@Injectable()
+export class CommitteeService {
 
-    public static insertCommittee(com: string): void {
+    public  insertCommittee(com: string): void {
         // Cehck if this item already existed
-        if (Committee.committees.indexOf(com) !== -1)
+        if (this.committees.indexOf(com) !== -1)
             return;
 
         // Add it
         com = com.trim();
-        Committee.committees.push(com);
+        this.committees.push(com);
 
         // Keep the array sorted
-        Committee.committees.sort();
+        this.committees.sort();
     }
 
     /**
@@ -39,27 +41,27 @@ export class Committee {
      * The weird syntax is to provide function
      * overloads
      */
-    public static getCommittee(key: CommitteeEnum): string {
+    public  getCommittee(key: CommitteeEnum): string {
         /**
          * Don't use get byIndex, this converts the enum to a number
          * and use it to access the array, which is false
          */
-        return Committee.getCommByEnum(key);
+        return this.getCommByEnum(key);
     }
 
-    private static getCommByEnum(key: CommitteeEnum): string {
+    private  getCommByEnum(key: CommitteeEnum): string {
         // TODO apply fuzzy string matching
 
         // if committee name is 2 words, just use the first word
 
         let firstWord: string = CommitteeEnum[key].split(" ")[0];
-        return Committee.getCommByKeyword(firstWord);
+        return this.getCommByKeyword(firstWord);
     }
 
     /**
      * Finds a committee by a search string
      */
-    private static getCommByKeyword(key: string): string {
+    private  getCommByKeyword(key: string): string {
 
         // Match with pascal cased words from the enum
         let regexMatchOnKey: RegExpMatchArray = key.match(/([A-Z][a-z0-9]+)/);
@@ -71,7 +73,7 @@ export class Committee {
         // Make the key lower case for comparison
         let searchKey: string = regexMatchOnKey[0].toLowerCase();
 
-        let result: string = Committee.committees.find(s =>
+        let result: string = this.committees.find(s =>
             s.toLowerCase().includes(searchKey));
 
         if (result) return result;
@@ -81,19 +83,19 @@ export class Committee {
     /**
      * Returns all the Committees
      */
-    public static getAll(): string[] {
-        return Object.assign(Committee.committees);
+    public  getAll(): string[] {
+        return Object.assign(this.committees);
     }
 
-    public static clearAll(): void {
-        Committee.committees = [];
+    public  clearAll(): void {
+        this.committees = [];
     }
 
-    public static commLength(): number {
-        return Committee.committees.length;
+    public  commLength(): number {
+        return this.committees.length;
     }
 
-    private static committees: string[] =
+    private  committees: string[] =
     [
         /**
          * Other committes should be added from the form 

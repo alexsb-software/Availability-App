@@ -15,7 +15,7 @@ export const APP_ROUTES: Routes = [
   {
     path: 'memberassignment',
     component: MemberAssignmentComponent,
-    canActivate: [DataExistsGuard]
+    //canActivate: [DataExistsGuard]
   },
   {
     path: 'shift/:dayIndex/:id',

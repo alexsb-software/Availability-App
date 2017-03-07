@@ -8,7 +8,7 @@ import { SessionHolderService } from '../app-services/session-holder.service';
 
 
 import { Member } from '../logic/member';
-import { Committee } from '../logic/committee';
+import { CommitteeService } from '../app-services/committee.service';
 import { Filters } from '../logic/filters';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'ts-xlsx';
@@ -27,6 +27,7 @@ export class ExcelExportComponent implements OnInit {
     private route: ActivatedRoute,
     private dayService: DayInfoHolderService,
     private memberService: MemberInfoHolderService,
+    private committeeService: CommitteeService,
     private sessionService: SessionHolderService) {
   }
 
@@ -52,7 +53,7 @@ export class ExcelExportComponent implements OnInit {
     this.exportWorkbook();
   }
 
-  getCommittees(): string[] { return Committee.getAll(); }
+  getCommittees(): string[] { return this.committeeService.getAll(); }
 
   shiftMembers: Member[];
   dayMembers: Member[];
@@ -145,7 +146,7 @@ export class ExcelExportComponent implements OnInit {
     let self = this;
 
     // used for adding empty line at end of each committee
-    let shiftNum = self.getEventShiftsOfDay(dayIndex).length; 
+    let shiftNum = self.getEventShiftsOfDay(dayIndex).length;
 
     this.getCommittees().forEach(function (committeName, _) {
 
@@ -155,7 +156,7 @@ export class ExcelExportComponent implements OnInit {
       let shiftMemberCount: number[] = [];
       let shiftMembersArrays: Member[][] = [];
 
-      
+
       self.getEventShiftsOfDay(dayIndex).forEach(function (_, shiftIndex) {
         shiftMembersArrays[shiftIndex] = self.getAssignedCommitteeMembers(dayIndex, shiftIndex, committeName);
         shiftMemberCount[shiftIndex] = shiftMembersArrays[shiftIndex].length;
@@ -183,38 +184,38 @@ export class ExcelExportComponent implements OnInit {
           }
         })
       }
-      
+
       // adding empty line at the end of the committe members if 
       // there's members in this committe for this day
       if (lineCount) {
         csv += "\n";
-        for(let i = 0; i <= numOfShifts; i++) { 
-          csv += ","; 
+        for (let i = 0; i <= numOfShifts; i++) {
+          csv += ",";
         }
         csv += "\n";
       }
     });
 
-    
+
     csv += this.getSessionCSV(dayIndex);
-    
+
     return csv;
   }
 
-   getSessionCSV(dayIndex: number) : string {
+  getSessionCSV(dayIndex: number): string {
     let sessionsCSV = "\n \nSessions, \n";
     let daySessions = this.sessionService.getDaySessions(dayIndex);
-    
+
     if (!daySessions) return sessionsCSV;
-    
+
     let sessionsCount = daySessions.length;
-    
+
     let header = ",Public Relations,Reporting and Publications \n"
     let body = "";
 
     for (let i = 0; i < sessionsCount; i++) {
-      body += daySessions[i].name + " (" + this.getTimeFormatted(daySessions[i].startDate) + " - " + 
-      this.getTimeFormatted(daySessions[i].endDate) + ")";
+      body += daySessions[i].name + " (" + this.getTimeFormatted(daySessions[i].startDate) + " - " +
+        this.getTimeFormatted(daySessions[i].endDate) + ")";
       body += "," + daySessions[i].publicRelationsMember.name + "," +
         daySessions[i].reportingMember.name + "\n";
     }

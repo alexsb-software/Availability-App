@@ -39,7 +39,7 @@ export class LoadComponent implements OnInit {
         this.sessionService = this.retrocycle(parsed[1]);
         // console.debug(this.sessionService.sessionsChanged);
 
-        this.memberService = this.retrocycle(parsed[0]);
+        this.memberService.members = this.retrocycle(parsed[0]).members;
         // console.debug(members);
 
         this.router.navigateByUrl('/memberassignment');

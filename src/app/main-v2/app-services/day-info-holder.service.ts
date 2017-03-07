@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Filters } from '../logic/filters';
-import { Committee } from '../logic/committee';
+import { CommitteeService } from '../app-services/committee.service';
 
 @Injectable()
 export class DayInfoHolderService {

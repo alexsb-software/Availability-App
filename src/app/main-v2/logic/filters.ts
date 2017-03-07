@@ -1,7 +1,9 @@
-import {Member} from './member';
-import {Committee, CommitteeEnum} from './committee';
+import { Member } from './member';
+import { CommitteeService, CommitteeEnum } from '../app-services/committee.service';
 type ShiftNumber = number;
 export class Filters {
+
+  constructor(private commiteeServices: CommitteeService) { }
 
   /**
    * Filters out the members based on their committee, the committee
@@ -16,18 +18,18 @@ export class Filters {
    * @param members Array of members to filter
    * @param commName the enum denoting the committee name
    */
-  public static byCommittee(members: Member[], commName: string | CommitteeEnum): Member[] {
+  public byCommittee(members: Member[], commName: string | CommitteeEnum): Member[] {
     let searchKey: string;
 
-    if (typeof commName === "CommitteeEnum" || typeof commName === "number") {
-      searchKey = Committee.getCommittee(<CommitteeEnum>commName);
+    if (typeof commName === "number") {
+      searchKey = this.commiteeServices.getCommittee(<CommitteeEnum>commName);
     }
     else {
       searchKey = <string>commName;
     }
     searchKey = searchKey.trim();
 
-    if (searchKey === Committee.getCommittee(CommitteeEnum.Logistics)) {
+    if (searchKey === this.commiteeServices.getCommittee(CommitteeEnum.Logistics)) {
       return members;
     }
 
@@ -87,8 +89,8 @@ export class Filters {
    * @param commName the enum denoting the committee name
    */
   public static selectedOnlyByCommittee(members: Member[],
-                                        dayIndex: number, shiftIndex: number,
-                                        commName: string): Member[] {
+    dayIndex: number, shiftIndex: number,
+    commName: string): Member[] {
     /**
      * Filter returns an empty array when nothing is found
      */
@@ -109,7 +111,7 @@ export class Filters {
    * @param shiftIndex Index of the shift of the selected day
    */
   public static freeOnly(members: Member[],
-                         dayIndex: number, shiftIndex: number): Member[] {
+    dayIndex: number, shiftIndex: number): Member[] {
     /**
      * Filter returns an empty array when nothing is found
      */
