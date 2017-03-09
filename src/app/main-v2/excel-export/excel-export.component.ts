@@ -9,7 +9,7 @@ import { SessionHolderService } from '../app-services/session-holder.service';
 
 import { Member } from '../logic/member';
 import { CommitteeService } from '../app-services/committee.service';
-import { Filters } from '../logic/filters';
+import { FilterService } from '../app-services/filter.service';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'ts-xlsx';
 import { Md5 } from 'ts-md5/dist/md5';
@@ -28,6 +28,7 @@ export class ExcelExportComponent implements OnInit {
     private dayService: DayInfoHolderService,
     private memberService: MemberInfoHolderService,
     private committeeService: CommitteeService,
+    private filterService:FilterService,
     private sessionService: SessionHolderService) {
   }
 
@@ -66,7 +67,7 @@ export class ExcelExportComponent implements OnInit {
       /**
        * Cache the selected members of this day
        */
-      this.dayMembers = Filters.selectedInDay(this.allMembers, dayIndex);
+      this.dayMembers = this.filterService.selectedInDay(this.allMembers, dayIndex);
       this.lastSearchedDayIndex = dayIndex;
     }
 
@@ -74,7 +75,7 @@ export class ExcelExportComponent implements OnInit {
       /**
        * Cache the members of the shift
        */
-      this.shiftMembers = Filters.selectedInShift(this.dayMembers, dayIndex, shiftIndex);
+      this.shiftMembers = this.filterService.selectedInShift(this.dayMembers, dayIndex, shiftIndex);
       this.lastSearchedShiftIndex = shiftIndex;
     }
 

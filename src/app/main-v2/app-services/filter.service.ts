@@ -1,7 +1,12 @@
-import { Member } from './member';
+import { Injectable } from '@angular/core';
+
+import { Member } from '../logic/member';
 import { CommitteeService, CommitteeEnum } from '../app-services/committee.service';
+
 type ShiftNumber = number;
-export class Filters {
+
+@Injectable()
+export class FilterService {
 
   constructor(private commiteeServices: CommitteeService) { }
 
@@ -43,13 +48,13 @@ export class Filters {
    * @param shiftIndex Index of the target shift
    * @returns {Member[]} Members in this shift
    */
-  public static byShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
+  public byShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
     if (members.length === 0) throw new EvalError("Empty member list, " + dayIndex + " " + shiftIndex);
 
     return members.filter(m => m.shifts[dayIndex].indexOf(shiftIndex) !== -1);
   }
 
-  public static byDay(members: Member[], dayIndex: number): Member[] {
+  public byDay(members: Member[], dayIndex: number): Member[] {
     if (members.length === 0) throw new EvalError("Empty member list, " + dayIndex);
 
     return members.filter(m => typeof m.shifts[dayIndex] !== "undefined" && m.shifts[dayIndex].length > 0);
@@ -58,7 +63,7 @@ export class Filters {
   /**
    * Applies the isBusy() function on provided members
    */
-  public static selectedInShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
+  public selectedInShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
     /**
      * Filter returns an empty array when nothing is found
      */
@@ -68,7 +73,7 @@ export class Filters {
   /**
    * Applies the isBusyOnDay() function on provided members
    */
-  public static selectedInDay(members: Member[], dayIndex: number): Member[] {
+  public selectedInDay(members: Member[], dayIndex: number): Member[] {
     return members.filter(m => m.isBusyOnDay(dayIndex));
   }
 
@@ -88,7 +93,7 @@ export class Filters {
    * @param shiftIndex Index of the shift of the selected day
    * @param commName the enum denoting the committee name
    */
-  public static selectedOnlyByCommittee(members: Member[],
+  public selectedOnlyByCommittee(members: Member[],
     dayIndex: number, shiftIndex: number,
     commName: string): Member[] {
     /**
@@ -110,7 +115,7 @@ export class Filters {
    * @param dayIndex Index of the event day
    * @param shiftIndex Index of the shift of the selected day
    */
-  public static freeOnly(members: Member[],
+  public freeOnly(members: Member[],
     dayIndex: number, shiftIndex: number): Member[] {
     /**
      * Filter returns an empty array when nothing is found

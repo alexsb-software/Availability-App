@@ -10,7 +10,7 @@ import { DayInfoHolderService } from '../../../../app-services/day-info-holder.s
 import { MemberInfoHolderService } from '../../../../app-services/member-info-holder.service';
 
 import { ArrayItemEventArgs } from '../../../../elastic-table/elastic-table.component';
-import { Filters } from '../../../../logic/filters';
+import { FilterService } from '../../../../app-services/filter.service';
 import { CommitteeService, CommitteeEnum } from '../../../../app-services/committee.service';
 import { tryCatch } from "rxjs/util/tryCatch";
 
@@ -40,6 +40,7 @@ export class SessionTaskComponent implements OnInit {
     private dayService: DayInfoHolderService,
     private router: Router,
     private committeeServiceCommittee: CommitteeService,
+    private filterService: FilterService,
     private memberService: MemberInfoHolderService) {
   }
 
@@ -203,36 +204,36 @@ export class SessionTaskComponent implements OnInit {
 
   updateBusyMembersList(dayIndex: number, shiftIndex: number): void {
 
-    let shiftMembers: Member[] = Filters.byShift(this.memberService.members,
+    let shiftMembers: Member[] = this.filterService.byShift(this.memberService.members,
       dayIndex, shiftIndex);
     let prComm: string = this.committeeServiceCommittee.getCommittee(CommitteeEnum.PublicRelations);
     let reportingComm: string = this.committeeServiceCommittee.getCommittee(CommitteeEnum.Reporting);
 
     this.busyPublicRelMembers =
-      Filters.selectedOnlyByCommittee(shiftMembers,
+      this.filterService.selectedOnlyByCommittee(shiftMembers,
         dayIndex, shiftIndex, prComm);
 
     this.busyReportingMembers =
-      Filters.selectedOnlyByCommittee(shiftMembers,
+      this.filterService.selectedOnlyByCommittee(shiftMembers,
         dayIndex, shiftIndex, reportingComm);
   }
 
   updateFreeMembersList(dayIndex: number, shiftIndex: number): void {
     let shiftMembers: Member[] =
-      Filters.byShift(this.memberService.members,
+      this.filterService.byShift(this.memberService.members,
         dayIndex, shiftIndex);
 
     let prComm: string = this.committeeServiceCommittee.getCommittee(CommitteeEnum.PublicRelations);
     let reportingComm: string = this.committeeServiceCommittee.getCommittee(CommitteeEnum.Reporting);
 
     let freeShiftMembers: Member[] =
-      Filters.freeOnly(shiftMembers, dayIndex, shiftIndex);
+      this.filterService.freeOnly(shiftMembers, dayIndex, shiftIndex);
 
     this.availablePublicRelMembers =
-      Filters.byCommittee(freeShiftMembers, prComm);
+      this.filterService.byCommittee(freeShiftMembers, prComm);
 
     this.availableReportingMembers =
-      Filters.byCommittee(freeShiftMembers, reportingComm);
+      this.filterService.byCommittee(freeShiftMembers, reportingComm);
   }
 
   /**
@@ -268,14 +269,14 @@ export class SessionTaskComponent implements OnInit {
     }
 
     // Load public relations and R&P members
-    let shiftMembers: Member[] = Filters.byShift(this.memberService.members, this.session.dayIndex, this.session.shiftIndex);
+    let shiftMembers: Member[] = this.filterService.byShift(this.memberService.members, this.session.dayIndex, this.session.shiftIndex);
 
     // Clear the members of the session being edited
     this.session.publicRelationsMember = null;
     this.session.reportingMember = null;
 
-    this.availablePublicRelMembers = Filters.byCommittee(shiftMembers, this.committeeServiceCommittee.getCommittee(CommitteeEnum.PublicRelations));
-    this.availableReportingMembers = Filters.byCommittee(shiftMembers, this.committeeServiceCommittee.getCommittee(CommitteeEnum.Reporting));
+    this.availablePublicRelMembers = this.filterService.byCommittee(shiftMembers, this.committeeServiceCommittee.getCommittee(CommitteeEnum.PublicRelations));
+    this.availableReportingMembers = this.filterService.byCommittee(shiftMembers, this.committeeServiceCommittee.getCommittee(CommitteeEnum.Reporting));
   }
 
   /**

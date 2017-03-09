@@ -1,21 +1,21 @@
 import {Injectable} from '@angular/core';
 
 /**
- * Holds the committee names in an array that's 
+ * Holds the committee names in an array that's
  * alphabetically sorted. sorting is there to
- * make index access easier for the software 
+ * make index access easier for the software
  * engineer who will be using the code
- * 
+ *
  * A better approach is to obtain that data
  * from the server and act upon it. you can
- * clear all the elements inside the array 
+ * clear all the elements inside the array
  * and add whatever info you want
- * 
- * The array is chosen -not an enum- to provide adding more 
- * elements at runtime and being bound by the 
- * existing committees of the day of creating 
- * this code (5 Februray, 2017)
- * 
+ *
+ * The array is chosen -not an enum- to provide adding more
+ * elements at runtime and being bound by the
+ * existing committees of the day of creating
+ * this code (5 February, 2017)
+ *
  * Update: An enum is provided for the main committees
  * now, the Committee class MUST be compatible with enum/string usage
  */
@@ -37,7 +37,7 @@ export class CommitteeService {
 
     /**
      * Public interface to find a committee
-     * 
+     *
      * The weird syntax is to provide function
      * overloads
      */
@@ -98,11 +98,11 @@ export class CommitteeService {
     private  committees: string[] =
     [
         /**
-         * Other committes should be added from the form 
-         * data, Logistics is listed here temporarily and 
+         * Other committees should be added from the form
+         * data, Logistics is listed here temporarily and
          * as it doesn't exist as a committee,
          * until a search by committee is implemented and
-         * committe filling form is more dynamic
+         * committees filling form is more dynamic
          */
         "Logistics",
     ];

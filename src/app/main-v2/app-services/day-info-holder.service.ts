@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Filters } from '../logic/filters';
+import { FilterService } from '../app-services/filter.service';
 import { CommitteeService } from '../app-services/committee.service';
 
 @Injectable()
