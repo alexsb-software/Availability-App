@@ -93,7 +93,7 @@ export class SessionTaskComponent implements OnInit {
     let sessionDayIndex = this.session.dayIndex;
     let sessionShiftIndex = this.session.shiftIndex;
 
-    // TODO check if prMember and reportingMember are not selected 
+    // TODO check if prMember and reportingMember are not selected
 
     prMember.reserve(
       sessionDayIndex, sessionShiftIndex,
@@ -148,7 +148,7 @@ export class SessionTaskComponent implements OnInit {
     // if the reference is empty so a try-catch statement is used
     try {
       if (this.session.reportingMember.isEqualTo(mem)) {
-        alert("this member is being re-assigned -reportings-");
+        alert("this member is being re-assigned -reporting-");
         return;
       }
     } catch (error) {
@@ -289,7 +289,8 @@ export class SessionTaskComponent implements OnInit {
   unmarkMember(comm: string, mem: Member): void {
 
     // Attempt to remove the member from the session currently
-    // being edited
+    // being edited, try/catch is used as I can't know if the
+    // reference is holding an object or not
 
     if (comm === 'PR') {
       try {

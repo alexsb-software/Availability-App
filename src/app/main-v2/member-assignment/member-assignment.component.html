@@ -6,26 +6,39 @@
 </ng-container>
 
 <ng-container *ngIf="!isEmpty">
-  <h1 class="center-block">Assign Members</h1>
+
+  <div class="row">
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-md-10">
+      <h1 class="center-block">Assign Members</h1>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-md-2">
+      <button routerLink="/excel-export" class="btn btn-success btn-lg">View All</button>
+    </div>
+  </div>
+
   <ng-container *ngFor="let shCount of dayShifts; let i= index">
     <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md-12"></div>
+      <h3>Day #{{i+1}}</h3>
+    </div>
 
+    <div class="row">
+
+      <!--Repeat for every shift-->
       <ng-container *ngFor="let shIndex of this.dayService.getNumberAsIterable(shCount)">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 margin10">
           <button class="btn btn-default" routerLink="/shift/{{i}}/{{shIndex}}">Shift {{shIndex+1}}</button>
         </div>
       </ng-container>
-      <div class="row"></div>
-      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-md-offset-10">
-        <button routerLink="/excel-export" class="btn btn-success btn-lg">View All</button>
-      </div>
     </div>
 
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 box-block">
-        <app-session-task></app-session-task>
-      </div>
-    </div>
     <div class="divider"></div>
   </ng-container>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 box-block">
+      <app-session-task></app-session-task>
+    </div>
+  </div>
+
 </ng-container>
