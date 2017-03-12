@@ -38,8 +38,8 @@ import { HomeComponent } from './main-v2/home/home.component';
     TypeaheadModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot([
-      { path: 'home', component: HomeComponent, pathMatch: 'prefix'},
-      { path: '', redirectTo: 'home', pathMatch: 'full' }
+      { path: '', component: HomeComponent, pathMatch: 'full'},
+      { path: 'home', redirectTo: '', pathMatch: 'prefix' }
     ])
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: StateSaverRouter }],
