@@ -33,7 +33,7 @@ export class SaveComponent {
             JSON.stringify(this.decycle(this.sessionService, true), null, 2) + ", " +
             JSON.stringify(this.decycle(this.committeeService, true), null, 2) + ", " +
             JSON.stringify(this.decycle(this.filterService, true), null, 2) + ", " +
-            JSON.stringify(this.decycle(this.dayService, true), null, 2) + "]"
+            JSON.stringify(this.decycle(this.dayService.mapToObject(), true), null, 2) + "]"
         ], { type: "application/json" }), fileName);
     }
 

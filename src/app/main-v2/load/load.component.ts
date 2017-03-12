@@ -40,7 +40,6 @@ export class LoadComponent implements OnInit {
     this.uploader.onAfterAddingFile = (fileItem: any) => {
       this.reader.onload = (e: any) => {
         let input = this.fixdata(e.target.result);
-
         let parsed = JSON.parse(input);
 
         this.loadMemberService(this.retrocycle(parsed[0]));
@@ -55,7 +54,7 @@ export class LoadComponent implements OnInit {
         this.loadFilterService(this.retrocycle(parsed[3]));
         // console.debug("filter: ", this.filterService);
 
-        // this.loadDayService(this.retrocycle(parsed[4]));
+        this.loadDayService(this.retrocycle(parsed[4]));
         // console.debug("day: ", this.dayService);
 
         this.router.navigateByUrl('/memberassignment');
@@ -127,8 +126,7 @@ export class LoadComponent implements OnInit {
   }
 
   loadDayService(data): void {
-    console.debug("", data);
-    // saved object is empty
+    this.dayService.objectToMap(data);
   }
 
   // Required for XSLX

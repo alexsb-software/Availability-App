@@ -60,4 +60,26 @@ export class DayInfoHolderService {
     result.forEach((val, index) => result[index] = index);
     return result;
   }
+
+  public mapToObject(): Object {
+    return Array.from(this.dayShiftsTable).reduce((obj, [key, value]) => {
+      obj[key] = value; // Be careful! ES6 Maps may have non-String keys.
+      return obj;
+    }, {});
+  }
+
+  public objectToMap(obj: any): void {
+    let self = this;
+    this.objectToArray(obj).forEach(function (element) {
+      let dayIndex: number = element[0], shiftCount: number = element[1];
+      self.setShiftCount(dayIndex, shiftCount);
+    });
+  }
+
+  private objectToArray(obj): any[][] {
+    return Object.keys(obj).map(key => {
+      const value = obj[key];
+      return [key, value];
+    });
+  }
 }
