@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 /**
  * Holds the committee names in an array that's
@@ -19,10 +19,11 @@ import {Injectable} from '@angular/core';
  * Update: An enum is provided for the main committees
  * now, the Committee class MUST be compatible with enum/string usage
  */
+
 @Injectable()
 export class CommitteeService {
 
-    public  insertCommittee(com: string): void {
+    public insertCommittee(com: string): void {
         // Cehck if this item already existed
         if (this.committees.indexOf(com) !== -1)
             return;
@@ -41,7 +42,7 @@ export class CommitteeService {
      * The weird syntax is to provide function
      * overloads
      */
-    public  getCommittee(key: CommitteeEnum): string {
+    public getCommittee(key: CommitteeEnum): string {
         /**
          * Don't use get byIndex, this converts the enum to a number
          * and use it to access the array, which is false
@@ -49,7 +50,7 @@ export class CommitteeService {
         return this.getCommByEnum(key);
     }
 
-    private  getCommByEnum(key: CommitteeEnum): string {
+    private getCommByEnum(key: CommitteeEnum): string {
         // TODO apply fuzzy string matching
 
         // if committee name is 2 words, just use the first word
@@ -61,7 +62,7 @@ export class CommitteeService {
     /**
      * Finds a committee by a search string
      */
-    private  getCommByKeyword(key: string): string {
+    private getCommByKeyword(key: string): string {
 
         // Match with pascal cased words from the enum
         let regexMatchOnKey: RegExpMatchArray = key.match(/([A-Z][a-z0-9]+)/);
@@ -83,19 +84,19 @@ export class CommitteeService {
     /**
      * Returns all the Committees
      */
-    public  getAll(): string[] {
+    public getAll(): string[] {
         return Object.assign(this.committees);
     }
 
-    public  clearAll(): void {
+    public clearAll(): void {
         this.committees = [];
     }
 
-    public  commLength(): number {
+    public commLength(): number {
         return this.committees.length;
     }
 
-    private  committees: string[] =
+    private committees: string[] =
     [
         /**
          * Other committees should be added from the form

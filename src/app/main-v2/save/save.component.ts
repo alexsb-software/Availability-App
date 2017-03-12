@@ -5,6 +5,9 @@ import { saveAs } from 'file-saver';
 
 import { MemberInfoHolderService } from '../app-services/member-info-holder.service';
 import { SessionHolderService } from '../app-services/session-holder.service';
+import { CommitteeService } from '../app-services/committee.service';
+import { DayInfoHolderService } from '../app-services/day-info-holder.service';
+import { FilterService } from '../app-services/filter.service';
 
 @Component({
     selector: 'v2-save',
@@ -14,7 +17,10 @@ import { SessionHolderService } from '../app-services/session-holder.service';
 export class SaveComponent {
 
     constructor(private memberService: MemberInfoHolderService,
-        private sessionService: SessionHolderService) {
+        private sessionService: SessionHolderService,
+        private committeeService: CommitteeService,
+        private filterService: FilterService,
+        private dayService: DayInfoHolderService) {
 
     }
 
@@ -23,8 +29,12 @@ export class SaveComponent {
         let fileName = 'availability_app.json';
 
         saveAs(new Blob([
-            "[" + JSON.stringify(this.decycle(this.memberService, true), null, 2) + ", " + JSON.stringify(this.decycle(this.sessionService, true), null, 2) + "]"
-            ], { type: "application/json" }), fileName);
+            "[" + JSON.stringify(this.decycle(this.memberService, true), null, 2) + ", " +
+            JSON.stringify(this.decycle(this.sessionService, true), null, 2) + ", " +
+            JSON.stringify(this.decycle(this.committeeService, true), null, 2) + ", " +
+            JSON.stringify(this.decycle(this.filterService, true), null, 2) + ", " +
+            JSON.stringify(this.decycle(this.dayService, true), null, 2) + "]"
+        ], { type: "application/json" }), fileName);
     }
 
     /**

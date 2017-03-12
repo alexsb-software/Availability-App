@@ -3,9 +3,13 @@ import { Router } from '@angular/router';
 
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { Member } from './../logic/member';
+import { Session } from './../logic/session';
 
 import { MemberInfoHolderService } from '../app-services/member-info-holder.service';
 import { SessionHolderService } from '../app-services/session-holder.service';
+import { CommitteeService } from '../app-services/committee.service';
+import { DayInfoHolderService } from '../app-services/day-info-holder.service';
+import { FilterService } from '../app-services/filter.service';
 
 
 @Component({
@@ -21,10 +25,13 @@ export class LoadComponent implements OnInit {
   }
 
   constructor(private router: Router,
-        private memberService: MemberInfoHolderService,
-        private sessionService: SessionHolderService) {
+    private memberService: MemberInfoHolderService,
+    private sessionService: SessionHolderService,
+    private committeeService: CommitteeService,
+    private filterService: FilterService,
+    private dayService: DayInfoHolderService) {
 
-    }
+  }
 
 
   private setHandler() {
@@ -35,20 +42,93 @@ export class LoadComponent implements OnInit {
         let input = this.fixdata(e.target.result);
 
         let parsed = JSON.parse(input);
-        
-        this.sessionService = this.retrocycle(parsed[1]);
-        // console.debug(this.sessionService.sessionsChanged);
 
-        this.memberService.members = this.retrocycle(parsed[0]).members;
-        // console.debug(members);
+        this.loadMemberService(this.retrocycle(parsed[0]));
+        // console.debug("member: ", this.memberService);
+
+        this.loadSessionService(this.retrocycle(parsed[1]));
+        // console.debug("session: ", this.sessionService);
+
+        this.loadCommitteeService(this.retrocycle(parsed[2]));
+        // console.debug("committee: ", this.committeeService);
+
+        this.loadFilterService(this.retrocycle(parsed[3]));
+        // console.debug("filter: ", this.filterService);
+
+        // this.loadDayService(this.retrocycle(parsed[4]));
+        // console.debug("day: ", this.dayService);
 
         this.router.navigateByUrl('/memberassignment');
 
       };
       this.reader.readAsArrayBuffer(fileItem._file);
-      
+
     };
 
+  }
+
+  loadMemberService(data): void {
+    for (let member of data.members) {
+      let mem = new Member();
+      mem.name = member.name;
+      mem.committees = member.committees;
+      mem.shifts = member.shifts;
+      for (let assignment of member.assigned) {
+        mem.reserve(assignment.dayIndex, assignment.shiftIndex, assignment.committee);
+      }
+
+      this.memberService.members.push(mem);
+    }
+  }
+
+  loadSessionService(data): void {
+    for (let session of data.sessions) {
+      let sess = new Session();
+      sess.dayIndex = session.dayIndex;
+      sess.endDate = session.endDate;
+      sess.startDate = session.startDate;
+      sess.shiftIndex = session.shiftIndex;
+      sess.name = session.name;
+
+      let arambeez = new Member();
+      arambeez.name = session.reportingMember.name;
+      arambeez.committees = session.reportingMember.committees;
+      arambeez.shifts = session.reportingMember.shifts;
+      for (let assignment of session.reportingMember.assigned) {
+        arambeez.reserve(assignment.dayIndex, assignment.shiftIndex, assignment.committee);
+      }
+
+      sess.reportingMember = arambeez;
+
+      let pr = new Member();
+      pr.name = session.publicRelationsMember.name;
+      pr.committees = session.publicRelationsMember.committees;
+      pr.shifts = session.publicRelationsMember.shifts;
+      for (let assignment of session.publicRelationsMember.assigned) {
+        pr.reserve(assignment.dayIndex, assignment.shiftIndex, assignment.committee);
+      }
+
+      sess.publicRelationsMember = pr;
+
+      this.sessionService.addSession(sess);
+    }
+  }
+
+  loadCommitteeService(data): void {
+    for (let committee of data.committees) {
+      this.committeeService.insertCommittee(committee);
+    }
+  }
+
+  loadFilterService(data): void {
+    for (let committee of data.commiteeServices.committees) {
+      this.filterService.insertCommittee(committee);
+    }
+  }
+
+  loadDayService(data): void {
+    console.debug("", data);
+    // saved object is empty
   }
 
   // Required for XSLX

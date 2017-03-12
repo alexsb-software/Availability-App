@@ -122,4 +122,17 @@ export class FilterService {
      */
     return members.filter(m => !m.isBusy(dayIndex, shiftIndex));
   }
+
+  public insertCommittee(com: string): void {
+    // Cehck if this item already existed
+    if (this.commiteeServices.getAll().indexOf(com) !== -1)
+      return;
+
+    // Add it
+    com = com.trim();
+    this.commiteeServices.getAll().push(com);
+
+    // Keep the array sorted
+    this.commiteeServices.getAll().sort();
+  }
 }

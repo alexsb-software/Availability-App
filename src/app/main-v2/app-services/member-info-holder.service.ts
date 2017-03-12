@@ -1,8 +1,8 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
-import {SessionHolderService} from './session-holder.service';
-import {Member} from '../logic/member';
-import {Session} from '../logic/session';
+import { SessionHolderService } from './session-holder.service';
+import { Member } from '../logic/member';
+import { Session } from '../logic/session';
 
 @Injectable()
 export class MemberInfoHolderService {
@@ -12,7 +12,7 @@ export class MemberInfoHolderService {
   constructor(private sessionInfo: SessionHolderService) {
   }
 
- members: Member[] = [];
+  members: Member[] = [];
   // public get members(): Member[] {
   //   return this._members;
   // }

@@ -1,5 +1,5 @@
-import {Injectable, EventEmitter} from '@angular/core';
-import {Session} from '../logic/session';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Session } from '../logic/session';
 
 @Injectable()
 export class SessionHolderService {
