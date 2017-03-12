@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "/events-app/",
+    "baseUrl": "",
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

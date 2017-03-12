@@ -3,7 +3,7 @@
 
 module.exports = function (config) {
   config.set({
-    basePath: '/events-app/',
+    basePath: '',
     frameworks: ['jasmine', 'angular-cli'],
     plugins: [
       require('karma-jasmine'),
