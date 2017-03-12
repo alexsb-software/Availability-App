@@ -227,13 +227,17 @@ export class ExcelExportComponent implements OnInit {
     return sessionsCSV;
   }
 
-  getTimeFormatted(date: Date): string {
+  getTimeFormatted(date_in: Date): string {
+    let date = new Date(date_in);
     let hours = date.getHours();
     let hoursString = hours.toString();
     if (hours < 10) hoursString = "0" + hoursString;
     let minutes = date.getMinutes();
     let minutesString = minutes.toString();
     if (minutes < 10) minutesString = "0" + minutesString;
+    
+    date = null;
+
     return hoursString + ":" + minutesString;
   }
 
