@@ -1,7 +1,14 @@
-import {Member} from './member';
-import {Committee, CommitteeEnum} from './committee';
+import { Injectable } from '@angular/core';
+
+import { Member } from '../logic/member';
+import { CommitteeService, CommitteeEnum } from '../app-services/committee.service';
+
 type ShiftNumber = number;
-export class Filters {
+
+@Injectable()
+export class FilterService {
+
+  constructor(private commiteeServices: CommitteeService) { }
 
   /**
    * Filters out the members based on their committee, the committee
@@ -16,18 +23,18 @@ export class Filters {
    * @param members Array of members to filter
    * @param commName the enum denoting the committee name
    */
-  public static byCommittee(members: Member[], commName: string | CommitteeEnum): Member[] {
+  public byCommittee(members: Member[], commName: string | CommitteeEnum): Member[] {
     let searchKey: string;
 
-    if (typeof commName === "CommitteeEnum" || typeof commName === "number") {
-      searchKey = Committee.getCommittee(<CommitteeEnum>commName);
+    if (typeof commName === "number") {
+      searchKey = this.commiteeServices.getCommittee(<CommitteeEnum>commName);
     }
     else {
       searchKey = <string>commName;
     }
     searchKey = searchKey.trim();
 
-    if (searchKey === Committee.getCommittee(CommitteeEnum.Logistics)) {
+    if (searchKey === this.commiteeServices.getCommittee(CommitteeEnum.Logistics)) {
       return members;
     }
 
@@ -41,13 +48,13 @@ export class Filters {
    * @param shiftIndex Index of the target shift
    * @returns {Member[]} Members in this shift
    */
-  public static byShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
+  public byShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
     if (members.length === 0) throw new EvalError("Empty member list, " + dayIndex + " " + shiftIndex);
 
     return members.filter(m => m.shifts[dayIndex].indexOf(shiftIndex) !== -1);
   }
 
-  public static byDay(members: Member[], dayIndex: number): Member[] {
+  public byDay(members: Member[], dayIndex: number): Member[] {
     if (members.length === 0) throw new EvalError("Empty member list, " + dayIndex);
 
     return members.filter(m => typeof m.shifts[dayIndex] !== "undefined" && m.shifts[dayIndex].length > 0);
@@ -56,7 +63,7 @@ export class Filters {
   /**
    * Applies the isBusy() function on provided members
    */
-  public static selectedInShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
+  public selectedInShift(members: Member[], dayIndex: number, shiftIndex: number): Member[] {
     /**
      * Filter returns an empty array when nothing is found
      */
@@ -66,7 +73,7 @@ export class Filters {
   /**
    * Applies the isBusyOnDay() function on provided members
    */
-  public static selectedInDay(members: Member[], dayIndex: number): Member[] {
+  public selectedInDay(members: Member[], dayIndex: number): Member[] {
     return members.filter(m => m.isBusyOnDay(dayIndex));
   }
 
@@ -86,9 +93,9 @@ export class Filters {
    * @param shiftIndex Index of the shift of the selected day
    * @param commName the enum denoting the committee name
    */
-  public static selectedOnlyByCommittee(members: Member[],
-                                        dayIndex: number, shiftIndex: number,
-                                        commName: string): Member[] {
+  public selectedOnlyByCommittee(members: Member[],
+    dayIndex: number, shiftIndex: number,
+    commName: string): Member[] {
     /**
      * Filter returns an empty array when nothing is found
      */
@@ -108,11 +115,24 @@ export class Filters {
    * @param dayIndex Index of the event day
    * @param shiftIndex Index of the shift of the selected day
    */
-  public static freeOnly(members: Member[],
-                         dayIndex: number, shiftIndex: number): Member[] {
+  public freeOnly(members: Member[],
+    dayIndex: number, shiftIndex: number): Member[] {
     /**
      * Filter returns an empty array when nothing is found
      */
     return members.filter(m => !m.isBusy(dayIndex, shiftIndex));
+  }
+
+  public insertCommittee(com: string): void {
+    // Cehck if this item already existed
+    if (this.commiteeServices.getAll().indexOf(com) !== -1)
+      return;
+
+    // Add it
+    com = com.trim();
+    this.commiteeServices.getAll().push(com);
+
+    // Keep the array sorted
+    this.commiteeServices.getAll().sort();
   }
 }

@@ -8,8 +8,8 @@ import { SessionHolderService } from '../app-services/session-holder.service';
 
 
 import { Member } from '../logic/member';
-import { Committee } from '../logic/committee';
-import { Filters } from '../logic/filters';
+import { CommitteeService } from '../app-services/committee.service';
+import { FilterService } from '../app-services/filter.service';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'ts-xlsx';
 import { Md5 } from 'ts-md5/dist/md5';
@@ -27,6 +27,8 @@ export class ExcelExportComponent implements OnInit {
     private route: ActivatedRoute,
     private dayService: DayInfoHolderService,
     private memberService: MemberInfoHolderService,
+    private committeeService: CommitteeService,
+    private filterService:FilterService,
     private sessionService: SessionHolderService) {
   }
 
@@ -52,7 +54,7 @@ export class ExcelExportComponent implements OnInit {
     this.exportWorkbook();
   }
 
-  getCommittees(): string[] { return Committee.getAll(); }
+  getCommittees(): string[] { return this.committeeService.getAll(); }
 
   shiftMembers: Member[];
   dayMembers: Member[];
@@ -63,9 +65,9 @@ export class ExcelExportComponent implements OnInit {
 
     if (dayIndex !== this.lastSearchedDayIndex) {
       /**
-       * Cache the slected members of this day
+       * Cache the selected members of this day
        */
-      this.dayMembers = Filters.selectedInDay(this.allMembers, dayIndex);
+      this.dayMembers = this.filterService.selectedInDay(this.allMembers, dayIndex);
       this.lastSearchedDayIndex = dayIndex;
     }
 
@@ -73,7 +75,7 @@ export class ExcelExportComponent implements OnInit {
       /**
        * Cache the members of the shift
        */
-      this.shiftMembers = Filters.selectedInShift(this.dayMembers, dayIndex, shiftIndex);
+      this.shiftMembers = this.filterService.selectedInShift(this.dayMembers, dayIndex, shiftIndex);
       this.lastSearchedShiftIndex = shiftIndex;
     }
 
@@ -145,7 +147,7 @@ export class ExcelExportComponent implements OnInit {
     let self = this;
 
     // used for adding empty line at end of each committee
-    let shiftNum = self.getEventShiftsOfDay(dayIndex).length; 
+    let shiftNum = self.getEventShiftsOfDay(dayIndex).length;
 
     this.getCommittees().forEach(function (committeName, _) {
 
@@ -155,7 +157,7 @@ export class ExcelExportComponent implements OnInit {
       let shiftMemberCount: number[] = [];
       let shiftMembersArrays: Member[][] = [];
 
-      
+
       self.getEventShiftsOfDay(dayIndex).forEach(function (_, shiftIndex) {
         shiftMembersArrays[shiftIndex] = self.getAssignedCommitteeMembers(dayIndex, shiftIndex, committeName);
         shiftMemberCount[shiftIndex] = shiftMembersArrays[shiftIndex].length;
@@ -182,78 +184,45 @@ export class ExcelExportComponent implements OnInit {
             csv += ",";
           }
         })
-      
-
       }
 
-      
       // adding empty line at the end of the committe members if 
       // there's members in this committe for this day
       if (lineCount) {
         csv += "\n";
-        for(let i = 0; i <= numOfShifts; i++) { 
-          csv += ","; 
+        for (let i = 0; i <= numOfShifts; i++) {
+          csv += ",";
         }
         csv += "\n";
       }
-      
-
     });
 
-    
+
     csv += this.getSessionCSV(dayIndex);
-    
+
     return csv;
   }
 
-   getSessionCSV(dayIndex: number) : string {
+  getSessionCSV(dayIndex: number): string {
     let sessionsCSV = "\n \nSessions, \n";
     let daySessions = this.sessionService.getDaySessions(dayIndex);
-    
-    if (!daySessions) return sessionsCSV;
-    
-    let sessionsCount = daySessions.length;
-    // sessionsCSV += "," // placeholder for the committee name
 
-    // add sessions names 
-    // let header = ",";
-    // let time = ",";
-    // let reporting = "Reporting,";
-    // let pr = "Public Relations,";
+    if (!daySessions) return sessionsCSV;
+
+    let sessionsCount = daySessions.length;
 
     let header = ",Public Relations,Reporting and Publications \n"
     let body = "";
 
     for (let i = 0; i < sessionsCount; i++) {
-      body += daySessions[i].name + " (" + this.getTimeFormatted(daySessions[i].startDate) + " - " + 
-      this.getTimeFormatted(daySessions[i].endDate) + ")";
+      body += daySessions[i].name + " (" + this.getTimeFormatted(daySessions[i].startDate) + " - " +
+        this.getTimeFormatted(daySessions[i].endDate) + ")";
       body += "," + daySessions[i].publicRelationsMember.name + "," +
         daySessions[i].reportingMember.name + "\n";
-
-      // header += daySessions[i].name + ",";
-      // time += daySessions[i].startDate.getHours() + ":" + daySessions[i].startDate.getMinutes() +
-      //    " - " + daySessions[i].endDate.getHours() + ":" + daySessions[i].endDate.getMinutes() + ",";
-      // reporting += daySessions[i].reportingMember.name + ",";
-      // pr += daySessions[i].publicRelationsMember.name += ",";
-
     }
 
     sessionsCSV += header;
     sessionsCSV += body;
-    
-    // header = header.slice(0, -1);
-    // header += "\n";
-    // reporting = reporting.slice(0, -1);
-    // reporting += "\n";
-    // time = time.slice(0, -1);
-    // time += "\n";
-    // pr = pr.slice(0, -1);
-    // pr += "\n";
-
-    // sessionsCSV += header;
-    // sessionsCSV += time;
-    // sessionsCSV += reporting;
-    // sessionsCSV += pr;
 
     return sessionsCSV;
   }

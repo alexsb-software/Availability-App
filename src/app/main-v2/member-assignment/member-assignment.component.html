@@ -23,7 +23,6 @@
     </div>
 
     <div class="row">
-
       <!--Repeat for every shift-->
       <ng-container *ngFor="let shIndex of this.dayService.getNumberAsIterable(shCount)">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 margin10">
@@ -39,6 +38,10 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 box-block">
       <app-session-task></app-session-task>
     </div>
+  </div>
+  
+  <div class="row">
+    <v2-save></v2-save>
   </div>
 
 </ng-container>

@@ -1,8 +1,8 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
-import {SessionHolderService} from './session-holder.service';
-import {Member} from '../logic/member';
-import {Session} from '../logic/session';
+import { SessionHolderService } from './session-holder.service';
+import { Member } from '../logic/member';
+import { Session } from '../logic/session';
 
 @Injectable()
 export class MemberInfoHolderService {
@@ -12,14 +12,14 @@ export class MemberInfoHolderService {
   constructor(private sessionInfo: SessionHolderService) {
   }
 
-  private _members: Member[] = [];
-  public get members(): Member[] {
-    return this._members;
-  }
+  members: Member[] = [];
+  // public get members(): Member[] {
+  //   return this._members;
+  // }
 
-  public set members(v: Member[]) {
-    this._members = v;
-  }
+  // public set members(v: Member[]) {
+  //   this._members = v;
+  // }
 
   isAssignedAtSessionOnly(dayIndex: number, shiftIndex: number, member: Member): boolean {
     let result: boolean = false;

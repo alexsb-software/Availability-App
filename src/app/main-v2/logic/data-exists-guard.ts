@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import {MemberInfoHolderService} from "../app-services/member-info-holder.service";
+import { Injectable } from '@angular/core';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { MemberInfoHolderService } from "../app-services/member-info-holder.service";
 
 @Injectable()
 export class DataExistsGuard implements CanActivate {

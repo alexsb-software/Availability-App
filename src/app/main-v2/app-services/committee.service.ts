@@ -1,65 +1,68 @@
+import { Injectable } from '@angular/core';
 
 /**
- * Holds the committee names in an array that's 
+ * Holds the committee names in an array that's
  * alphabetically sorted. sorting is there to
- * make index access easier for the software 
+ * make index access easier for the software
  * engineer who will be using the code
- * 
+ *
  * A better approach is to obtain that data
  * from the server and act upon it. you can
- * clear all the elements inside the array 
+ * clear all the elements inside the array
  * and add whatever info you want
- * 
- * The array is chosen -not an enum- to provide adding more 
- * elements at runtime and being bound by the 
- * existing committees of the day of creating 
- * this code (5 Februray, 2017)
- * 
+ *
+ * The array is chosen -not an enum- to provide adding more
+ * elements at runtime and being bound by the
+ * existing committees of the day of creating
+ * this code (5 February, 2017)
+ *
  * Update: An enum is provided for the main committees
  * now, the Committee class MUST be compatible with enum/string usage
  */
-export class Committee {
 
-    public static insertCommittee(com: string): void {
+@Injectable()
+export class CommitteeService {
+
+    public insertCommittee(com: string): void {
         // Cehck if this item already existed
-        if (Committee.committees.indexOf(com) !== -1)
+        if (this.committees.indexOf(com) !== -1)
             return;
 
         // Add it
         com = com.trim();
-        Committee.committees.push(com);
+        this.committees.push(com);
 
         // Keep the array sorted
-        Committee.committees.sort();
+        this.committees.sort();
     }
 
     /**
      * Public interface to find a committee
-     * 
+     *
      * The weird syntax is to provide function
      * overloads
      */
-    public static getCommittee(key: CommitteeEnum): string {
+    public getCommittee(key: CommitteeEnum): string {
         /**
          * Don't use get byIndex, this converts the enum to a number
          * and use it to access the array, which is false
          */
-        return Committee.getCommByEnum(key);
+        return this.getCommByEnum(key);
     }
 
-    private static getCommByEnum(key: CommitteeEnum): string {
+    private getCommByEnum(key: CommitteeEnum): string {
         // TODO apply fuzzy string matching
 
         // if committee name is 2 words, just use the first word
 
         let firstWord: string = CommitteeEnum[key].split(" ")[0];
-        return Committee.getCommByKeyword(firstWord);
+        return this.getCommByKeyword(firstWord);
     }
 
     /**
      * Finds a committee by a search string
      */
-    private static getCommByKeyword(key: string): string {
+    private getCommByKeyword(key: string): string {
 
         // Match with pascal cased words from the enum
         let regexMatchOnKey: RegExpMatchArray = key.match(/([A-Z][a-z0-9]+)/);
@@ -71,7 +74,7 @@ export class Committee {
         // Make the key lower case for comparison
         let searchKey: string = regexMatchOnKey[0].toLowerCase();
 
-        let result: string = Committee.committees.find(s =>
+        let result: string = this.committees.find(s =>
             s.toLowerCase().includes(searchKey));
 
         if (result) return result;
@@ -81,26 +84,26 @@ export class Committee {
     /**
      * Returns all the Committees
      */
-    public static getAll(): string[] {
-        return Object.assign(Committee.committees);
+    public getAll(): string[] {
+        return Object.assign(this.committees);
     }
 
-    public static clearAll(): void {
-        Committee.committees = [];
+    public clearAll(): void {
+        this.committees = [];
     }
 
-    public static commLength(): number {
-        return Committee.committees.length;
+    public commLength(): number {
+        return this.committees.length;
     }
 
-    private static committees: string[] =
+    private committees: string[] =
     [
         /**
-         * Other committes should be added from the form 
-         * data, Logistics is listed here temporarily and 
+         * Other committees should be added from the form
+         * data, Logistics is listed here temporarily and
          * as it doesn't exist as a committee,
          * until a search by committee is implemented and
-         * committe filling form is more dynamic
+         * committees filling form is more dynamic
          */
         "Logistics",
     ];

@@ -6,8 +6,8 @@ import { DayInfoHolderService } from '../app-services/day-info-holder.service';
 import { MemberInfoHolderService } from '../app-services/member-info-holder.service';
 
 import { Member } from '../logic/member';
-import { CommitteeEnum } from '../logic/committee';
-import { Filters } from '../logic/filters';
+import { CommitteeEnum } from '../app-services/committee.service';
+import { FilterService } from '../app-services/filter.service';
 @Component({
   selector: 'app-member-assignment',
   templateUrl: './member-assignment.component.html',
@@ -29,6 +29,9 @@ export class MemberAssignmentComponent implements OnInit, OnDestroy {
         this.dayShifts = this.dayService.dayShifts;
 
         this.members = this.memberService.members;
+        
+        //console.debug("in component", this.memberService, this.members);
+
         if (this.members.length === 0) {
           this.isEmpty = true; return;
         }

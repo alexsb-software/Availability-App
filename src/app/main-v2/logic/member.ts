@@ -1,4 +1,4 @@
-import {ShiftAssignmentInfo} from './shift-assignment-info';
+import { ShiftAssignmentInfo } from './shift-assignment-info';
 
 type DayIndex = number;
 type ShiftIndex = number[];
@@ -26,7 +26,7 @@ export class Member {
   }
 
   /**
-   * Marks the member as taken in the gicen shift number
+   * Marks the member as taken in the given shift number
    * by the given committee
    */
   public reserve(dayIdx: number, shiftIdx: number, comm: string) {
@@ -75,7 +75,7 @@ export class Member {
 
     let idx: number = this.assigned
       .findIndex(sh => sh.dayIndex === dayIdx
-      && sh.shiftIndex === shiftIndex);
+        && sh.shiftIndex === shiftIndex);
     if (idx === -1) {
       return FindResult.createNotFound();
     }
@@ -86,7 +86,7 @@ export class Member {
 
     let idx: number =
       this.assigned.findIndex(sh =>
-      sh.dayIndex === dayIdx);
+        sh.dayIndex === dayIdx);
 
     if (idx === -1) {
       return FindResult.createNotFound();
